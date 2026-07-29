@@ -26,6 +26,8 @@ if not raw or raw == "" then
 end
 
 local minified, n_vararg = util.minify_source(raw, { strip_varargs = true })
+local header = "-- MIT License https://github.com/paradoxum-wikis/neowbunto\n"
+minified = header .. minified
 util.write(out_path, minified)
 os.remove(raw_path)
 
