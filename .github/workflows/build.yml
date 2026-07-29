@@ -24,14 +24,14 @@ jobs:
             - name: Setup
               run: ./fnl.sh setup
 
-            - name: Build neowtext.lua
+            - name: Build neowbunto.lua
               run: ./fnl.sh build
 
-            - name: Release neowtext.lua
+            - name: Release neowbunto.lua
               uses: softprops/action-gh-release@v3
               with:
                   tag_name: build-${{ github.run_number }}
-                  name: neowtext.lua (${{ github.run_number }})
-                  files: dist/neowtext.lua
+                  name: neowbunto.lua (${{ github.run_number }})
+                  files: dist/neowbunto.lua
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
