@@ -4,12 +4,12 @@ $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-SCHEMA$ = N; N; N; N; N; A; B;
 $FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
-$FNC-COST$ = 900; 125; 1337; 6500; 24000; 60001; 48000
+$FNC-COST$ = 900; 125; 1337; 6500; 24000; 60001; 53200
 $FNC-PVP-COST$ = 1400; 600; 1250; 7500; 22000; 63500; 48000
-$FNC-DETECTION$ = 2; ;
-$FNC-UPGRADE$ = Upgraded Rig; Shady Business; Teleportation Tech; 5th Gen I9 3260590327; Overclock; Rug Pull
-$FNC-UPGRADEICON$ = 116572141213630; 84772480553742; 73779458293742; 71327152036764; 78547724037844; 1055790781734
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Upgraded Rig; Shady Business; Teleportation Tech; 5th Gen I9 3260590327; Overclock; Rug Pull
+$FSE-UPGRADEICON$ = 116572141213630; 84772480553742; 73779458293742; 71327152036764; 78547724037844; 105579078081734
+$FSE-CATEGORY$ = Hardcore
 </var>
 <div class="mobile-tabber"><tabber>
 |-|Regular =
@@ -19,15 +19,15 @@ $FNC-ROFBUG$ = Firerate
 |-
 ! Level !! Total Price !! Damage !! Firerate !! Synapses !! Range !! Hologram EV !! Slowness !! Clone Cost !! Hologram Lifetime !! Wire Fraud !! Unit Limit !! DPS !! Cost Efficiency
 |-
-|0 || {{Money|$TP$}} || 0 || 0.3 || 1 || 11 || 0.45 || 12.5% || N/A || N/A || 12.5% || 1,000 || $DPS$ || {{Money|N/A}}
+|0 || {{Money|$TP$}} || 0 || 0.3 || 1 || 11 || 0.45 || 7.5% || N/A || N/A || 12.5% || 1,000 || $DPS$ || {{Money|N/A}}
 |-
-|1 || {{Money|$TP$}} || 0 || 0.3 || 1 || 12.5 || 0.45 || 15% || N/A || N/A || 12.5% || 1,000 || $DPS$ || {{Money|N/A}}
+|1 || {{Money|$TP$}} || 0 || 0.3 || 1 || 12.5 || 0.45 || 10% || N/A || N/A || 12.5% || 1,000 || $DPS$ || {{Money|N/A}}
 |-
-| 2 || {{Money|$TP$}} || 0 || 0.3 || 2 || 14 || 0.55 || 15% || N/A || N/A || 15% || 1,000 || $DPS$ || {{Money|N/A}}
+| 2 || {{Money|$TP$}} || 0 || 0.3 || 2 || 14 || 0.55 || 10% || N/A || N/A || 15% || 1,000 || $DPS$ || {{Money|N/A}}
 |-
-| 3 || {{Money|$TP$}} || 10 || 0.3 || 2 || 15 || 0.625 || 17.5% || 20% || 25 || 15% || 1,000 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 10 || 0.3 || 2 || 15 || 0.625 || 10% || 30% || 25 || 15% || 1,000 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 20 || 0.3 || 3 || 16 || 0.725 || 20% || 20% || 25 || 20% || 1,000 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 22 || 0.3 || 3 || 16 || 0.675 || 10% || 25% || 25 || 20% || 1,000 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 
@@ -37,7 +37,7 @@ $FNC-ROFBUG$ = Firerate
 |-
 ! Level !! Total Price !! Damage !! Firerate !! Synapses !! Range !! Hologram EV !! Slowness !! Clone Cost !! Hologram Lifetime !! Wire Fraud !! Unit Limit !! DPS !! Cost Efficiency
 |-
-| 5 || {{Money|$TP$}} || 25 || 0.1 || 3 || 18.5 || 0.825 || 15% || 15% || 30 || 15% || 1,000 || $DPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 25 || 0.1 || 3 || 18.5 || 0.75 || 10% || 20% || 30 || 20% || 1,000 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 
@@ -47,7 +47,7 @@ $FNC-ROFBUG$ = Firerate
 |-
 ! Level !! Total Price !! Damage !! Firerate !! Synapses !! Range !! Hologram EV !! Slowness !! Clone Cost !! Hologram Lifetime !! Wire Fraud !! Unit Limit !! DPS !! Cost Efficiency
 |-
-| 5 || {{Money|$TP$}} || 20 || 0.3 || 4 || 21 || 0.725 || 22.5% || 75% || 120 || 25% || 1,000 || $DPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 22 || 0.3 || 4 || 21 || 0.675 || 12.5% || 75% || 120 || 25% || 1,000 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =
@@ -65,7 +65,7 @@ $FNC-ROFBUG$ = Firerate
 |-
 | 3 || {{Money|$TP$}} || 20 || 0.5 || 2 || 15 || 0.725 || 15% || 35% || 60 || 10% || 1,000 || 0.1 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 20 || 0.3 || 2 || 16 || 0.825 || 20% || 30% || 75 || 12.5% || 1,000 || 0.1 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 18 || 0.3 || 2 || 16 || 0.825 || 20% || 30% || 75 || 12.5% || 1,000 || 0.1 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 

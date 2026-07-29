@@ -1,0 +1,27 @@
+<var>
+$DPS$ = Damage * Boomerang Count / Firerate
+$MDPS$ = Damage * Boomerang Count / Firerate * Max Hits
+$CE$ = Total Price / DPS
+$MCE$ = Total Price / Max DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 550; 400; 750; 2500; 7000
+$FSE-DETECTION$ = ; 3; 0
+$FSE-UPGRADE$ = Steel Fang; Firmer Grip; Twin Strike; Lord Of The Rangs
+$FSE-UPGRADEICON$ = 86490015907171; 115637133853496; 82968142141425; 129523706643871
+$FSE-CATEGORY$ = Starter
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Boomerang Count !! Firerate !! Throw Delay !! Range !! Max Hits !! Boomerang Travel Time !! DPS !! Max DPS !! Cost Efficiency !! Max Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 7 || 1 || 2.6 || 1 || 14 || 3 || 0.4 || $DPS$ || $MDPS$ || {{Money|$CE$}}|| {{Money|$MCE$}}
+|-
+| 1 || {{Money|$TP$}} || 12 || 1 || 2.6 || 1 || 15 || 3 || 0.4 || $DPS$ || $MDPS$ || {{Money|$CE$}}|| {{Money|$MCE$}}
+|-
+| 2 || {{Money|$TP$}} || 12 || 1 || 1.6 || 1 || 15 || 4 || 0.3 || $DPS$ || $MDPS$ || {{Money|$CE$}}|| {{Money|$MCE$}}
+|-
+| 3 || {{Money|$TP$}} || 16 || 2 || 1.6 || 1 || 16 || 4 || 0.3 || $DPS$ || $MDPS$ || {{Money|$CE$}}|| {{Money|$MCE$}}
+|-
+| 4 || {{Money|$TP$}} || 40 || 2 || 1.4 || 1 || 16 || 5 || 0.25 || $DPS$ || $MDPS$ || {{Money|$CE$}}|| {{Money|$MCE$}}
+|}
+</div>

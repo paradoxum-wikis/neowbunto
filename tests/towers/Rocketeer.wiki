@@ -3,10 +3,10 @@ $DPS$ = [[Splash Damage]] * Missile Count / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 2000; 600; 1800; 6000; 18500
-$FNC-DETECTION$ = 2; 0;
-$FNC-UPGRADE$ = Faster Reloading; Heavier Payload; Explosive Risks; Missile Maelstrom
-$FNC-UPGRADEICON$ = 84475876520565; 76900038470572; 103303357353083; 133610100963797
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; 0;
+$FSE-UPGRADE$ = Faster Reloading; Heavier Payload; Explosive Risks; Missile Maelstrom
+$FSE-UPGRADEICON$ = 84475876520565; 76900038470572; 103303357353083; 133610100963797
+$FSE-CATEGORY$ = Intermediate
 $FREF$ = <ref>Does not account for projectile travel time.</ref>
 $DREF$ = <ref>Assumes only one enemy is hit.<br>Does not account for projectile travel time.</ref>
 </var>

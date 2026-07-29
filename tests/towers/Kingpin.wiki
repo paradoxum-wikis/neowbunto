@@ -1,0 +1,176 @@
+<var>
+$DPS$ = Damage / Firerate
+$RDPS$ = Health / Spawn Time
+$RDPS2$ = Health * (Defense * 0.01 + 1) / Spawn Time
+$IPS$ = Cash on Death / Spawn Time
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$TE$ = $FNC-TOTAL-EXP$
+$EXP$ = {{#expr:floor(75 * 1.075^(Level - 1) * (Level > 0))}}
+$FNC-SCHEMA$ = N; N; N; N; A; A; A; B; B; B;
+$FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
+$FNC-COST$ = 3600; 1400; 4000; 6000; 7250; 16500; 38500; 14000; 32500; 64000
+$FSE-DETECTION$ = ; 3; ; ; 3; 4; ; 3; 6;
+$FSE-UPGRADE$ = Hat Trick; Mafia Expansion; High Roller; LV. 10 Bounty Hunter; LV. 50 Flashy Business; LV. 999 BOSS; Underworld Backup; B.P. Operations; Golden Syndicate
+$FSE-UPGRADEICON$ = 115111916696325; 128115489998324; 72861050225989; 114668237754966; 132421103594393; 104949216258591; 95999047723463; 105993154736785; 119447258450364
+$FSE-CATEGORY$ = Evolved
+$RC$ = $FNC-RECURSION$
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="8" |Neutral Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Unit Queue !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 24 || 1.1 || 17.5 || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 24 || 0.85 || 20 || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 7 || 0.14 || 20 || 2 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 12 || 0.14 || 20 || 2 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |Top Path Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Unit Queue !! Reward Percentage !! Reward Cap !! DPS !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 160 || 1.65 || 20 || 2 || 50% || {{Money|10,000}} || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 295 || 1.65 || 20 || 2 || 70% || {{Money|25,000}} || $DPS$ || {{Money|$CE$}}
+|-
+| 6 || {{Money|$TP$}} || 225 || 0.8 || 21.5 || 2 || 100% || {{Money|60,000}} || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="8" |Bottom Path Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Unit Queue !! DPS !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 17 || 0.12 || 22 || 3 || $DPS$ || {{Money|$CE$}} 
+|-
+| 5 || {{Money|$TP$}} || 34 || 0.12 || 23 || 3 || $DPS$ || {{Money|$CE$}} 
+|-
+| 6 || {{Money|$TP$}} || 46 || 0.1 || 23 || 3 || $DPS$ || {{Money|$CE$}} 
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |[[Lackey]] Stats
+|-
+! Level !! Health !! Damage !! Spawn Time !! Firerate !! Lifespan !! Range !! Detections !! DPS !! Ram DPS
+|-
+| 0–2 || 45 || 2 || 37.5 || 0.22 || 75 || 19 || Hidden || $DPS$ || $RDPS$
+|-
+| 3-4A || 45 || 2 || 30 || 0.22 || 75 || 19 || Hidden || $DPS$ || $RDPS$
+|-
+| 5A/4B || 75 || 5 || 30 || 0.2 || 75 || 23 || Hidden || $DPS$ || $RDPS$
+|-
+| 6A/5B || 200 || 6 || 25 || 0.16 || 75 || 24.5 || Hidden || $DPS$ || $RDPS$
+|-
+| 6B || 300 || 8 || 25 || 0.12 || 75 || 27 || Hidden || $DPS$ || $RDPS$
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="6" |[[Money Runner]] Stats
+|-
+! Level !! Health !! Cash on Death !! Spawn Time !! Income per Second !! Ram DPS
+|-
+| 0–2 || 40 || {{Money|200}} || 40 || {{Money|$IPS$}} || $RDPS$
+|-
+| 3-6B || 40 || {{Money|200}} || 30 || {{Money|$IPS$}} || $RDPS$
+|-
+| 4A || 75 || {{Money|450}} || 30 || {{Money|$IPS$}} || $RDPS$
+|-
+| 5A || 75 || {{Money|600}} || 27.5 || {{Money|$IPS$}} || $RDPS$
+|-
+| 6A || 100 || {{Money|850}} || 25 || {{Money|$IPS$}} || $RDPS$
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="11" |[[Bouncer]] Stats
+|-
+! Level !! Health !! Defense !! Damage !! Spawn Time !! Firerate !! Lifespan !! Range !! Detections !! DPS !! Ram DPS
+|-
+| 4B || 550 || N/A || 25 || 45 || 0.5 || 75 || 8 || Hidden, Lead || $DPS$ || $RDPS2$
+|-
+| 5B || 750 || 10% || 35 || 40 || 0.5 || 75 || 8 || Hidden, Lead || $DPS$ || $RDPS2$
+|-
+| 6B || 1,000 || 15% || 40 || 40 || 0.5 || 75 || 8.5 || Hidden, Lead || $DPS$ || $RDPS2$
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |[[Contractor]] Stats
+|-
+! Level !! Health !! Damage !! Spawn Time !! Firerate !! Lifespan !! Range !! Detections !! DPS !! Ram DPS
+|-
+| 6B || 200 || 165 || 60 || 2 || 70 || 35 || Hidden, Flying, Lead || $DPS$ || $RDPS$
+|}
+</div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$RC$
+|-
+| 1 || {{Exp|$EXP$}}$RC$ || $RC$
+|-
+| 2 || $RC$ || $RC$
+|-
+| 3 || $RC$ || $RC$
+|-
+| 4 || $RC$ || $RC$
+|-
+| 5 || $RC$ || $RC$
+|-
+| 6 || $RC$ || $RC$
+|-
+| 7 || $RC$ || $RC$
+|-
+| 8 || $RC$ || $RC$
+|-
+| 9 || $RC$ || $RC$
+|-
+| 10 || $RC$ || $RC$
+|-
+| 11 || $RC$ || $RC$
+|-
+| 12 || $RC$ || $RC$
+|-
+| 13 || $RC$ || $RC$
+|-
+| 14 || $RC$ || $RC$
+|-
+| 15 || $RC$ || $RC$
+|-
+| 16 || $RC$ || $RC$
+|-
+| 17 || $RC$ || $RC$
+|-
+| 18 || $RC$ || $RC$
+|-
+| 19 || $RC$ || $RC$
+|-
+| 20 || $RC$ || $RC$
+|}
+</div>
+<!-- @/se-ignore -->
+</tabber></div>

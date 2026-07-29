@@ -8,12 +8,12 @@ $CE$ = Total Price / Combined DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 2750; 1350; 2750; 9650; 10000; 12500; 45000
 $FNC-PVP-COST$ = 2000; 1800; 2000; 7000; 10000; 15000; 35000
-$FNC-DETECTION$ = ; ;
-$FNC-PVP-DETECTION$ = ; ;
-$FNC-UPGRADE$ = Explosive Experts; Upgraded Barracks; Improved Training; Riot Control; Air Transport; Enhanced Equipment
-$FNC-PVP-UPGRADE$ = Explosive Experts; Upgraded Barracks; Improved Training; Riot Control; Air Transport; Enhanced Equipment
-$FNC-UPGRADEICON$ = 17196819847; 17196820389; 17196819964; 13019520315; 17196820108; 17196820275
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = ; ;
+$FSE-PVP-DETECTION$ = ; ;
+$FSE-UPGRADE$ = Explosive Experts; Upgraded Barracks; Improved Training; Riot Control; Air Transport; Enhanced Equipment
+$FSE-PVP-UPGRADE$ = Explosive Experts; Upgraded Barracks; Improved Training; Riot Control; Air Transport; Enhanced Equipment
+$FSE-UPGRADEICON$ = 17196819847; 17196820389; 17196819964; 13019520315; 17196820108; 17196820275
+$FSE-CATEGORY$ = Advanced
 $RREF$ = <ref name="rifledps">DPS is calculated as (Damage × Burst Count) ÷ (Cooldown + Aim Time + (Firerate × Burst Count)).</ref>
 </var>
 <div class="mobile-tabber"><tabber>
@@ -45,11 +45,11 @@ $RREF$ = <ref name="rifledps">DPS is calculated as (Damage × Burst Count) ÷ (C
 |-
 ! Level !! Health !! Damage !! Burst Count !! Spawnrate !! Firerate !! Cooldown !! Aim Time !! Lifespan !! Range !! Detections !! DPS$RREF$ !! Ram DPS
 |-
-| 0–2 || 40 || 6 || 6 || 30 || 0.15 || 1 || 0.35 || 150 || 20 || N/A || $RDPS$ || $RAM$
+| 0–2 || 40 || 5 || 6 || 30 || 0.15 || 1 || 0.35 || 150 || 20 || N/A || $RDPS$ || $RAM$
 |-
-| 3–5 || 80 || 9 || 8 || 30 || 0.15 || 1 || 0.35 || 150 || 24 || Hidden, Flying || $RDPS$ || $RAM$
+| 3–5 || 80 || 8 || 8 || 30 || 0.15 || 1 || 0.35 || 150 || 24 || Hidden, Flying || $RDPS$ || $RAM$
 |-
-| 6 || 275 || 18 || 8 || 30 || 0.15 || 1 || 0.35 || 150 || 30 || Hidden, Flying || $RDPS$ || $RAM$
+| 6 || 275 || 17 || 8 || 30 || 0.15 || 1 || 0.35 || 150 || 30 || Hidden, Flying || $RDPS$ || $RAM$
 |}
 
 {| class="wikitable stats-table"
@@ -111,11 +111,11 @@ $RREF$ = <ref name="rifledps">DPS is calculated as (Damage × Burst Count) ÷ (C
 |-
 ! Level !! Health !! Damage !! Burst Count !! Spawnrate !! Firerate !! Cooldown !! Aim Time !! Lifespan !! Limit !! Range !! Detections !! DPS$RREF$ !! Ram DPS
 |-
-| 0–2 || 40 || 6 || 6 || 45 || 0.15 || 1 || 0.35 || 150 || 10 || 20 || N/A || $RDPS$ || $RAM$
+| 0–2 || 40 || 5 || 6 || 45 || 0.15 || 1 || 0.35 || 150 || 10 || 20 || N/A || $RDPS$ || $RAM$
 |-
-| 3–5 || 80 || 9 || 8 || 40 || 0.15 || 1 || 0.35 || 150 || 10 || 24 || Hidden, Flying || $RDPS$ || $RAM$
+| 3–5 || 80 || 8 || 8 || 40 || 0.15 || 1 || 0.35 || 150 || 10 || 24 || Hidden, Flying || $RDPS$ || $RAM$
 |-
-| 6 || 275 || 18 || 8 || 35 || 0.15 || 1 || 0.35 || 150 || 10 || 30 || Hidden, Flying || $RDPS$ || $RAM$
+| 6 || 275 || 17 || 8 || 35 || 0.15 || 1 || 0.35 || 150 || 10 || 30 || Hidden, Flying || $RDPS$ || $RAM$
 |}
 
 {| class="wikitable stats-table"

@@ -3,12 +3,12 @@ $DPS$ = [[Splash Damage]] / Firerate
 $CDPS$ = Cluster Damage * Cluster Count / Firerate
 $CE$ = Total Price / ($DPS$ + $CDPS$)
 $TP$ = $FNC-TOTALPRICE$
-$FNC-COST$ = 1000; 500; 2250; 4250; 19000; 35500
+$FNC-COST$ = 1000; 500; 2250; 4250; 13500; 30000
 $FNC-PVP-COST$ = 1000; 300; 1400; 2500; 12000; 22500
-$FNC-DETECTION$ = ; 0; 0
-$FNC-UPGRADE$ = Improved Handling; Upgraded Armaments; Bigger Cannon; Loaded Warhead; City Buster
-$FNC-UPGRADEICON$ = 4538447265; 4538447347; 4538447424; 4538447493; 4538447579
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = ; 0; 0
+$FSE-UPGRADE$ = Improved Handling; Upgraded Armaments; Bigger Cannon; Loaded Warhead; City Buster
+$FSE-UPGRADEICON$ = 4538447265; 4538447347; 4538447424; 4538447493; 4538447579
+$FSE-CATEGORY$ = Advanced
 $SREF$ = <ref name="splash">Number is the damage dealt in the inner explosion sphere. Splash damage is decreased linearly if the enemy is in the outer explosion sphere.</ref>
 $FREF$ = <ref name="fr">Firerate does not account for projectile travel time.</ref>
 $DREF$ = <ref name="DPS">DPS assumes only one enemy is hit and receives full splash damage. DPS does not account for projectile travel time.</ref>
@@ -28,9 +28,9 @@ $CREF$ = <ref name="ce">Accounts for both normal and cluster bomb DPS.</ref>
 |-
 | 3 || {{Money|$TP$}} || 65 || N/A || N/A || 2.75 || 30 || 8.5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 125 || 30 || 4 || 2.75 || 34 || 8.5 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 100 || 30 || 4 || 2.75 || 34 || 8.5 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 290 || 40 || 6 || 2.75 || 34 || 9 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 235 || 40 || 6 || 2.75 || 34 || 9 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =

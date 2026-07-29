@@ -1,22 +1,26 @@
 <var>
 $DPS$ = Damage / Swingrate
 $MDPS$ = $DPS$ * Max Hits
-$DPS2$ = $DPS$ + $AFDPS$
-$FNC-ROFBUG$ = Swingrate; Warrior's Call Swingrate
-$FNC-COST$ = 525; 450; 1250; 2000; 6000; 13900
+$FNC-COST$ = 525; 450; 1687; 2000; 6000; 13900
 $CE$ = Total Price / DPS
-$MCE$ = Total Price / $MDPS$
+$MCE$ = Total Price / Max DPS
+$WCFR$ = {{#expr:Gladiator Stats.Swingrate / 1.65 round 3}}
+$WCDPS$ = Gladiator Stats.Damage / Swingrate
+$MWCDPS$ = $WCDPS$ * Gladiator Stats.Max Hits
+$WCCE$ = $TP$ / DPS
+$MWCCE$ = $TP$ / Max DPS
 $TP$ = $FNC-TOTALPRICE$
-$FREF$ = <ref>Frozen damage is dealt when hitting enemies that are already frozen or chilled. Frozen damage is double the regular damage.</ref>
-$DREF$ = <ref>DPS assumes only one enemy is hit and is not frozen.</ref>
-$FNC-UPGRADE$ = Warrior Armor; Dangersense; Extra Protection; Illumina; Darkheart Swordsman
-$FNC-UPGRADEICON$ = 3356186535; 141745478; 4118882122; 16620737; 16868189
-$FNC-DETECTION$ = 0; ;
+$FSE-UPGRADE$ = Warrior Armor; Dangersense; Extra Protection; Illumina; Darkheart Swordsman
+$FSE-UPGRADEICON$ = 3356186535; 141745478; 4118882122; 16620737; 16868189
+$FSE-DETECTION$ = 0; ;
+$FSE-CATEGORY$ = Exclusive
 $DREF$ = <ref>DPS assumes that only one enemy is hit per swing.<br />Ability is not taken into account.</ref>
 $MDREF$ = <ref>DPS assumes that the maximum number of enemies are hit per swing.<br/>Ability is not taken into account.</ref>
 </var>
 <div class="overflow-box">
 {| class="wikitable stats-table"
+! colspan="11" | Gladiator Stats
+|-
 ! Level !! Total Price !! Damage !! Swingrate !! Max Hits !! Range !! Parry Cooldown !! DPS$DREF$ !! Max DPS$MDREF$ !! Cost Efficiency !! Max Cost Efficiency
 |-
 | 0 || {{Money|$TP$}} || 5 || 0.95 || 2 || 5.5 || 1.25 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
@@ -30,5 +34,19 @@ $MDREF$ = <ref>DPS assumes that the maximum number of enemies are hit per swing.
 | 4 || {{Money|$TP$}} || 77 || 1 || 7 || 6 || 1.25 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
 |-
 | 5 || {{Money|$TP$}} || 177 || 1.35 || 10 || 6.5 || 1.25 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="6" | Ability Stats
+|-
+! Level !! Swingrate !! DPS$DREF$ !! Max DPS$MDREF$ !! Cost Efficiency !! Max Cost Efficiency
+|-
+| 3 || $WCFR$ || $WCDPS$ || $MWCDPS$ || {{Money|$WCCE$}} || {{Money|$MWCCE$}}
+|-
+| 4 || $WCFR$ || $WCDPS$ || $MWCDPS$ || {{Money|$WCCE$}} || {{Money|$MWCCE$}}
+|-
+| 5 || $WCFR$ || $WCDPS$ || $MWCDPS$ || {{Money|$WCCE$}} || {{Money|$MWCCE$}}
 |}
 </div>

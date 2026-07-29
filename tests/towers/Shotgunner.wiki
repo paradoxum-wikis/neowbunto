@@ -2,15 +2,16 @@
 $DPS$ = Damage * Bullet Count / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
-$FNC-COST$ = 800; 300; 1200; 3400; 9500
+$FNC-COST$ = 1225; 640; 1550; 6000; 18500
 $FNC-PVP-COST$ = 400; 150; 1050; 3000; 8500
-$FNC-DETECTION$ = 2; 2;
-$FNC-UPGRADE$ = Heavier Shells; Shotgun Knowledge; Slug Madness; Tactical Blowback
-$FNC-PVP-UPGRADE$ = Faster Reloading; Shotgun Knowledge; Slug Madness; Tactical Blowback
-$FNC-UPGRADEICON$ = 5587697635; 5587697884; 5587698104; 5587698246
-$FNC-ROFBUG$ = Firerate
-$DREF$ = <ref>First two enemies damaged by the same bullet are dealt full damage, while the third enemy is dealt half of the damage.</ref>
-$DPREF$ = <ref>DPS assumes all bullets hit only one enemy.</ref>
+$FSE-DETECTION$ = 1; ; 2
+$FSE-PVP-DETECTION$ = 2; 2;
+$FSE-UPGRADE$ = Shotgun Knowledge; Clay Pigeon Training; Heavier Shells; Tactical Blowback
+$FSE-PVP-UPGRADE$ = Faster Reloading; Shotgun Knowledge; Slug Madness; Tactical Blowback
+$FSE-UPGRADEICON$ = 5587697635; 5587697884; 5587698104; 5587698246
+$FSE-CATEGORY$ = Intermediate
+$DREF$ = <ref name=damage>The first two enemies damaged by the same bullet are dealt full damage, while the third enemy is dealt half of the damage.</ref>
+$DPREF$ = <ref name=dps>DPS assumes all bullets hit only one enemy.</ref>
 </var>
 <div class="mobile-tabber"><tabber>
 |-|Regular =
@@ -18,15 +19,15 @@ $DPREF$ = <ref>DPS assumes all bullets hit only one enemy.</ref>
 {| class="wikitable stats-table"
 ! Level !! Total Price !! Damage$DREF$ !! Bullet Count !! Firerate !! Range !! Spread !! Max Hits !! DPS$DPREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 2 || 6 || 1 || 7.5 || 100 || 3 || $DPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 2 || 8 || 1.2 || 8 || 10 || 3 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 3 || 6 || 1 || 7.5 || 100 || 3 || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 3 || 8 || 1.2 || 8 || 10 || 3 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 3 || 8 || 1 || 9 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 3 || 10 || 0.85 || 9.5 || 15 || 3 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 5 || 8 || 0.8 || 9.5 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 7 || 10 || 0.85 || 11 || 25 || 3 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 10 || 9 || 0.8 || 11 || 30 || 3 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 14 || 12 || 0.75 || 13.5 || 40 || 3 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =

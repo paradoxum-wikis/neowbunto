@@ -1,0 +1,31 @@
+<var>
+$DPS0$ = Damage / Firerate
+$MDPS0$ = DPS * Max Hits
+$DPS2$ =  (Smite Meter * Damage + Smite Damage) / (Firerate * Smite Meter)
+$MDPS2$ = {{#expr:(Damage * Max Hits * ceil((Smite Meter / Max Hits)) + Smite Damage) / (Firerate * ceil((Smite Meter / Max Hits))) round 2}}
+$CE$ = Total Price / DPS
+$MCE$ = Total Price / Max DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 1856; 8888; 18450; 44001
+$FSE-DETECTION$ = ; 0; 0
+$FSE-UPGRADE$ = Kite in the Wind; Self-Sustaining Battery; Auric Quantum Cooling Cell; Kimat's Bite
+$FSE-UPGRADEICON$ = 91355001385794; 75051178841119; 106313416363708; 109247042334349
+$FSE-CATEGORY$ = Advanced
+$DREF$ = <ref>For Level 2+, the '''Smite Damage''' is also included, assuming it only hits the targeted enemy and deals full damage to it.<br>Calculated as (Smite Meter × Damage + Smite Damage) ÷ (Firerate × Smite Meter).</ref>
+$MREF$ = <ref>Accounts for every enemy being hit.<br>Calculated as (Damage × Max Hits * [Smite Meter ÷ Max Hits] + Smite Damage) ÷ (Firerate × [Smite Meter ÷ Max Hits]) for Level 2+, where in both cases of Smite Meter ÷ Max Hits, the result of that (such as 3 divided by 8 resulting in 0.375) has to be rounded up (in the previous example, that turns 0.375 to 1).</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Smite Damage !! Firerate !! Range !! Smite Radius !! Smite Meter !! Shock Time !! Chain Range !! Max Hits !! DPS$DREF$ !! Max DPS$MREF$ !! Cost Efficiency !! Max Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 15 || N/A || 2 || 17 || N/A || N/A || 0.15 || 12 || 3 || $DPS0$ || $MDPS0$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || N/A || 2 || 17 || N/A || N/A || 0.25 || 12 || 5 || $DPS0$ || $MDPS0$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 2 || {{Money|$TP$}} || 20 || 70 || 1.8 || 18.5 || 5 || 5 || 0.25 || 16 || 5 || $DPS2$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 3 || {{Money|$TP$}} || 20 || 85 || 1.4 || 18.5 || 5.5 || 4 || 0.25 || 16 || 6 || $DPS2$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 4 || {{Money|$TP$}} || 20 || 140 || 1.2 || 20 || 7 || 3 || 0.3 || 20 || 8 || $DPS2$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|}
+</div>

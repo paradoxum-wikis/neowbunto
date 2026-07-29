@@ -2,13 +2,17 @@
 $DPS$ = Damage / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
-$FNC-COST$ = 1850; 400; 1500; 7000; 15500
+$TE$ = $FNC-TOTAL-EXP$
+$EXP$ = {{#expr:floor(50 * 1.09^(Level - 1) * (Level > 0))}}
+$FNC-COST$ = 1850; 350; 1500; 6500; 21500
 $FNC-PVP-COST$ = 2550; 850; 1550; 8500; 18750
-$FNC-DETECTION$ = 2; ;
-$FNC-UPGRADE$ = Improved Handling; Specialized Tech; Geared Up; Futuristic Armory
-$FNC-UPGRADEICON$ = 15184753790; 15184753514; 15184753289; 15184752970
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 1; ;
+$FSE-PVP-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Improved Handling; Specialized Tech; Geared Up; Futuristic Armory
+$FSE-UPGRADEICON$ = 15184753790; 15184753514; 15184753289; 15184752970
+$FSE-CATEGORY$ = Advanced
 $DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
+$R$ = $FNC-RECURSION$
 </var>
 <div class="mobile-tabber"><tabber>
 |-|Regular =
@@ -16,15 +20,15 @@ $DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
 {| class="wikitable stats-table"
 ! Level !! Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 2 || 0.15 || 1.4 || 15 || $DPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 2 || 0.15 || 1.4 || 16 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 2 || 0.12 || 1.2 || 15 || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 2 || 0.12 || 1.2 || 16 || $DPS$ || {{Money|$CE$}}
 |-
 | 2 || {{Money|$TP$}} || 3 || 0.12 || 1.2 || 18 || $DPS$ || {{Money|$CE$}}
 |-
 | 3 || {{Money|$TP$}} || 7 || 0.1 || 1 || 18 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 15 || 0.09 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 16 || 0.1 || 1 || 21 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =
@@ -34,13 +38,65 @@ $DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
 |-
 | 0 || {{Money|$TP$}} || 3 || 0.18 || 1.4 || 16 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 4 || 0.17 || 1.2 || 17 || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 3 || 0.17 || 1.2 || 17 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 6 || 0.17 || 1.2 || 18.5 || $DPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 5 || 0.17 || 1.2 || 18.5 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 15 || 0.15 || 1 || 19 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 13 || 0.15 || 1 || 19 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 24 || 0.1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 20 || 0.1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$R$
+|-
+| 1 || {{Exp|$EXP$}}$R$ || $R$
+|-
+| 2 || $R$ || $R$
+|-
+| 3 || $R$ || $R$
+|-
+| 4 || $R$ || $R$
+|-
+| 5 || $R$ || $R$
+|-
+| 6 || $R$ || $R$
+|-
+| 7 || $R$ || $R$
+|-
+| 8 || $R$ || $R$
+|-
+| 9 || $R$ || $R$
+|-
+| 10 || $R$ || $R$
+|-
+| 11 || $R$ || $R$
+|-
+| 12 || $R$ || $R$
+|-
+| 13 || $R$ || $R$
+|-
+| 14 || $R$ || $R$
+|-
+| 15 || $R$ || $R$
+|-
+| 16 || $R$ || $R$
+|-
+| 17 || $R$ || $R$
+|-
+| 18 || $R$ || $R$
+|-
+| 19 || $R$ || $R$
+|-
+| 20 || $R$ || $R$
+|}
+</div>
+<!-- @/se-ignore -->
 </tabber></div>

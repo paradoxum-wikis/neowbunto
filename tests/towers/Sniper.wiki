@@ -2,12 +2,12 @@
 $DPS$ = Damage / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
-$FNC-COST$ = 450; 200; 750; 2250; 4500
+$FNC-COST$ = 450; 200; 750; 2000; 5000
 $FNC-PVP-COST$ = 500; 350; 800; 3250; 5000
-$FNC-UPGRADE$ = Faster Reloading; Geared Up; Frontlines Sniping; Spec Ops
-$FNC-UPGRADEICON$ = 3280081327; 3280367022; 3280367963; 3280368786
-$FNC-DETECTION$ = 2; 3; 0
-$FNC-ROFBUG$ = Firerate
+$FSE-UPGRADE$ = Faster Reloading; Geared Up; Frontlines Sniping; Spec Ops
+$FSE-UPGRADEICON$ = 3280081327; 3280367022; 3280367963; 3280368786
+$FSE-DETECTION$ = 2; 3; 0
+$FSE-CATEGORY$ = Starter
 </var>
 <div class="mobile-tabber"><tabber>
 |-|Regular =
@@ -15,15 +15,15 @@ $FNC-ROFBUG$ = Firerate
 {| class="wikitable stats-table"
 ! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 10 || 5 || 25 || $DPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 10 || 5 || 28 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 12 || 4 || 25 || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 12 || 4 || 28 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 12 || 4 || 28 || $DPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 25 || 4 || 30 || $DPS$ || {{Money|$CE$}}
 |-
 | 3 || {{Money|$TP$}} || 60 || 4 || 35 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 100 || 3.5 || 40 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 100 || 3.2 || 45 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =
@@ -37,7 +37,7 @@ $FNC-ROFBUG$ = Firerate
 |-
 | 2 || {{Money|$TP$}} || 15 || 1.3 || 22.5 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 15 || 0.5 || 25 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 14 || 0.5 || 25 || $DPS$ || {{Money|$CE$}}
 |-
 | 4 || {{Money|$TP$}} || 30 || 0.5 || 30 || $DPS$ || {{Money|$CE$}}
 |}

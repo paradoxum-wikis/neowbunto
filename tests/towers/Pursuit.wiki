@@ -7,14 +7,14 @@ $CE$ = Total Price / Total DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-SCHEMA$ = N; N; N; N; A; A; B; B;
 $FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
-$FNC-COST$ = 5000; 1750; 3000; 5000; 18000; 45000; 8500; 15000;
+$FNC-COST$ = 5000; 1750; 3000; 4750; 15000; 47500; 9500; 13500;
 $FNC-PVP-COST$ = 2500; 750; 1500; 3500; 12500; 30000; 7500; 22500;
-$FNC-DETECTION$ = ; 3; 0
-$FNC-PVP-DETECTION$ = ; 1; 0
-$FNC-UPGRADE$ = AP Rounds; Enhanced Radar; Air to Ground Missiles; Sky Shredder; Leviathan; Modified Payload; Demolition Gunship
-$FNC-PVP-UPGRADE$ = .50 Caliber; Enhanced Radar; Air to Ground Missiles; Sky Shredder; Leviathan; Modified Payload; Demolition Gunship
-$FNC-UPGRADEICON$ = 117186100008439; 117186100008439; 98101516586169; File:PursuitLevelT4.png; File:PursuitLevelT4.png; File:PursuitLevelB4.png; File:PursuitLevelB4.png
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = ; 3; ; ; 3; ; 4; 3;
+$FSE-PVP-DETECTION$ = ; 1; ; ; 1; ; 4; 1;
+$FSE-UPGRADE$ = AP Rounds; Enhanced Radar; Air to Ground Missiles; Sky Shredder; Leviathan; Modified Payload; Demolition Gunship
+$FSE-PVP-UPGRADE$ = .50 Caliber; Enhanced Radar; Air to Ground Missiles; Sky Shredder; Leviathan; Modified Payload; Demolition Gunship
+$FSE-UPGRADEICON$ = 117186100008439; 117186100008439; 98101516586169; File:PursuitLevelT4.png; File:PursuitLevelT4.png; File:PursuitLevelB4.png; File:PursuitLevelB4.png
+$FSE-CATEGORY$ = Advanced
 $DREF$ = <ref name=dps>Calculated as:<br><math>\frac{\left(\text{Damage}\ \times\ Ammo\right)}{\left(\text{Reload Time}+\left(Firerate\times Ammo\right)\right)}</math></ref>
 $DREF2$ = <ref name=dps2>Calculated as:<br><math>\frac{\left(\text{Damage}\ \times\ Ammo\right)}{\left(\text{Reload Time}+\text{Rev Time}+\left(Firerate\times Ammo\right)\right)}</math></ref>
 $MREF$ = <ref name=missile>Calculated as:<br><math>\frac{\left(\text{Splash Damage} \times\ \text{Missile Count}\right)}{\left(\text{Missile Cooldown}+\left(\text{Burst Time}\times \text{Missile Count}\right)\right)}</math><br>Assumes missiles only hit one enemy.</ref>
@@ -27,13 +27,13 @@ $MREF$ = <ref name=missile>Calculated as:<br><math>\frac{\left(\text{Splash Dama
 |-
 ! Level !! Total Price !! Damage !! Splash Damage !! Missile Count !! Ammo !! Firerate !! Missile Cooldown !! Burst Time !! Reload Time !! Range !! Patrol Range !! Explosion Range !! Speed !! Missile Speed !! Gun DPS$DREF$ !! Missile DPS$MREF$ !! Total DPS !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 7 || N/A || N/A || 50 || 0.2 || N/A || N/A || 3.5 || 6 || 14 || N/A || 35 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 7 || N/A || N/A || 50 || 0.225 || N/A || N/A || 3.5 || 7 || 14 || N/A || 45 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 10 || N/A || N/A || 50 || 0.2 || N/A || N/A || 3.5 || 6 || 14 || N/A || 35 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 10 || N/A || N/A || 50 || 0.225 || N/A || N/A || 3.5 || 7 || 14 || N/A || 45 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 10 || N/A || N/A || 65 || 0.15 || N/A || N/A || 3 || 7 || 16 || N/A || 35 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 10 || N/A || N/A || 75 || 0.175 || N/A || N/A || 3 || 8 || 16 || N/A || 45 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 10 || 45 || 2 || 65 || 0.15 || 4 || 0.5 || 3 || 7 || 16 || 4 || 35 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 12 || 30 || 2 || 75 || 0.175 || 4 || 0.5 || 3 || 8 || 16 || 4 || 45 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"
@@ -41,9 +41,9 @@ $MREF$ = <ref name=missile>Calculated as:<br><math>\frac{\left(\text{Splash Dama
 |-
 ! Level !! Total Price !! Damage !! Splash Damage !! Missile Count !! Ammo !! Firerate !! Missile Cooldown !! Burst Time !! Reload Time !! Range !! Patrol Range !! Explosion Range !! Speed !! Missile Speed !! Gun DPS$DREF$ !! Missile DPS$MREF$ !! Total DPS !! Cost Efficiency
 |-
-| 4 || {{Money|$TP$}} || 24 || 45 || 4 || 75 || 0.12 || 8 || 0.5 || 3 || 7 || 10 || 3 || 35 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 18 || 35 || 4 || 200 || 0.15 || 4 || 0.5 || 3 || 11 || 20 || 3 || 60 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 50 || 45 || 4 || 75 || 0.085 || 8 || 0.5 || 3 || 7 || 10 || 4 || 35 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 46 || 35 || 4 || 200 || 0.15 || 4 || 0.5 || 3 || 11 || 22 || 4 || 60 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"
@@ -51,9 +51,9 @@ $MREF$ = <ref name=missile>Calculated as:<br><math>\frac{\left(\text{Splash Dama
 |-
 ! Level !! Total Price !! Damage !! Splash Damage !! Missile Count !! Ammo !! Firerate !! Missile Cooldown !! Burst Time !! Reload Time !! Range !! Patrol Range !! Explosion Range !! Speed !! Missile Speed !! Gun DPS$DREF$ !! Missile DPS$MREF$ !! Total DPS !! Cost Efficiency
 |-
-| 4 || {{Money|$TP$}} || 10 || 45 || 6 || 65 || 0.15 || 4 || 0.25 || 3 || 10 || 18 || 7.5 || 45 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 10 || 35 || 6 || 75 || 0.175 || 4 || 0.25 || 3 || 10 || 20 || 7.5 || 45 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 10 || 60 || 8 || 65 || 0.15 || 4 || 0.15 || 3 || 12 || 20 || 7.5 || 45 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 10 || 60 || 8 || 75 || 0.175 || 4 || 0.15 || 3 || 12 || 22 || 8.5 || 45 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =
@@ -65,11 +65,11 @@ $MREF$ = <ref name=missile>Calculated as:<br><math>\frac{\left(\text{Splash Dama
 |-
 | 0 || {{Money|$TP$}} || 6 || N/A || N/A || 35 || 0.25 || N/A || N/A || 4 || N/A || 7 || 14 || N/A || 30 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 8 || N/A || N/A || 35 || 0.25 || N/A || N/A || 4 || N/A || 8 || 14 || N/A || 16 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 7 || N/A || N/A || 35 || 0.25 || N/A || N/A || 4 || N/A || 8 || 14 || N/A || 16 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
 | 2 || {{Money|$TP$}} || 10 || N/A || N/A || 35 || 0.25 || N/A || N/A || 4 || N/A || 9.5 || 16 || N/A || 25 || N/A || $DPS$ || N/A || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 10 || 35 || 2 || 75 || 0.2 || 7 || 0.5 || 3.5 || N/A || 10.5 || 16 || 3 || 25 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 10 || 32 || 2 || 75 || 0.2 || 7 || 0.5 || 3.5 || N/A || 10.5 || 16 || 3 || 25 || 20 || $DPS$ || $MDPS$ || $TDPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"

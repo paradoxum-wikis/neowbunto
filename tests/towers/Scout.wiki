@@ -2,12 +2,15 @@
 $DPS$ = Damage / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
+$TE$ = $FNC-TOTAL-EXP$
+$EXP$ = {{#expr:floor(50 * 1.09^(Level - 1) * (Level > 0))}}
 $FNC-COST$ = 125; 50; 375; 1350; 2200
 $FNC-PVP-COST$ = 300; 100; 650; 1800; 3250
-$FNC-DETECTION$ = 2; ;
-$FNC-UPGRADE$ = Faster Reloading; Precise Aiming; Stronger Equipment; Akimbo Handguns
-$FNC-UPGRADEICON$ = 3278746120; 3278749117; 3278741672; 3279537687
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Faster Reloading; Precise Aiming; Stronger Equipment; Akimbo Handguns
+$FSE-UPGRADEICON$ = 3278746120; 3278749117; 3278741672; 3279537687
+$FSE-CATEGORY$ = Starter
+$R$ = $FNC-RECURSION$
 </var>
 <div class="mobile-tabber"><tabber>
 |-|Regular =
@@ -19,11 +22,11 @@ $FNC-ROFBUG$ = Firerate
 |-
 | 1 || {{Money|$TP$}} || 1 || 0.75 || 12 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 2 || 0.75 || 14 || $DPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 3 || 0.75 || 14 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 6 || 0.6 || 14 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 8 || 0.65 || 16 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 8 || 0.3 || 16 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 8 || 0.325 || 16 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
 |-|PVP =
@@ -37,9 +40,61 @@ $FNC-ROFBUG$ = Firerate
 |-
 | 2 || {{Money|$TP$}} || 8 || 0.75 || 16 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 12 || 0.5 || 17 || $DPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 10 || 0.5 || 17 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 14 || 0.3 || 17 || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 13 || 0.3 || 17 || $DPS$ || {{Money|$CE$}}
 |}
 </div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$R$
+|-
+| 1 || {{Exp|$EXP$}}$R$ || $R$
+|-
+| 2 || $R$ || $R$
+|-
+| 3 || $R$ || $R$
+|-
+| 4 || $R$ || $R$
+|-
+| 5 || $R$ || $R$
+|-
+| 6 || $R$ || $R$
+|-
+| 7 || $R$ || $R$
+|-
+| 8 || $R$ || $R$
+|-
+| 9 || $R$ || $R$
+|-
+| 10 || $R$ || $R$
+|-
+| 11 || $R$ || $R$
+|-
+| 12 || $R$ || $R$
+|-
+| 13 || $R$ || $R$
+|-
+| 14 || $R$ || $R$
+|-
+| 15 || $R$ || $R$
+|-
+| 16 || $R$ || $R$
+|-
+| 17 || $R$ || $R$
+|-
+| 18 || $R$ || $R$
+|-
+| 19 || $R$ || $R$
+|-
+| 20 || $R$ || $R$
+|}
+</div>
+<!-- @/se-ignore -->
 </tabber></div>

@@ -1,0 +1,28 @@
+<var>
+$DPS$ = Splash Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 875; 200; 1150; 2650; 7750
+$FSE-DETECTION$ = 2; 0;
+$FSE-UPGRADE$ = Pitch Throwing; Golden Handskade; Loose Cannon; A Thousand Exploding Suns
+$FSE-UPGRADEICON$ = 5523227714; 5523227714; 5523228733; 5523229364
+$FSE-CATEGORY$ = Golden Perks
+$SREF$ = <ref name=splash>Damage dealt in the inner explosion sphere. Splash damage is decreased linearly from the edge of the inner explosion sphere to the edge of the outer explosion sphere, if the enemy is in the outer explosion sphere.</ref>
+$AREF$ = <ref name=aim>Aim Time happens before the '''Demoman''' throws a grenade. This does not affect its firerate.</ref>
+$DREF$ = <ref name=dps>DPS does not consider projectile travel time.<br/>DPS assumes that only one enemy is hit and it receives full splash damage.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Splash Damage$SREF$ !! Firerate !! Aim Time$AREF$ !! Range !! Explosion Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 1.95 || 0.8 || 12 || 4.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 10 || 1.8 || 0.8 || 13.5 || 4.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 18 || 1.8 || 0.8 || 13.5 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 25 || 1.1 || 0 || 15 || 5.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 25 || 0.45 || 0 || 17 || 5.5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

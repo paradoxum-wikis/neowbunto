@@ -8,16 +8,16 @@ $MCDPS$ = ($DPS$ + $PDPS$) * Biologist Stats.Unit Queue
 $TED$ = Poison Damage * (Poison Time / Poison Tick)
 $CE$ = $TP$ / DPS
 $MCE$ = $TP$ / Max DPS
-$FNC-ROFBUG$ = Firerate
 $FNC-COST$ = 750; 600; 1850; 4500; 20000
 $TP$ = $FNC-TOTALPRICE$
 $BREF$ = <ref name="nobuff">Not affected by any buffs or debuffs.</ref>
 $MREF$ = <ref name="max">DPS is multiplied by the '''Biologist's''' unit queues.</ref>
 $IREF$ = <ref name="ivydps">DPS is multiplied by the '''Biologist's''' unit queues. As poison can only be applied to an enemy once, poison DPS will only be accounted for once.</ref>
 $TREF$ = <ref>Total Elapsed Damage is calculated as Poison Damage × (Poison Time ÷ Poison Tick).</ref>
-$FNC-UPGRADE$ = Bio Chemistry; Scientific Breakthrough; Flower Power; Botanical Berserker!
-$FNC-UPGRADEICON$ = 95317340543936; 91087216328467; 101480107243808; 121014188542772
-$FNC-DETECTION$ = 2; 1; 3
+$FSE-UPGRADE$ = Bio Chemistry; Scientific Breakthrough; Flower Power; Botanical Berserker!
+$FSE-UPGRADEICON$ = 95317340543936; 91087216328467; 101480107243808; 121014188542772
+$FSE-CATEGORY$ = Exclusive
+$FSE-DETECTION$ = 2; 1; 3
 </var>
 <div class="overflow-box">
 {| class="wikitable stats-table"
@@ -75,7 +75,7 @@ $FNC-DETECTION$ = 2; 1; 3
 |-|Nightshade =
 <div class="overflow-box">
 {| class="wikitable stats-table"
-! colspan="14" |[[Nightshade]] Stats$BREF$
+! colspan="14" |[[Nightshade (Unit)|Nightshade]] Stats$BREF$
 |-
 ! Level !! Health !! Damage !! Spawnrate !! Firerate !! Lifespan !! Range !! Confusion Time !! Confusion Cooldown !! Detections !! DPS !! Max DPS$MREF$ !! Min Cost Efficiency !! Max Cost Efficiency$MREF$
 |-

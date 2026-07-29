@@ -5,56 +5,117 @@ $BDPS$ = Boss Damage / Firerate
 $CE$ = Total Price / DPS
 $BCE$ = Total Price / Boss DPS
 $TP$ = $FNC-TOTALPRICE$
+$TE$ = $FNC-TOTAL-EXP$
+$EXP$ = {{#expr:floor(75 * 1.075^(Level - 1) * (Level > 0))}}
 $FNC-SCHEMA$ = N; N; N; N; A; A; A; A; B; B; B; B;
 $FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
-$FNC-COST$ = 10000; 8000; 19500; 41000; 55000; 72000; 95000; 150000; 85000; 120000; 180000; 500320;
-$FNC-DETECTION$ = 2; ; ; ; ; 5; ; 7; -1;
-$FNC-UPGRADE$ = Combat Tactics; 32nd Spec-Ops; Re-routed Funds; Fortifier; Defensive Maneuvers; Flak Jacket; Hammerhead; Experimental Weaponry; Bigger Guns; Titanium Armor; Thresher;
-$FNC-UPGRADEICON$ = 123365136014760; 93721065871366; 96118655853436; 111732653007157; 95544278655808; 98941243657730; 106308635701035; 110879981278605; 88574561737643; 126158680785346; 106308635701035;
-$FNC-ROFBUG$ = Firerate
-$DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
+$FNC-COST$ = 8500; 3000; 7000; 17200; 35000; 55000; 100000; 175000; 40000; 95000; 120000; 250000
+$FSE-DETECTION$ = 2; ; ; ; ; 5; ; 4; -1;
+$FSE-UPGRADE$ = Combat Tactics; 32nd Spec-Ops; Re-routed Funds; Fortifier; Defensive Maneuvers; Flak Jacket; Hammerhead; Experimental Weaponry; Bigger Guns; Titanium Armor; Thresher
+$FSE-UPGRADEICON$ = 123365136014760; 93721065871366; 96118655853436; 111732653007157; 95544278655808; 98941243657730; 106308635701035; 110879981278605; 88574561737643; 126158680785346; 101185222776747
+$FSE-CATEGORY$ = Evolved
+$DREF$ = <ref name=dps>DPS does not consider rev time.</ref>
 $RC$ = $FNC-RECURSION$
 </var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
 <div class="overflow-box">
 {| class="wikitable stats-table"
 ! colspan="8" |Neutral Stats
 |-
-!Level !!Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Cost Efficiency
+! Level !! Total Price !! Damage !! Firerate !! Rev Time !! Range !! DPS$DREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}}$RC$ || 14 || 0.2 || 2 || 16 || $DPS$ || $RC${{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 9 || 0.15 || 2 || 17.5 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || $RC$ || 22 || 0.17 || 2 || 16 || $DPS$ || $RC$
+| 1 || {{Money|$TP$}} || 9 || 0.12 || 2 || 17.5 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || $RC$ || 48 || 0.17 || 1.8 || 19 || $DPS$ || $RC$
+| 2 || {{Money|$TP$}} || 14 || 0.12 || 1.8 || 20 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || $RC$ || 100 || 0.17 || 1.8 || 21 || $DPS$ || $RC$
+| 3 || {{Money|$TP$}} || 28 || 0.12 || 1.8 || 22 || $DPS$ || {{Money|$CE$}}
 |}
+</div>
 
+<div class="overflow-box">
 {| class="wikitable stats-table"
 ! colspan="10" |Top Path Stats
 |-
-! Level !! Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! Fortify Radius !! Fortify Debuff Time Reduction !! DPS$DREF$ !! Cost Efficiency
+! Level !! Total Price !! Damage !! Firerate !! Rev Time !! Range !! Fortify Radius !! Fortify Debuff Time Reduction !! DPS$DREF$ !! Cost Efficiency
 |-
-| 4 || {{Money|$TP$}} || 185 || 0.2 || 1.2 || 21 || 6 || 15% || $DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 65 || 0.15 || 1.2 || 22 || 10 || 25% || $DPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 230 || 0.17 || 1.2 || 24 || 7.5 || 15% || $DPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 120 || 0.15 || 1.2 || 26 || 13 || 25% || $DPS$ || {{Money|$CE$}}
 |-
-| 6 || {{Money|$TP$}} || 315 || 0.17 || 1 || 24 || 7.5 || 30% || $DPS$ || {{Money|$CE$}}
+| 6 || {{Money|$TP$}} || 150 || 0.12 || 1 || 26 || 13 || 30% || $DPS$ || {{Money|$CE$}}
 |-
-| 7 || {{Money|$TP$}} || 425 || 0.17 || 1 || 24 || 11 || 50% || $DPS$ || {{Money|$CE$}}
+| 7 || {{Money|$TP$}} || 215 || 0.12 || 1 || 26 || 14 || 50% || $DPS$ || {{Money|$CE$}}
 |}
+</div>
 
+<div class="overflow-box">
 {| class="wikitable stats-table"
 ! colspan="12" |Bottom Path Stats
 |-
-! Level !! Total Price !! Damage !! Boss Multiplier !! Boss Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Boss DPS !! Cost Efficiency !! Boss Cost Efficiency
+! Level !! Total Price !! Damage !! Boss Multiplier !! Boss Damage !! Firerate !! Rev Time !! Range !! DPS$DREF$ !! Boss DPS !! Cost Efficiency !! Boss Cost Efficiency
 |-
-| 4 || {{Money|$TP$}} || 100 || 1.25 || $BOSS$ || 0.1 || 1.8 || 21 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+| 4 || {{Money|$TP$}} || 40 || 1.4 || $BOSS$ || 0.1 || 1.8 || 22 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
 |-
-| 5 || {{Money|$TP$}} || 175 || 1.25 || $BOSS$ || 0.1 || 1.8 || 24 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+| 5 || {{Money|$TP$}} || 85 || 1.4 || $BOSS$ || 0.1 || 1.8 || 26 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
 |-
-| 6 || {{Money|$TP$}} || 260 || 1.5 || $BOSS$ || 0.1 || 1.8 || 26 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+| 6 || {{Money|$TP$}} || 135 || 1.4 || $BOSS$ || 0.1 || 1.8 || 28 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
 |-
-| 7 || {{Money|$TP$}} || 400 || 1.5 || $BOSS$ || 0.1 || 1.6 || 30 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+| 7 || {{Money|$TP$}} || 180 || 1.4 || $BOSS$ || 0.09 || 1.6 || 28 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
 |}
 </div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$RC$
+|-
+| 1 || {{Exp|$EXP$}}$RC$ || $RC$
+|-
+| 2 || $RC$ || $RC$
+|-
+| 3 || $RC$ || $RC$
+|-
+| 4 || $RC$ || $RC$
+|-
+| 5 || $RC$ || $RC$
+|-
+| 6 || $RC$ || $RC$
+|-
+| 7 || $RC$ || $RC$
+|-
+| 8 || $RC$ || $RC$
+|-
+| 9 || $RC$ || $RC$
+|-
+| 10 || $RC$ || $RC$
+|-
+| 11 || $RC$ || $RC$
+|-
+| 12 || $RC$ || $RC$
+|-
+| 13 || $RC$ || $RC$
+|-
+| 14 || $RC$ || $RC$
+|-
+| 15 || $RC$ || $RC$
+|-
+| 16 || $RC$ || $RC$
+|-
+| 17 || $RC$ || $RC$
+|-
+| 18 || $RC$ || $RC$
+|-
+| 19 || $RC$ || $RC$
+|-
+| 20 || $RC$ || $RC$
+|}
+</div>
+<!-- @/se-ignore -->
+</tabber></div>

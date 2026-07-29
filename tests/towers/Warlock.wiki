@@ -1,15 +1,18 @@
 <var>
 $TP$ = $FNC-TOTALPRICE$
-$FNC-COST$ = 4200; 2500; 6800; 12000; 22500; 32500
-$FNC-DETECTION$ = 2; 0;
-$FNC-UPGRADE$ = Alcoyte; Forbidden Arts; Pact of the Blade; Eldritch Knight; Abyss Walker
-$FNC-UPGRADEICON$ = File:WarlockLevel1.png; File:WarlockLevel2.png; File:WarlockLevel3.png; File:WarlockLevel4.png; File:WarlockLevel5.png
+$FNC-COST$ = 4200; 2500; 6800; 12000; 20000; 30000
+$AOEDMG$ = Normal Damage
+$FSE-DETECTION$ = 2; 5;
+$FSE-UPGRADE$ = Alcoyte; Forbidden Arts; Pact of the Blade; Eldritch Knight; Abyss Walker
+$FSE-UPGRADEICON$ = 132600421163755; 92386627632419; 114159381171941; 135475007047111; 134932843522178
+$FSE-CATEGORY$ = Exclusive
 $RDPS$ = Damage / Firerate
 $MDPS$ = (Normal Damage + AOE Damage) / Swingrate
 $MaxDPS$ = (Normal Damage + (AOE Damage * Max Hits)) / Swingrate
 $CE$ = Total Price / DPS
-$FNC-ROFBUG$ = Firerate; Swingrate
-$AREF$ = <ref>AOE Damage is damage dealt to both the targeted enemies and any additional enemies, with the number being based on the '''Warlock's''' max hits. The damage is the same as the ranged attack's damage.</ref>
+$BTDMG$ = {{#expr:ceil((2 * (1^0.9)) * (Health^0.28))}}
+$BCDMG$ = {{formatnum:{{#expr:ceil((2 * (40^0.9)) * (Health^0.28))}}}}
+$AREF$ = <ref>AOE Damage is damage dealt to both the targeted enemies and any additional enemies, with the number being based on the '''Warlock's''' max hits. The damage is the same as the melee attack's damage.</ref>
 $DREF$ = <ref>DPS is calculated as (Damage + AOE Damage) ÷ Swingrate. DPS does not include bleed damage.</ref>
 $MREF$ = <ref>Max DPS is calculated as (Damage + AOE Damage x Max Hits) ÷ Swingrate. Max DPS does not include bleed damage.</ref>
 </var>
@@ -29,7 +32,7 @@ $MREF$ = <ref>Max DPS is calculated as (Damage + AOE Damage x Max Hits) ÷ Swing
 |-
 | 4 || {{Money|$TP$}} || 190 || 0.8 || 24 || 17.5 || $RDPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 260 || 0.7 || 24 || 20 || $RDPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 250 || 0.7 || 24 || 20 || $RDPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"
@@ -37,16 +40,44 @@ $MREF$ = <ref>Max DPS is calculated as (Damage + AOE Damage x Max Hits) ÷ Swing
 |-
 ! Level !! Total Price !! Normal Damage !! AOE Damage$AREF$ !! Base Bleed Damage !! Swingrate !! Bleed Stack !! EV !! Max Stack !! Range !! Max Hits !! DPS$DREF$ !! Max DPS$MREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 45 || 25 || N/A || 2 || N/A || N/A || N/A || 7 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 45 || $AOEDMG$ || N/A || 2 || N/A || N/A || N/A || 7 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 75 || 40 || N/A || 2 || N/A || N/A || N/A || 7 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 75 || $AOEDMG$ || N/A || 2 || N/A || N/A || N/A || 7 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 140 || 60 || N/A || 2 || N/A || N/A || N/A || 7.5 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 140 || $AOEDMG$ || N/A || 2 || N/A || N/A || N/A || 7.5 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 200 || 115 || N/A || 1.8 || N/A || N/A || N/A || 7.5 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 200 || $AOEDMG$ || N/A || 1.8 || N/A || N/A || N/A || 7.5 || 2 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 350 || 190 || 2 || 1.8 || 2 || 0.28 || 40 || 8 || 3 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 350 || $AOEDMG$ || 2 || 1.8 || 3 || 0.28 || 40 || 8 || 3 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
 |-
-| 5 || {{Money|$TP$}} || 550 || 260 || 2 || 1.8 || 5 || 0.28 || 40 || 9 || 3 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+| 5 || {{Money|$TP$}} || 550 || $AOEDMG$ || 2 || 1.8 || 5 || 0.28 || 40 || 9 || 3 || $MDPS$ || $MaxDPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table mw-collapsible mw-collapsed"
+! colspan="3" | Bleed Damage
+|-
+! Health !! Tick Damage !! Collapse Damage
+|-
+| 100 || $BTDMG$ || $BCDMG$
+|-
+| 500 || $BTDMG$ || $BCDMG$
+|-
+| 1,000 || $BTDMG$ || $BCDMG$
+|-
+| 5,000 || $BTDMG$ || $BCDMG$
+|-
+| 10,000 || $BTDMG$ || $BCDMG$
+|-
+| 50,000 || $BTDMG$ || $BCDMG$
+|-
+| 100,000 || $BTDMG$ || $BCDMG$
+|-
+| 500,000 || $BTDMG$ || $BCDMG$
+|-
+| 1,000,000 || $BTDMG$ || $BCDMG$
+|-
+| 5,000,000 || $BTDMG$ || $BCDMG$
 |}
 </div>

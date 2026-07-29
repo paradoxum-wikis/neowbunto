@@ -1,0 +1,89 @@
+<var>
+$DPS$ = (Damage * Burst Count)  / (Burst Cooldown + (Firerate * Burst Count))
+$DPS2$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$TE$ = $FNC-TOTAL-EXP$
+$FNC-COST$ = 300; 325; 700; 1250; 2575; 3125; 4250
+$FSE-DETECTION$ = 1; ; 2
+$EXP$ = {{#expr:floor(75 * 1.075^(Level - 1) * (Level > 0))}}
+$FSE-UPGRADE$ = Tactical Gear; Convergent Forces; Cyber-Enforcer; Synchronized Vision; Threat Detection Sentinel; 1000-THR E.M.
+$FSE-UPGRADEICON$ = 70928079601135; 114583008682832; 104986848983674; 76868080888172; 83041543058774; 119843960971904
+$FSE-CATEGORY$ = Evolved
+$R$ = $FNC-RECURSION$
+$DREF$ = <ref name=dps>Calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)).</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Burst Count !! Firerate !! Burst Cooldown !! Range !! Coordination Damage Boost !! Coordination Radius !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 6 || 0.12 || 1.5 || 14 || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 6 || 0.12 || 1.5 || 14 || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 3 || 6 || 0.12 || 1 || 15.5 || 10% || 3.75 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 9 || 0.1 || 1 || 15.5 || 10% || 3.75 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 5 || 9 || 0.1 || 1 || 15.5 || 10% || 5.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 6 || N/A || 0.17 || 0 || 16 || 10% || 5.5 || $DPS2$ || {{Money|$CE$}}
+|-
+| 6 || {{Money|$TP$}} || 6 || N/A || 0.13 || 0 || 17 || 10% || 5.5 || $DPS2$ || {{Money|$CE$}}
+|}
+</div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$R$
+|-
+| 1 || {{Exp|$EXP$}}$R$ || $R$
+|-
+| 2 || $R$ || $R$
+|-
+| 3 || $R$ || $R$
+|-
+| 4 || $R$ || $R$
+|-
+| 5 || $R$ || $R$
+|-
+| 6 || $R$ || $R$
+|-
+| 7 || $R$ || $R$
+|-
+| 8 || $R$ || $R$
+|-
+| 9 || $R$ || $R$
+|-
+| 10 || $R$ || $R$
+|-
+| 11 || $R$ || $R$
+|-
+| 12 || $R$ || $R$
+|-
+| 13 || $R$ || $R$
+|-
+| 14 || $R$ || $R$
+|-
+| 15 || $R$ || $R$
+|-
+| 16 || $R$ || $R$
+|-
+| 17 || $R$ || $R$
+|-
+| 18 || $R$ || $R$
+|-
+| 19 || $R$ || $R$
+|-
+| 20 || $R$ || $R$
+|}
+</div>
+<!-- @/se-ignore -->
+</tabber></div>

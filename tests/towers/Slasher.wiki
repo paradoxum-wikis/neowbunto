@@ -1,28 +1,58 @@
 <var>
-$DPS$ = (Normal Damage * Crit Swing-- + Crit Damage) / Crit Swing / Swingrate
+$DPS$ = (Normal Damage * Crit Swing-- + Crit Damage) / (Crit Swing * Swingrate)
 $CDMG$ = {{#expr:Normal Damage * Crit Multiplier round 0}}
-$FNC-ROFBUG$ = Swingrate
+$BTDMG$ = {{#expr:ceil((4 * (1^0.9)) * (Health^0.2))}}
+$BCDMG$ = {{formatnum:{{#expr:ceil((4 * (450^0.9)) * (Health^0.2))}}}}
 $FNC-COST$ = 2400; 1000; 4800; 11003; 40000
 $TP$ = $FNC-TOTALPRICE$
 $CE$ = Total Price / DPS
 $CREF$ = <ref>Number listed is the required number of shots for it to deal a critical hit.</ref>
 $DREF$ = <ref>DPS is calculated as (Damage × 2 + Crit Damage) ÷ Crit Swing ÷ Swingrate. DPS does not include bleed damage.</ref>
-$FNC-UPGRADE$ = Sleight of Hands; Bloodlust; Psycho Knife; Ocean Of Blood
-$FNC-UPGRADEICON$ = 92740435796975; 93224058728799; 102669883500047; File:SledgerLevel4.png; 102686099141752
-$FNC-DETECTION$ = 1; 2;
+$FSE-UPGRADE$ = Sleight of Hands; Bloodlust; Psycho Knife; Ocean Of Blood
+$FSE-UPGRADEICON$ = 92740435796975; 93224058728799; 102669883500047; 102686099141752
+$FSE-DETECTION$ = 1; 2;
+$FSE-CATEGORY$ = Exclusive
 </var>
 <div class="overflow-box">
 {| class="wikitable stats-table"
 ! Level !! Total Price !! Normal Damage !! Crit Multiplier !! Crit Damage !! Base Bleed Damage !! Swingrate !! Crit Swing$CREF$ !! Bleed Stack !! EV !! Max Stack !! Range !! DPS$DREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 10 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || 32.68 || {{Money|73.44}}
+| 0 || {{Money|$TP$}} || 10 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 15 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || 49.02 || {{Money|69.36}}
+| 1 || {{Money|$TP$}} || 14 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 15 || 2.1 || $CDMG$ || 4 || 0.6 || 3 || 13 || 0.2 || 450 || 5 || 33.99 || {{Money|241.25}}
+| 2 || {{Money|$TP$}} || 14 || 2.1 || $CDMG$ || 4 || 0.6 || 3 || 13 || 0.2 || 450 || 5 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 25 || 2.5 || $CDMG$ || 4 || 0.55 || 3 || 20 || 0.2 || 450 || 5 || 67.50 || {{Money|284.49}}
+| 3 || {{Money|$TP$}} || 24 || 2.5 || $CDMG$ || 4 || 0.55 || 3 || 20 || 0.2 || 450 || 5 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 40 || 4 || $CDMG$ || 4 || 0.5 || 3 || 45 || 0.2 || 450 || 5 || 157.48 || {{Money|375.94}}
+| 4 || {{Money|$TP$}} || 38 || 4 || $CDMG$ || 4 || 0.5 || 3 || 45 || 0.2 || 450 || 5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table mw-collapsible mw-collapsed"
+! colspan="3" | Bleed Damage
+|-
+! Health !! Tick Damage !! Collapse Damage
+|-
+| 100 || $BTDMG$ || $BCDMG$
+|-
+| 500 || $BTDMG$ || $BCDMG$
+|-
+| 1,000 || $BTDMG$ || $BCDMG$
+|-
+| 5,000 || $BTDMG$ || $BCDMG$
+|-
+| 10,000 || $BTDMG$ || $BCDMG$
+|-
+| 50,000 || $BTDMG$ || $BCDMG$
+|-
+| 100,000 || $BTDMG$ || $BCDMG$
+|-
+| 500,000 || $BTDMG$ || $BCDMG$
+|-
+| 1,000,000 || $BTDMG$ || $BCDMG$
+|-
+| 5,000,000 || $BTDMG$ || $BCDMG$
 |}
 </div>

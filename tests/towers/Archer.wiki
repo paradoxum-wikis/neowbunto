@@ -8,10 +8,10 @@ $TED$ = Burn Damage * (Burn Time / Burn Tick)
 $CE$ = $TP$ / DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 600; 250; 550; 1250; 3000; 8500
-$FNC-DETECTION$ = 2; ;
-$FNC-UPGRADE$ = Eagle Eye; Deadshot; Flame-tipped Arrows; Powder Keg Arrows; Shot of the Century
-$FNC-UPGRADEICON$ = 78487255054043; 118177062176518; 83003777730604; 115104563492355; 73857609172576
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Eagle Eye; Deadshot; Flame-tipped Arrows; Powder Keg Arrows; Shot of the Century
+$FSE-UPGRADEICON$ = 78487255054043; 118177062176518; 83003777730604; 115104563492355; 73857609172576
+$FSE-CATEGORY$ = Exclusive
 $FREF$ = <ref name="firerate">Firerate is seperated into two parts, loading the bow, and aiming and firing the bow. The firerate is halved if the bow is already loaded.</ref>
 $DREF1$ = <ref>DPS assumes one arrow successfully hits one enemy only.<br/>Total DPS is calculated as Normal DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
 $TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × Burn Time.</ref>

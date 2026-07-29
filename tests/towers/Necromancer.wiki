@@ -2,16 +2,15 @@
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 4200; 3950; 11320; 26650; 65000
 $FNC-PVP-COST$ = 1500; 1000; 3500; 10000; 40000
-$FNC-DETECTION$ = 2; 4; 0
-$FNC-PVP-DETECTION$ = 2; 0; 0
-$FNC-UPGRADE$ = Soul Forge; Skull Centrifuge; Graveward; Apostle Of Hades
-$FNC-UPGRADEICON$ = File:NecromancerLevel1.png; File:NecromancerLevel2.png; File:NecromancerLevel3.png; File:NecromancerLevel4.png
-$NecDPS$ = Damage / Firerate
+$FSE-DETECTION$ = 2; 4; 0
+$FSE-PVP-DETECTION$ = 2; 0; 0
+$FSE-UPGRADE$ = Soul Forge; Skull Centrifuge; Graveward; Apostle Of Hades
+$FSE-UPGRADEICON$ = 15332519996; 15332520691; 15332520335; 15332519505
+$FSE-CATEGORY$ = Hardcore
+$DPS$ = Damage / Firerate
 $Nec4DPS$ = (Damage * Max Hits) / Firerate
-$UnitDPS$ = Damage / Firerate
 $ExecDPS$ = (Damage / Tick) / Firerate
 $CE$ = Total Price / DPS
-$FNC-ROFBUG$ = Firerate
 $DREF$ = <ref name="dps">DPS assumes only one enemy is hit and does not include unit DPS.<br/>For Level 4, DPS assumes all beams hit the same enemy and does not include unit DPS.</ref>
 $UDREF$ = <ref name="unitdps">DPS does not include collision damage and assumes only one enemy is hit by an unit.<br/>For the [[Executioner Skeleton]], DPS is calculated as (Damage ÷ Tick) ÷ Firerate.</ref>
 $MUREF$ = <ref name="maxunit">Units when gravestones are fully placed down and upgraded.</ref>
@@ -26,15 +25,15 @@ $CCUREF$ = <ref name="cdps">DPS does not include collision damage and assumes on
 |-
 ! Level !! Total Price !! Damage !! Splash Damage !! Firerate !! Range !! Explosion Range !! Max Hits !! Projectile Speed !! Soul Meter !! Build Time !! Max Gravestones !! Gravestone Spawn Count !! Max Gravestone Level !! DPS$DREF$ !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 15 || N/A || 1.2 || 23 || N/A || 1 || 75 || 105 || 1.5 || 3 || 3 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 15 || N/A || 1.2 || 23 || N/A || 1 || 75 || 105 || 1.5 || 3 || 3 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 20 || N/A || 1.1 || 23 || N/A || 1 || 75 || 125 || 1 || 3 || 3 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 20 || N/A || 1.1 || 23 || N/A || 1 || 75 || 125 || 1 || 3 || 3 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 30 || N/A || 1.1 || 26 || N/A || 1 || 75 || 180 || 1 || 6 || 3 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 30 || N/A || 1.1 || 26 || N/A || 1 || 75 || 180 || 1 || 6 || 3 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 45 || N/A || 0.8 || 28 || N/A || 1 || 60 || 405 || 0.8 || 6 || 3 || 2 || $NecDPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 45 || N/A || 0.8 || 28 || N/A || 1 || 60 || 405 || 0.8 || 6 || 3 || 2 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 30 || 500 || 0.4 || 36 || 5 || 3 || N/A || 1620 || 0.8 || 9 || 3 || 3 || $Nec4DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 28 || 500 || 0.4 || 36 || 5 || 3 || N/A || 1,620 || 0.8 || 9 || 3 || 3 || $Nec4DPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"
@@ -44,31 +43,31 @@ $CCUREF$ = <ref name="cdps">DPS does not include collision damage and assumes on
 |-
 | 1 || [[Skeleton (Unit)|Skeleton]] || 90 || N/A || 4 || N/A || N/A || N/A || 2 || N/A || N/A
 |-
-| 1 || [[Sword Skeleton]] || 120 || N/A || 3.3 || 25 || 0.7 || N/A || 6 || Hidden || $UnitDPS$
+| 1–2 || [[Sword Skeleton]] || 120 || N/A || 3.3 || 24 || 0.7 || N/A || 6 || Hidden || $DPS$
 |-
-| 1–2 || [[Giant Skeleton (Unit)|Giant Skeleton]] || 1200 || N/A || 3.5 || N/A || N/A || N/A || 2 || Hidden || N/A
+| 1–2 || [[Giant Skeleton (Unit)|Giant Skeleton]] || 1,200 || N/A || 3.5 || N/A || N/A || N/A || 2 || Hidden || N/A
 |-
-| 2–3 || [[Skeleton Knight]] || 235 || 15% || 3.3 || 90 || 0.7 || N/A || 6 || Hidden || $UnitDPS$
+| 2–3 || [[Skeleton Knight]] || 235 || 15% || 3.3 || 87 || 0.7 || N/A || 6 || Hidden || $DPS$
 |-
-| 2–3 || [[Hallow Guard (Unit)|Hallow Guard]] || 2000 || 15% || 3.5 || N/A || N/A || N/A || 2 || N/A || N/A
+| 2–3 || [[Hallow Guard (Unit)|Hallow Guard]] || 2,000 || 15% || 3.5 || N/A || N/A || N/A || 2 || N/A || N/A
 |-
-| 3 || [[Executioner Skeleton]] || 3000 || 25% || 2 || 75 || 6 || 0.1 || 32 || Flying, Hidden || $ExecDPS$
+| 3 || [[Executioner Skeleton]] || 3,000 || 25% || 2 || 75 || 6 || 0.1 || 32 || Flying, Hidden || $ExecDPS$
 |}
 
 {| class="wikitable stats-table"
-! colspan="5" |Raise the Dead Stats
+! colspan="6" |Raise the Dead Stats
 |-
-! Level !! Total Cost !! Max Units$MUREF$ !! Combined Total Health$CUREF$ !! Combined DPS$CCUREF$
+! Level !! Total Cost !! Max Units$MUREF$ !! Combined Total Health$CUREF$ !! Combined DPS
 |-
 | 0 || {{Money|$TP$}} || 3x [[Skeleton]] || 270 || N/A
 |-
-| 1 || {{Money|$TP$}} || 3x [[Sword Skeleton]] || 360 || 105.93
+| 1 || {{Money|$TP$}} || 3x [[Sword Skeleton]] || 360 || 102.87
 |-
-| 2 || {{Money|$TP$}} || 1x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>5x [[Sword Skeleton]] || 1800 || 176.55
+| 2 || {{Money|$TP$}} || 1x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>5x [[Sword Skeleton]] || 1,800 || 171.45
 |-
-| 3 || {{Money|$TP$}} || 2x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>2x [[Sword Skeleton]]<br/>1x [[Skeleton Knight]]<br/>1x [[Hallow Guard (Unit)|Hallow Guard]] || 5210 || 197.74
+| 3 || {{Money|$TP$}} || 2x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>2x [[Sword Skeleton]]<br/>1x [[Skeleton Knight]]<br/>1x [[Hallow Guard (Unit)|Hallow Guard]] || 5,210 || 192.87
 |-
-| 4 || {{Money|$TP$}} || 1x [[Executioner Skeleton]]<br/>5x [[Skeleton Knight]]<br/>3x [[Hallow Guard (Unit)|Hallow Guard]] || 12001 || 760.43
+| 4 || {{Money|$TP$}} || 1x [[Executioner Skeleton]]<br/>5x [[Skeleton Knight]]<br/>3x [[Hallow Guard (Unit)|Hallow Guard]] || 12,001 || 746.45
 |}
 </div>
 |-|PVP =
@@ -78,15 +77,15 @@ $CCUREF$ = <ref name="cdps">DPS does not include collision damage and assumes on
 |-
 ! Level !! Total Price !! Damage !! Splash Damage !! Firerate !! Range !! Explosion Range !! Max Hits !! Projectile Speed !! Soul Meter !! Build Time !! Max Gravestones !! Gravestone Spawn Count !! Max Gravestone Level !! DPS<ref name="dps"/> !! Cost Efficiency
 |-
-| 0 || {{Money|$TP$}} || 10 || N/A || 1.508 || 21 || N/A || 1 || 50 || 50 || 1.5 || 2 || 2 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 0 || {{Money|$TP$}} || 10 || N/A || 1.5 || 21 || N/A || 1 || 50 || 50 || 1.5 || 2 || 2 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 1 || {{Money|$TP$}} || 12 || N/A || 1.208 || 21 || N/A || 2 || 50 || 60 || 1 || 4 || 2 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 1 || {{Money|$TP$}} || 12 || N/A || 1.2 || 21 || N/A || 2 || 50 || 60 || 1 || 4 || 2 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 2 || {{Money|$TP$}} || 12 || N/A || 1.208 || 24 || N/A || 2 || 50 || 96 || 1 || 6 || 3 || 1 || $NecDPS$ || {{Money|$CE$}}
+| 2 || {{Money|$TP$}} || 12 || N/A || 1.2 || 24 || N/A || 2 || 50 || 96 || 1 || 6 || 3 || 1 || $DPS$ || {{Money|$CE$}}
 |-
-| 3 || {{Money|$TP$}} || 30 || N/A || 0.808 || 26 || N/A || 2 || 50 || 450 || 0.8 || 6 || 3 || 2 || $NecDPS$ || {{Money|$CE$}}
+| 3 || {{Money|$TP$}} || 30 || N/A || 0.8 || 26 || N/A || 2 || 50 || 450 || 0.8 || 6 || 3 || 2 || $DPS$ || {{Money|$CE$}}
 |-
-| 4 || {{Money|$TP$}} || 20 || 500 || 0.408 || 32 || 4 || 3 || N/A || 1440 || 0.8 || 9 || 3 || 3 || $Nec4DPS$ || {{Money|$CE$}}
+| 4 || {{Money|$TP$}} || 20 || 500 || 0.4 || 32 || 4 || 3 || N/A || 1,440 || 0.8 || 9 || 3 || 3 || $Nec4DPS$ || {{Money|$CE$}}
 |}
 
 {| class="wikitable stats-table"
@@ -96,31 +95,31 @@ $CCUREF$ = <ref name="cdps">DPS does not include collision damage and assumes on
 |-
 | 1 || [[Skeleton (Unit)|Skeleton]] || 90 || N/A || 4 || N/A || N/A || N/A || 2 || N/A || N/A
 |-
-| 1-2 || [[Sword Skeleton]] || 90 || N/A || 3.5 || 20 || 0.808 || N/A || 6 || Hidden || $UnitDPS$
+| 1-2 || [[Sword Skeleton]] || 90 || N/A || 3.5 || 20 || 0.8 || N/A || 6 || Hidden || $DPS$
 |-
 | 2 || [[Giant Skeleton (Unit)|Giant Skeleton]] || 1200 || N/A || 3.5 || N/A || N/A || N/A || 2 || Hidden || N/A
 |-
-| 2-3 || [[Skeleton Knight]] || 250 || N/A || 3.5 || 90 || 0.658 || N/A || 6 || Hidden || $UnitDPS$
+| 2-3 || [[Skeleton Knight]] || 250 || N/A || 3.5 || 90 || 0.65 || N/A || 6 || Hidden || $DPS$
 |-
-| 3 || [[Hallow Guard (Unit)|Hallow Guard]] || 2000 || 15% || 3.5 || N/A || N/A || N/A || 2 || N/A || N/A
+| 3 || [[Hallow Guard (Unit)|Hallow Guard]] || 2,000 || 15% || 3.5 || N/A || N/A || N/A || 2 || N/A || N/A
 |-
-| 3 || [[Executioner Skeleton]] || 3000 || 25% || 2 || 75 || 6.008 || 0.1 || 32 || Flying, Hidden || $ExecDPS$
+| 3 || [[Executioner Skeleton]] || 3,000 || 25% || 2 || 75 || 6 || 0.1 || 32 || Flying, Hidden || $ExecDPS$
 |}
 
 {| class="wikitable stats-table"
-! colspan="5" |Raise the Dead Stats
+! colspan="6" |Raise the Dead Stats
 |-
-! Level !! Total Cost !! Max Units<ref name="maxunit"/> !! Combined Total Health<ref name="cth"/> !! Combined DPS<ref name="cdps"/>
+! Level !! Total Cost !! Max Units<ref name="maxunit"/> !! Combined Total Health<ref name="cth"/> !! Combined DPS
 |-
 | 0 || {{Money|$TP$}} || 2x [[Skeleton]] || 180 || N/A
 |-
 | 1 || {{Money|$TP$}} || 4x [[Skeleton]] || 360 || N/A
 |-
-| 2 || {{Money|$TP$}} || 3x [[Skeleton]]<br/>3x [[Sword Skeleton]] || 540 || 74.25
+| 2 || {{Money|$TP$}} || 3x [[Skeleton]]<br/>3x [[Sword Skeleton]] || 540 || 75
 |-
-| 3 || {{Money|$TP$}} || 1x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>4x [[Sword Skeleton]]<br/>1x [[Skeleton Knight]] || 1810 || 235.78
+| 3 || {{Money|$TP$}} || 1x [[Giant Skeleton (Unit)|Giant Skeleton]]<br/>4x [[Sword Skeleton]]<br/>1x [[Skeleton Knight]] || 1,810 || 238.46 
 |-
-| 4 || {{Money|$TP$}} || 1x [[Executioner Skeleton]]<br/>6x [[Skeleton Knight]]<br/>2x [[Hallow Guard (Unit)|Hallow Guard]] || 9850 || 945.51
+| 4 || {{Money|$TP$}} || 1x [[Executioner Skeleton]]<br/>6x [[Skeleton Knight]]<br/>2x [[Hallow Guard (Unit)|Hallow Guard]] || 9,850 || 955.76
 |}
 </div>
 </tabber></div>

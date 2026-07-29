@@ -1,24 +1,58 @@
 <var>
 $TED$ = Burn Damage * (Burn Time / Burn Tick)
 $TP$ = $FNC-TOTALPRICE$
+$WCAP$ = Firework Technician Stats.Firework Shot Chance Cap / (1 + 2.718**(-0.5*(
+$CHANCE1$ = $WCAP$0.1-6))) * 100
+$CHANCE2$ = $WCAP$0.15-6))) * 100
+$CHANCE3$ = $WCAP$0.2-6))) * 100
+$CHANCE4$ = $WCAP$0.25-6))) * 100
+$CHANCE5$ = $WCAP$0.5-6))) * 100
+$CHANCE6$ = $WCAP$0.75-6))) * 100
+$CHANCE7$ = $WCAP$1-6))) * 100
+$CHANCE8$ = $WCAP$1.5-6))) * 100
+$CHANCE9$ = $WCAP$2-6))) * 100
+$CHANCE10$ = $WCAP$5-6))) * 100
+$CHANCE11$ = $WCAP$100-6))) * 100
 $FNC-COST$ = 1500; 2000; 6500; 12000; 22000
-$FNC-DETECTION$ = ; 0;
-$FNC-UPGRADE$ = Pyrotechnics; Bigger Boom; Light the Sky; The Finale
-$FNC-UPGRADEICON$ = 113918271734207; 102159060729309; 76789690706169; 83889465749773
-$DREF$ = <ref>While the game states it as ''added'' damage, this is actually how much damage the fireworks deal.</ref>
+$FSE-DETECTION$ = ; 0;
+$FSE-UPGRADE$ = Pyrotechnics; Bigger Boom; Light the Sky; The Finale
+$FSE-UPGRADEICON$ = 113918271734207; 102159060729309; 76789690706169; 83889465749773
+$FSE-CATEGORY$ = Exclusive
 $TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Burn Tick).</ref>
+$FREF$ = <ref>Does not account for towers with a penalty applied to them which divides the chance and assumes each enemy only hits an enemy once. Both of these factors will affect the chances, either making it more likely or less likely to fire them.</ref>
 </var>
 <div class="overflow-box">
 {| class="wikitable stats-table"
-! Level !! Total Price !! Firework Damage$DREF$ !! Range !! Detection Buff Duration !! Explosion Range !! Firework Shot Chance Cap !! Burn Damage !! Burn Tick !! Burn Time !! Total Elapsed Damage$TREF$
+! colspan="11" | Firework Technician Stats
 |-
-| 0 || {{Money|$TP$}} || 5 || 8 || 15 || 1 || 0.5 (50%) || 1 || 0.5 || 5 || $TED$
+! Level !! Total Price !! Firework Damage !! Range !! Detection Buff Duration !! Explosion Range !! Firework Shot Chance Cap !! Burn Damage !! Burn Tick !! Burn Time !! Total Elapsed Damage$TREF$
 |-
-| 1 || {{Money|$TP$}} || 10 || 8 || 20 || 1 || 0.6 (60%) || 2 || 0.5 || 5 || $TED$
+| 0 || {{Money|$TP$}} || 5 || 10 || 10 || 1 || 0.5 || 1 || 0.5 || 5 || $TED$
 |-
-| 2 || {{Money|$TP$}} || 20 || 9 || 25 || 2 || 0.7 (70%) || 2 || 0.25 || 5 || $TED$
+| 1 || {{Money|$TP$}} || 10 || 10 || 10 || 1 || 0.6 || 2 || 0.5 || 5 || $TED$
 |-
-| 3 || {{Money|$TP$}} || 30 || 9 || 30 || 2 || 0.85 (85%) || 4 || 0.25 || 5 || $TED$
+| 2 || {{Money|$TP$}} || 20 || 11 || 15 || 2 || 0.7 || 2 || 0.25 || 5 || $TED$
 |-
-| 4 || {{Money|$TP$}} || 45 || 10 || 40 || 3 || 1 (100%) || 7 || 0.25 || 5 || $TED$
+| 3 || {{Money|$TP$}} || 30 || 11 || 15 || 2 || 0.85 || 4 || 0.25 || 5 || $TED$
+|-
+| 4 || {{Money|$TP$}} || 45 || 12 || 20 || 3 || 1 || 7 || 0.25 || 5 || $TED$
 |}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table mw-collapsible mw-collapsed"
+! colspan="12" | Firework Chance$FREF$
+|-
+! Level !! 0.1 Firerate !! 0.15 Firerate !! 0.2 Firerate !! 0.25 Firerate !! 0.5 Firerate !! 0.75 Firerate !! 1 Firerate !! 1.5 Firerate !! 2 Firerate !! 5 Firerate  !! 100 Firerate
+|-
+| 0 || $CHANCE1$% || $CHANCE2$% || $CHANCE3$% || $CHANCE4$% || $CHANCE5$% || $CHANCE6$% || $CHANCE7$% || $CHANCE8$% || $CHANCE9$% || $CHANCE10$% || $CHANCE11$%
+|-
+| 1 || $CHANCE1$% || $CHANCE2$% || $CHANCE3$% || $CHANCE4$% || $CHANCE5$% || $CHANCE6$% || $CHANCE7$% || $CHANCE8$% || $CHANCE9$% || $CHANCE10$% || $CHANCE11$%
+|-
+| 2 || $CHANCE1$% || $CHANCE2$% || $CHANCE3$% || $CHANCE4$% || $CHANCE5$% || $CHANCE6$% || $CHANCE7$% || $CHANCE8$% || $CHANCE9$% || $CHANCE10$% || $CHANCE11$%
+|-
+| 3|| $CHANCE1$% || $CHANCE2$% || $CHANCE3$% || $CHANCE4$% || $CHANCE5$% || $CHANCE6$% || $CHANCE7$% || $CHANCE8$% || $CHANCE9$% || $CHANCE10$% || $CHANCE11$%
+|-
+| 4 || $CHANCE1$% || $CHANCE2$% || $CHANCE3$% || $CHANCE4$% || $CHANCE5$% || $CHANCE6$% || $CHANCE7$% || $CHANCE8$% || $CHANCE9$% || $CHANCE10$% || $CHANCE11$%
+|}
+</div>

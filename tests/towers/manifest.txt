@@ -4,6 +4,7 @@ Ace Pilot.wiki
 Archer.wiki
 Assassin.wiki
 Biologist.wiki
+Boomerang.wiki
 Brawler.wiki
 Combatant.wiki
 Commander.wiki
@@ -27,6 +28,7 @@ Gatling Gun.wiki
 Gladiator.wiki
 Golden Cowboy.wiki
 Golden Crook Boss.wiki
+Golden Demoman.wiki
 Golden Minigunner.wiki
 Golden Pyromancer.wiki
 Golden Scout.wiki
@@ -38,6 +40,7 @@ Harvester.wiki
 Hunter.wiki
 Jester.wiki
 Juggernaut.wiki
+Kingpin.wiki
 Mecha Base.wiki
 Medic.wiki
 Mercenary Base.wiki
@@ -46,6 +49,7 @@ Military Base.wiki
 Minigunner.wiki
 Mortar.wiki
 Necromancer.wiki
+Operator.wiki
 Paintballer.wiki
 Pursuit.wiki
 Pyromancer.wiki
@@ -63,6 +67,7 @@ Snowballer.wiki
 Soldier.wiki
 Spotlight Tech.wiki
 Swarmer.wiki
+Tesla.wiki
 Toxic Gunner.wiki
 Trapper.wiki
 Turret.wiki

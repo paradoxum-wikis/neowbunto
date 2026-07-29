@@ -6,9 +6,10 @@ $FNC-Combatant-COST$ = 100; 250; 500; 1500; 2500; 6000
 $CE$ = Total Price / DPS
 $MCE$ = Total Price / $MDPS$
 $TP$ = $FNC-TOTALPRICE$
-$FNC-UPGRADE$ = Warrior Armor; Dangersense; Extra Protection; Illumina; Darkheart Swordsman
-$FNC-UPGRADEICON$ = 3356186535; 141745478; 4118882122; 16620737; 16868189
-$FNC-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Warrior Armor; Dangersense; Extra Protection; Illumina; Darkheart Swordsman
+$FSE-UPGRADEICON$ = 3356186535; 141745478; 4118882122; 16620737; 16868189
+$FSE-DETECTION$ = 2; ;
+$FSE-CATEGORY$ = Unavailable
 $DREF$ = <ref>DPS assumes that only one enemy is hit per swing.<br />Ability is not taken into account.</ref>
 $MDREF$ = <ref>DPS assumes that the maximum number of enemies are hit per swing.<br/>Ability is not taken into account.</ref>
 </var>

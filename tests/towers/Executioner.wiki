@@ -3,10 +3,10 @@ $DPS$ = Damage / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 750; 250; 750; 1900; 4500; 12500
-$FNC-DETECTION$ = 2; ;
-$FNC-UPGRADE$ = Improved Throwing; Double Head Axe; Blood Seeking; Tactical Ops; Head Chopping
-$FNC-UPGRADEICON$ = 129697807; 542098553; 6426220009; 27386833; 143769378
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; ;
+$FSE-UPGRADE$ = Improved Throwing; Double Head Axe; Blood Seeking; Tactical Ops; Head Chopping
+$FSE-UPGRADEICON$ = 129697807; 542098553; 6426220009; 27386833; 143769378
+$FSE-CATEGORY$ = Exclusive
 $FREF$ = <ref>The firerate assumes that the axe returns on time.</ref>
 $DREF$ = <ref>DPS assumes that only one enemy is hit per throw.<br/>DPS also assumes that the axe returns on time.</ref>
 </var>

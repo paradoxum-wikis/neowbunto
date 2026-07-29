@@ -7,10 +7,10 @@ $BRDPS$ = (Health + [[Splash Damage]]) / Spawnrate
 $CE$ = Total Price / Combined DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 300; 350; 1800; 4500; 10750
-$FNC-DETECTION$ = 0; 0; 4
-$FNC-UPGRADE$ = Sno'ball Training; Unpaid Labor; Cookie Cutting; A Violent Night
-$FNC-UPGRADEICON$ = 125956529169231; 75868965324711; 120660526589244; 70951173324126
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 0; 0; 4
+$FSE-UPGRADE$ = Sno'ball Training; Unpaid Labor; Cookie Cutting; A Violent Night
+$FSE-UPGRADEICON$ = 125956529169231; 75868965324711; 120660526589244; 70951173324126
+$FSE-CATEGORY$ = Exclusive
 $UREF$ = <ref name="Unit">Elves are not affected by any buffs or debuffs.</ref>
 $BREF$ = <ref>For the [[Gunner Elf]], DPS is calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)).</ref>
 $GREF$ = <ref>Two [[Gunner Elf|Gunner Elves]] spawn at once.</ref>
@@ -36,9 +36,9 @@ $BDREF$ = <ref>For the [[Bomber Elf (Unit)|Bomber Elf]], the explosion on death 
 |-
 | 0-2 || [[Elf]] || 16 || N/A || N/A || 15 || N/A || 1.5 || 10 || N/A || $RDPS$
 |-
-| 3 || [[Guardian Elf]] || 75 || 30% || 28 || 20 || 0.5 || 7.5 || 4 || $DPS$ || $RDPS$
+| 3 || [[Guardian Elf]] || 75 || 30% || 27 || 20 || 0.5 || 7.5 || 4 || $DPS$ || $RDPS$
 |-
-| 4 || [[Guardian Elf]] || 100 || 50% || 42 || 20 || 0.5 || 7.5 || 4 || $DPS$ || $RDPS$
+| 4 || [[Guardian Elf]] || 100 || 50% || 40 || 20 || 0.5 || 7.5 || 4 || $DPS$ || $RDPS$
 |}
 </div>
 
@@ -52,9 +52,9 @@ $BDREF$ = <ref>For the [[Bomber Elf (Unit)|Bomber Elf]], the explosion on death 
 |-
 | 2 || [[Cannoneer Elf]] || 30 || 5 || N/A || 25 || 0.5 || N/A || 22 || 4 || $DPS$ || $RDPS$
 |-
-| 3 || [[Gunner Elf]] || 40 || 5 || 6 || 30 || 0.208 || 1 || 22 || 4 || $BDPS$ || $RDPS$
+| 3 || [[Gunner Elf]] || 40 || 4 || 6 || 30 || 0.2 || 1 || 22 || 4 || $BDPS$ || $RDPS$
 |-
-| 4 || [[Gunner Elf]]$GREF$ || 50 || 7 || 6 || 30 || 0.2 || 1 || 25 || 4 || $BDPS$ || $RDPS$
+| 4 || [[Gunner Elf]]$GREF$ || 50 || 6 || 6 || 30 || 0.2 || 1 || 25 || 4 || $BDPS$ || $RDPS$
 |}
 </div>
 
@@ -66,7 +66,7 @@ $BDREF$ = <ref>For the [[Bomber Elf (Unit)|Bomber Elf]], the explosion on death 
 |-
 | 2-3 || [[Bomber Elf (Unit)|Bomber Elf]] || 22 || 60$BEREF$ || 25 || N/A || 2.5 || 8 || 10 || N/A || $BRDPS$
 |-
-| 4 || [[Gift Bomber]] || 500 || 150 || 50 || 2. || 14 || 6 || 2 || $SDPS$ || $RDPS$
+| 4 || [[Gift Bomber]] || 500 || 148 || 50 || 2 || 14 || 6 || 2 || $SDPS$ || $RDPS$
 |-
 | 4 || [[Ripped Elf (Unit)|Ripped Elf]] || 800 || 360 || 80 || 6.7 || 40 || 12 || 1 || $SDPS$ || $RDPS$
 |}

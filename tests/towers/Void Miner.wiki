@@ -3,8 +3,9 @@ $TP$ = $FNC-TOTALPRICE$
 $TPI$ = $TP$ / Corruption
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 800; 600; 900; 1250; 2500; 5500
-$FNC-UPGRADE$ = Corrupted Vision; Unknown Title; Unknown Title; Unknown Title; Unknown Title
-$FNC-UPGRADEICON$ = File:Minigunner1.png; File:Minigunner2.png; File:Minigunner3.png; File:Minigunner4.png; File:Minigunner6.png
+$FSE-UPGRADE$ = Corrupted Vision; Unknown Title; Unknown Title; Unknown Title; Unknown Title
+$FSE-UPGRADEICON$ = File:Minigunner1.png; File:Minigunner2.png; File:Minigunner3.png; File:Minigunner4.png; File:Minigunner6.png
+$FSE-CATEGORY$ = Unavailable
 $WREF$ = <ref>Calculated as Upgrade Cost ÷ Corruption Gain.</ref>
 </var>
 <div class="overflow-box">

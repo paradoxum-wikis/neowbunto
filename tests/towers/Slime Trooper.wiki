@@ -3,10 +3,10 @@ $DPS$ = Damage / Firerate
 $CE$ = Total Price / DPS
 $TP$ = $FNC-TOTALPRICE$
 $FNC-COST$ = 500; 250; 650; 2100; 4650
-$FNC-DETECTION$ = 2; ; 3
-$FNC-UPGRADE$ = Stickier Slime; Heavy Globs; Potent Goo; Explosive Goo
-$FNC-UPGRADEICON$ = 120435945409322; 121720184434292; 105885379664792; 90312326197262
-$FNC-ROFBUG$ = Firerate
+$FSE-DETECTION$ = 2; ; 3
+$FSE-UPGRADE$ = Stickier Slime; Heavy Globs; Potent Goo; Explosive Goo
+$FSE-UPGRADEICON$ = 120435945409322; 121720184434292; 105885379664792; 90312326197262
+$FSE-CATEGORY$ = Starter
 </var>
 <div class="overflow-box">
 {| class="wikitable stats-table"
