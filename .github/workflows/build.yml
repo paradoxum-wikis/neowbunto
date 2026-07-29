@@ -12,6 +12,18 @@ jobs:
         steps:
             - uses: actions/checkout@v7
 
+            - name: Build deps
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y libreadline-dev libncurses-dev
+
+            - uses: leafo/gh-actions-lua@v13
+              with:
+                  luaVersion: "5.1.5"
+
+            - name: Setup
+              run: ./fnl.sh setup
+
             - name: Build neowtext.lua
               run: ./fnl.sh build
 
