@@ -6,7 +6,7 @@ The final iteration of the old Neowbunto that was written entirely in Lua can be
 
 ## Build
 
-Make sure you have Lua (any version above 5.1 is fine).
+Make sure you have [Lua](https://www.lua.org/ftp) installed (any version above 5.1 is fine).
 
 Bash:
 
