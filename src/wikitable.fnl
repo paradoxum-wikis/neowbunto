@@ -1,4 +1,4 @@
-;; Structural {|...|} only without $VAR$ eval
+;; Structural {|...|} parse
 
 (fn trim [s]
 	(let [str (tostring (or s ""))]
@@ -122,6 +122,7 @@
 					"")))
 
 (fn parse-table [tbl-text branch-map]
+	;; structure without $VAR$ eval
 	(let [branch-map (or branch-map {})
 				headers []
 				rows []]

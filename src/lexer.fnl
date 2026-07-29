@@ -1,6 +1,4 @@
-;; Formula tokenizer: multi-word idents, Table.Col as :dotref
-;; Charge-Up hyphens, DPS2 digits, [[col]] -> ident
-;; postfix ++/-- after a primary (Help Increment/Decrement)
+;; Formula tokenizer
 
 (fn at [s i]
 	(s:sub i i))

@@ -1,5 +1,4 @@
 ;; local MediaWiki #expr parser func
-;; no load()/string-rewrite recursive descent for tests without a Frame
 
 (fn trim [s]
 	(let [str (tostring s)]
@@ -15,6 +14,8 @@
 	(and c (c:match "%d")))
 
 (fn tokenize [source]
+	;; recursive descent
+	;; no load() / string rewrite for tests without a Frame
 	(let [s (tostring (or source ""))
 				tokens []
 				len (length s)]

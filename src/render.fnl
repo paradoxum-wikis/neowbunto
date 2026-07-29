@@ -1,5 +1,4 @@
-;; Tables, $ expand, ROF/FSE chrome
-;; See .wds-button / .open-se class in MediaWiki:Shared.css on the wiki
+;; Page render
 
 (local config (require :config))
 (local parser (require :parser))
@@ -91,6 +90,7 @@
 						enc (if (and mw mw.uri mw.uri.encode)
 										(mw.uri.encode page-name "PATH")
 										page-name)]
+				;; see [[MediaWiki:Shared.css]] for class
 				(.. "<div class=\"wds-button open-se\">"
 						"[https://se.tds.wiki/tower/" enc
 						" Open in Statistics Editor]"

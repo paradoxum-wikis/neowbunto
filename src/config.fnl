@@ -1,5 +1,4 @@
-;; FNC/FSE config are semicolon lists and never arithmetic parsed
-;; TOTALPRICE / TOTAL-X are eval intrinsics so not parsed here
+;; FNC/FSE page config
 
 (fn trim [s]
 	(let [str (tostring (or s ""))]
@@ -206,6 +205,8 @@
 				(values rest v)))))
 
 (fn formula-env [vars]
+	;; FNC/FSE should stay out
+	;; TOTAL* are eval intrinsics and not arithmetic formulas
 	(collect [k v (pairs vars)]
 		(let [name (strip-var-key k)]
 			(when (formula-name? name)

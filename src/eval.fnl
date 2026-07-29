@@ -1,5 +1,4 @@
 ;; The lovely AST evaluator
-;; Missing row keys hard error (NS0 no silent 0)
 
 (local config (require :config))
 (local mwexpr (require :mwexpr))
@@ -27,6 +26,7 @@
 		n))
 
 (fn unresolved [ctx name]
+	;; missing keys hard error (NS0)
 	(error (if (and ctx ctx.formula-name)
 						 (.. "unresolved identifier '" name "' in formula for $"
 								 ctx.formula-name "$")

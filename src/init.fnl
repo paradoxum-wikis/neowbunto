@@ -1,4 +1,4 @@
-;; Scribunto entry is Template:Neow -> {{#invoke:Neowbunto|heeho|{{{1}}}}}
+;; Scribunto entry
 
 (local {: render-page} (require :render))
 
@@ -6,8 +6,8 @@
 	(pick-values 1 (: (tostring (or s "")) :match "^%s*(.-)%s*$")))
 
 (fn content-arg [frame]
-	;; body is always invoke arg #1 after {{{1}}}
-	;; there are no parent-frame merge
+	;; Template:Neow -> {{#invoke:Neowbunto|heeho|{{{1}}}}}
+	;; body is always invoke arg #1 without parent-frame merge
 	(let [args (and frame frame.args)
 				raw (and args (. args 1))]
 		(if (= raw nil)

@@ -1,9 +1,11 @@
-;; Level -> row cache + ROF-bug math for Table.Col lookups
+;; Level -> row table cache
 
 (local {: parse-level-keys : strip-cell-refs : index-col : parse-all-tables}
 			 (require :wikitable))
 
 (fn cache-get [cache level branch]
+	;; Table.Col lookups hit here by level
+	;; + optional branch letter
 	(when cache
 		(if (and branch (not= branch ""))
 				(or (. cache (.. (tostring level) branch))

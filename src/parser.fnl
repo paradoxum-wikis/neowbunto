@@ -1,7 +1,4 @@
-;; Expression parser. $VAR$ is macro-spliced into the AST
-;; Precedence matches reference calc: + - < * / % < ** (right assoc) unary - > **
-;; Index cursor (tokens, pos) has no tail copies per recursive step
-
+;; Expression parser
 
 (local {: lex} (require :lexer))
 
@@ -113,6 +110,7 @@
 										 ast))))))))
 
 (set expand-varref
+		 ;; $VAR$ is macro-spliced into the AST
 		 (fn [name var-env parse-cache parsing-stack]
 			 (let [(base pin-lvl pin-br) (parse-pin-parts name)
 						 inner (if (= base "FNC-TOTALPRICE")
@@ -128,8 +126,7 @@
 						 inner))))
 
 ;; each parse-* returns (ast next-pos)
-;; tokens is never sliced.
-
+;; tokens are never sliced
 (fn parse-primary [tokens pos var-env parse-cache parsing-stack]
 	(let [head (at tokens pos)]
 		(if (not head)
