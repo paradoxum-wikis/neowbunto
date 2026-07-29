@@ -62,8 +62,7 @@
 				(error (.. "lexer: empty $...$ at position " (tostring i))))
 			(values {:type :varref :value inner} (+ close 1)))))
 
-(fn read-wikilink [s i]
-	;; [[Splash Damage]] -> ident "Splash Damage" (header wikilink form)
+(fn read-wikilink-span [s i]
 	(when (not= (at s (+ i 1)) "[")
 		(error (.. "lexer: expected [[ at position " (tostring i))))
 	(let [close (s:find "%]%]" (+ i 2))]
@@ -74,7 +73,12 @@
 					name (trim name)]
 			(when (= name "")
 				(error (.. "lexer: empty [[...]] at position " (tostring i))))
-			(values {:type :ident :value name} (+ close 2)))))
+			(values name (+ close 2)))))
+
+(fn read-wikilink [s i]
+	;; ie pure [[...]] is a column name
+	(let [(name ni) (read-wikilink-span s i)]
+		(values {:type :ident :value name} ni)))
 
 (fn col-start? [s j]
 	(and (= (at s j) ".")
@@ -111,9 +115,19 @@
 	(var j i)
 	(var dot-at nil)
 	(var done false)
+	(var pieces [])
+	(var piece-start i)
 	(while (and (not done) (<= j (length s)))
 		(let [c (at s j)]
-			(if (col-start? s j)
+			(if (and (= c "[") (= (at s (+ j 1)) "["))
+					(do
+						(when (< piece-start j)
+							(table.insert pieces (s:sub piece-start (- j 1))))
+						(let [(inner nj) (read-wikilink-span s j)]
+							(table.insert pieces inner)
+							(set j nj)
+							(set piece-start j)))
+					(col-start? s j)
 					(if dot-at
 							(set done true)
 							(do
@@ -122,13 +136,21 @@
 					(word-char? s j (not= dot-at nil))
 					(set j (+ j 1))
 					(set done true))))
+	(when (< piece-start j)
+		(table.insert pieces (s:sub piece-start (- j 1))))
 	(if dot-at
-			(let [tbl (trim (s:sub i (- dot-at 1)))
-						col (trim (s:sub (+ dot-at 1) (- j 1)))]
-				(when (or (= tbl "") (= col ""))
-					(error (.. "lexer: malformed table.col near position " (tostring i))))
-				(values {:type :dotref :table tbl :col col} j))
-			(let [name (trim (s:sub i (- j 1)))]
+			;; concat pieces so embedded [[...]] is already stripped before the .
+			(let [full (trim (table.concat pieces))
+						dot-pos (full:find "." 1 true)]
+				(if (not dot-pos)
+						(error (.. "lexer: malformed table.col near position " (tostring i)))
+						(let [tbl (trim (full:sub 1 (- dot-pos 1)))
+									col (trim (full:sub (+ dot-pos 1)))]
+							(when (or (= tbl "") (= col ""))
+								(error (.. "lexer: malformed table.col near position "
+													 (tostring i))))
+							(values {:type :dotref :table tbl :col col} j))))
+			(let [name (trim (table.concat pieces))]
 				(when (= name "")
 					(error (.. "lexer: empty identifier at position " (tostring i))))
 				(values {:type :ident :value name} j))))

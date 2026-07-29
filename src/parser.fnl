@@ -25,7 +25,8 @@
 					(if tok.value (.. " value=" (tostring tok.value)) ""))))
 
 (fn literal-raw? [raw]
-	;; pure <ref>... or pure [[...]] only — not formulas that embed them
+	;; pure <ref>... or pure [[...]]
+	;; not formulas that embed them
 	(let [s (pick-values 1 (: (tostring (or raw "")) :match "^%s*(.-)%s*$"))]
 		(or (s:match "^<ref[%s/>]")
 				(s:match "^%[%[[^%[%]]+%]%]$"))))
@@ -84,6 +85,31 @@
 (var parse-formula nil)
 (var parse-var nil)
 
+(fn special-varref? [base pin-lvl]
+	(or pin-lvl
+			(= base "FNC-TOTALPRICE")
+			(base:match "^FNC%-TOTAL%-(.+)$")
+			(config-varref? base)))
+
+(fn expand-user-macros [raw var-env stack]
+	(if (not var-env)
+			(tostring (or raw ""))
+			(pick-values 1
+				(: (tostring (or raw "")) :gsub "%$([^%$]+)%$"
+					 (fn [name]
+						 (let [(base pin-lvl _) (parse-pin-parts name)]
+							 (if (special-varref? base pin-lvl)
+									 (.. "$" name "$")
+									 (let [body (. var-env base)]
+										 (when (= body nil)
+											 (error (.. "undefined variable: $" base "$")))
+										 (when (stack-has? stack base)
+											 (error (cycle-message stack base)))
+										 (stack-push stack base)
+										 (let [out (expand-user-macros body var-env stack)]
+											 (stack-pop stack)
+											 out)))))))))
+
 (set parse-var
 		 (fn [name var-env parse-cache parsing-stack]
 			 (match (. parse-cache name)
@@ -110,7 +136,7 @@
 										 ast))))))))
 
 (set expand-varref
-		 ;; $VAR$ is macro-spliced into the AST
+		 ;; after paste only pins / FNC-* / config keys still need this path
 		 (fn [name var-env parse-cache parsing-stack]
 			 (let [(base pin-lvl pin-br) (parse-pin-parts name)
 						 inner (if (= base "FNC-TOTALPRICE")
@@ -217,14 +243,27 @@
 								 [:mw-expr expr-body]
 								 (wikitext-body? raw)
 								 [:wikitext raw]
-								 (let [tokens (lex raw)]
-									 (when (= (length tokens) 0)
-										 (error "parser: empty formula"))
-									 (let [(ast pos) (parse-additive tokens 1 var-env parse-cache
-																									 parsing-stack)]
-										 (when (<= pos (length tokens))
-											 (error (unexpected (at tokens pos))))
-										 ast)))))))
+								 (let [stack (or parsing-stack [])
+											 expanded (expand-user-macros raw var-env stack)]
+									 ;; paste can turn the whole formula into pure <ref> / [[...]] / {{...}}
+									 (if (literal-raw? expanded)
+											 [:literal expanded]
+											 (let [eb (extract-mw-expr expanded)]
+												 (if eb
+														 [:mw-expr eb]
+														 (wikitext-body? expanded)
+														 [:wikitext expanded]
+														 (let [tokens (lex expanded)]
+															 (when (= (length tokens) 0)
+																 (error "parser: empty formula"))
+															 (let [(ast pos) (parse-additive tokens 1
+																															var-env
+																															parse-cache
+																															stack)]
+																 (when (<= pos (length tokens))
+																	 (error (unexpected (at tokens pos))))
+																 ast)))))))))))
+
 
 (fn parse-with-env [s var-env]
 	(let [parse-cache {}

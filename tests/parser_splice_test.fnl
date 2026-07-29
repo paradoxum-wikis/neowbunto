@@ -1,5 +1,4 @@
-;; $VAR$ splice + cycles
-;; MCE = Total Price / $MDPS$ must be TP / (DPS * Max Hits) not (TP / DPS) * Max Hits
+;; $VAR$ text-macro + cycles
 
 (local {: suite : assert-eq : assert-error : assert-true} (require :test_util))
 (local {: parse-with-env : parse-var : parse-var-env : parse-formula
@@ -7,22 +6,24 @@
        (require :parser))
 
 (fn run []
-  (suite "MCE splices MDPS as a real subtree (unparenthesized form)")
+  (suite "bare $MDPS$ is text-macro left-assoc without auto-parens")
   (let [env {"MDPS" "DPS * Max Hits"
              "MCE" "Total Price / $MDPS$"}
         (ast cache) (parse-with-env (. env "MCE") env)]
     (assert-eq ast
-               [:binop "/"
-                       [:ident "Total Price"]
-                       [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]]
-               "Total Price / $MDPS$ with MDPS = DPS * Max Hits")
-    (assert-eq (. cache "MDPS")
-               [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]
-               "MDPS memoized in parse-cache")
+               [:binop "*"
+                       [:binop "/"
+                               [:ident "Total Price"]
+                               [:ident "DPS"]]
+                       [:ident "Max Hits"]]
+               "Total Price / $MDPS$ -> (TP / DPS) * Max Hits")
     (assert-eq (. cache "MCE") nil
-               "MCE itself not auto-cached by parse-with-env of its body only"))
+               "MCE not auto-cached by parse-with-env of body only")
+    (assert-eq (parse-var "MDPS" env cache [])
+               [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]
+               "MDPS parse-var"))
 
-  (suite "MCE with parenthesized $MDPS$ yields the same tree shape")
+  (suite "parenthesized ($MDPS$) groups the pasted body")
   (let [env {"MDPS" "DPS * Max Hits"
              "MCE" "Total Price / ($MDPS$)"}
         (ast _) (parse-with-env (. env "MCE") env)]
@@ -30,39 +31,49 @@
                [:binop "/"
                        [:ident "Total Price"]
                        [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]]
-               "Total Price / ($MDPS$) same structural grouping"))
+               "Total Price / ($MDPS$)"))
 
-  (suite "both MCE forms are structurally identical (the fix)")
+  (suite "bare and parenthesized $MDPS$ differ")
   (let [env {"MDPS" "DPS * Max Hits"}
         (a _) (parse-with-env "Total Price / $MDPS$" env)
         (b _) (parse-with-env "Total Price / ($MDPS$)" env)]
-    (assert-eq a b "parenthesized and bare splice agree"))
-
-  (suite "Electroshocker-style MDPS splice into CE")
-  (let [env {"MDPS" "DPS * Max Hits"
-             "CE" "Total Price / $MDPS$"}
-        (ast _) (parse-with-env (. env "CE") env)]
-    (assert-eq ast
+    (assert-eq a
+               [:binop "*"
+                       [:binop "/" [:ident "Total Price"] [:ident "DPS"]]
+                       [:ident "Max Hits"]]
+               "bare")
+    (assert-eq b
                [:binop "/"
                        [:ident "Total Price"]
                        [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]]
-               "CE via MDPS"))
+               "paren")
+    (assert-true (not= (. a 1) nil) "a ok")
+    (assert-true (not= (tostring a) (tostring b)) "trees differ"))
 
-  (suite "alias chain Hello -> World splices to ident")
+  ;; Gladiator/Electroshocker: MCE reads the Max DPS column, not $MDPS$ paste
+  (suite "production MCE is Total Price / Max DPS column")
+  (let [env {"MDPS" "DPS * Max Hits"
+             "MCE" "Total Price / Max DPS"}
+        (ast _) (parse-with-env (. env "MCE") env)]
+    (assert-eq ast
+               [:binop "/" [:ident "Total Price"] [:ident "Max DPS"]]
+               "column ident, no paste"))
+
+  (suite "alias chain Hello -> World pastes to ident")
   (let [env {"Hello" "World"
              "Alias" "$Hello$"}
         (ast _) (parse-with-env "$Alias$" env)]
     (assert-eq ast [:ident "World"] "Alias resolves through Hello"))
 
-  (suite "nested formula splice keeps operator structure")
+  (suite "nested formula paste has no auto parens")
   (let [env {"A" "1 + 2"
              "B" "3 * $A$"}
         (ast _) (parse-with-env (. env "B") env)]
     (assert-eq ast
-               [:binop "*"
-                       [:num 3]
-                       [:binop "+" [:num 1] [:num 2]]]
-               "3 * $A$ with A = 1 + 2"))
+               [:binop "+"
+                       [:binop "*" [:num 3] [:num 1]]
+                       [:num 2]]
+               "3 * $A$ with A = 1 + 2 -> 3 * 1 + 2"))
 
   (suite "cycle A -> B -> A raises naming both")
   (assert-error
@@ -117,7 +128,7 @@
       (parse-with-env "1 +" {}))
     "end of input")
 
-  (suite "pin forms wrap spliced AST")
+  (suite "pin forms wrap expanded formula AST")
   (let [env {"MDPS" "DPS * Max Hits"}
         (ast _) (parse-with-env "$MDPS@5$" env)]
     (assert-eq ast
@@ -137,7 +148,6 @@
                        [:intrinsic :totalprice]
                        [:ident "DPS"]]
                "intrinsic totalprice"))
-  ;; bare $FNC-TOTALPRICE$ (no TP alias) still resolves — Sledger cells
   (assert-eq (parse-var "FNC-TOTALPRICE" {} {} [])
              [:intrinsic :totalprice]
              "top-level FNC-TOTALPRICE")
@@ -148,30 +158,30 @@
 
   (suite "parse-var-env memoizes all user vars")
   (let [env {"MDPS" "DPS * Max Hits"
-             "MCE" "Total Price / $MDPS$"
+             "MCE" "Total Price / Max DPS"
              "FNC-COST" "100; 200; 300"}
         cache (parse-var-env env)]
     (assert-eq (. cache "MDPS")
                [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]
                "MDPS cached")
     (assert-eq (. cache "MCE")
-               [:binop "/"
-                       [:ident "Total Price"]
-                       [:binop "*" [:ident "DPS"] [:ident "Max Hits"]]]
-               "MCE cached with splice")
+               [:binop "/" [:ident "Total Price"] [:ident "Max DPS"]]
+               "MCE cached as Max DPS column")
     (assert-eq (. cache "FNC-COST") nil "config key skipped"))
 
-  (suite "memoization reuses same AST table for repeated refs")
+  (suite "repeated $X$ after paste is duplicated text (not shared AST)")
   (let [env {"X" "1 + 2"
              "Y" "$X$ * $X$"}
         cache (parse-var-env env)
-        y (. cache "Y")
-        ;; both $X$ sides should be the same cached AST object
-        left (. y 3)
-        right (. y 4)
-        x (. cache "X")]
-    (assert-eq left x "left $X$ is cached X")
-    (assert-true (= left right) "both $X$ refs share one AST object"))
+        y (. cache "Y")]
+    ;; 1 + 2 * 1 + 2 -> 1 + (2 * 1) + 2
+    (assert-eq y
+               [:binop "+"
+                       [:binop "+"
+                               [:num 1]
+                               [:binop "*" [:num 2] [:num 1]]]
+                       [:num 2]]
+               "Y = 1 + 2 * 1 + 2"))
 
   true)
 

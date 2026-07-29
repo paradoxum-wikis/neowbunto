@@ -131,8 +131,14 @@
               (t :op "/")
               (t :ident "Firerate")]
              "wikilink -> Splash Damage")
+  (assert-eq (lex "Cannon [[Splash Damage]] / Cannon Firerate")
+             [(t :ident "Cannon Splash Damage")
+              (t :op "/")
+              (t :ident "Cannon Firerate")]
+             "embedded wikilink folds into multi-word ident")
 
   (suite "whitespace is insignificant between tokens")
+
   (assert-eq (lex "  a   +   1  ")
              [(t :ident "a") (t :op "+") (t :num 1)]
              "extra spaces")

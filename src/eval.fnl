@@ -53,9 +53,11 @@
 					(if ok res (error res)))))))
 
 (fn cell-formula-name [v]
-	;; pure $NAME$ still sitting in a cached cell
-	(and (= (type v) :string)
-			 (v:match "^%s*%$([A-Za-z][%w%-]*)%$%s*$")))
+	;; $NAME$ still sitting in a cached cell (maybe glued $DPS$$RREF$)
+	(when (= (type v) :string)
+		(let [s (pick-values 1 (v:gsub "<ref[^>]*>.-</ref>" ""))
+					s (pick-values 1 (s:gsub "<ref[^>]*/>" ""))]
+			(s:match "%$([A-Za-z][%w%-]*)%$"))))
 
 (fn with-row! [ctx row f]
 	(let [saved ctx.row]
@@ -187,67 +189,127 @@
 			(tset b "Level" ctx.level))
 		b))
 
+(fn mid-multiword? [s a]
+	;; Damage tail ie "Critical Damage"
+	;; not the bare name after " + "
+	(var i (- a 1))
+	(while (and (> i 0) (= (s:sub i i) " "))
+		(set i (- i 1)))
+	(and (> i 0)
+			 (let [ch (s:sub i i)]
+				 (or (ch:match "[%w_]") (= ch "]")))))
+
+(fn materialize-ident [s name val]
+	(var out "")
+	(var from 1)
+	(var done false)
+	(let [v (tostring val)]
+		(while (not done)
+			(let [(a b) (s:find name from true)]
+				(if (not a)
+						(do
+							(set out (.. out (s:sub from)))
+							(set done true))
+						(let [prev (if (= a 1) "" (s:sub (- a 1) (- a 1)))
+									nxt (s:sub (+ b 1) (+ b 1))
+									ok (and (not= prev ".")
+													(or (= a 1) (not (prev:match "[%w_]")))
+													(or (not= prev " ") (not (mid-multiword? s a)))
+													(or (= nxt "") (not (nxt:match "[%w_]"))))]
+							(if ok
+									(do
+										(set out (.. out (s:sub from (- a 1)) v))
+										(set from (+ b 1)))
+									(do
+										(set out (.. out (s:sub from b)))
+										(set from (+ b 1))))))))
+		out))
+
 (fn materialize-expr [source bindings]
-	;; #expr has no variables — substitute multi-word row keys longest-first
+	;; #expr has no variables
 	;; Scribunto does not preprocess PF args
 	(var s (tostring (or source "")))
-	(let [names []]
-		(each [k _ (pairs (or bindings {}))]
-			(table.insert names k))
-		(table.sort names (fn [a b] (> (length a) (length b))))
-		(each [_ name (ipairs names)]
-			(let [v (. bindings name)]
-				(when (= (type v) :number)
-					;; plain find (not %f word-boundary) so "Poison Damage" works
-					(var from 1)
-					(var done false)
-					(while (not done)
-						(let [(a b) (s:find name from true)]
-							(if a
-									(do
-										(set s (.. (s:sub 1 (- a 1)) (tostring v) (s:sub (+ b 1))))
-										(set from (+ a (length (tostring v)))))
-									(set done true)))))))
-		s))
+	(when (and bindings (next bindings))
+		(let [names []]
+			(each [k v (pairs bindings)]
+				(when (and (= (type v) :number) (s:find k 1 true))
+					(table.insert names k)))
+			(when (> (length names) 0)
+				(table.sort names (fn [a b] (> (length a) (length b))))
+				(each [_ name (ipairs names)]
+					(set s (materialize-ident s name (. bindings name)))))))
+	s)
+
+(fn remote-cell-number [ctx row v]
+	;; cache cells may still be $CDMG$ etc.
+	(if (= (type v) :number)
+			v
+			(let [fname (cell-formula-name v)]
+				(if fname
+						(let [saved ctx.row]
+							(set ctx.row row)
+							(let [(ok res) (pcall formula-fallback ctx fname)]
+								(set ctx.row saved)
+								;; nil on fail
+								;; #expr then errors loud on the raw name
+								(and ok (= (type res) :number) res)))
+						(extract-number v)))))
 
 (fn materialize-dotrefs [source ctx]
-	;; Fire Bomb.Bomb Damage inside #expr -> number from table-cache
+	;; only tables named in the body
+	;; as page cache has every table
 	(var s (tostring (or source "")))
 	(let [tc ctx.table-cache
-				entries []]
+				entries []
+				seen {}]
 		(when tc
 			(each [tname levels (pairs tc)]
 				(when (and (= (type tname) :string) (= (type levels) :table)
-									 (not (tname:find "|" 1 true)))
+									 (not (tname:find "|" 1 true))
+									 (s:find tname 1 true))
 					(let [row (cache-get levels ctx.level ctx.branch)]
 						(when row
 							(each [col v (pairs row)]
-								(when (and (= (type col) :string) (= (type v) :number)
-													 (not (col:match "_ROF$")))
-									(table.insert entries [(.. tname "." col) v]))))))))
-		(table.sort entries (fn [a b] (> (length (. a 1)) (length (. b 1)))))
-		(each [_ pair (ipairs entries)]
-			(let [key (. pair 1)
-						v (. pair 2)]
-				(var from 1)
-				(var done false)
-				(while (not done)
-					(let [(a b) (s:find key from true)]
-						(if a
-								(do
-									(set s (.. (s:sub 1 (- a 1)) (tostring v) (s:sub (+ b 1))))
-									(set from (+ a (length (tostring v)))))
-								(set done true)))))))
+								(when (and (= (type col) :string) (not (col:match "_ROF$")))
+									(let [key (.. tname "." col)]
+										(when (and (not (. seen key)) (s:find key 1 true))
+											(tset seen key true)
+											(let [n (remote-cell-number ctx row v)]
+												(when n
+													(table.insert entries [key n]))))))))))))
+		(when (> (length entries) 0)
+			(table.sort entries (fn [a b] (> (length (. a 1)) (length (. b 1)))))
+			(each [_ pair (ipairs entries)]
+				(let [key (. pair 1)
+							vs (tostring (. pair 2))
+							vlen (length vs)]
+					(var from 1)
+					(var done false)
+					(while (not done)
+						(let [(a b) (s:find key from true)]
+							(if a
+									(do
+										(set s (.. (s:sub 1 (- a 1)) vs (s:sub (+ b 1))))
+										(set from (+ a vlen)))
+									(set done true))))))))
 	s)
 
 (fn call-parser-expr [frame expr]
 	(let [out (frame:callParserFunction {:name "#expr" :args [expr]})]
 		(tonumber (tostring out))))
 
+(fn has-table-col? [expr]
+	;; lua find "." is too eager
+	(not= (expr:find "%a%.%a") nil))
+
 (fn eval-mw-expr-node [source ctx]
-	;; always materialize first (wiki #expr has no row variables)
-	(let [bindings (expr-bindings ctx)
-				expr (materialize-dotrefs (materialize-expr source bindings) ctx)
+	;; Table.Col first as ltr expand may already put things on the row
+	;; ie Damage=n
+	(let [src (tostring (or source ""))
+				expr0 (if (has-table-col? src)
+									(materialize-dotrefs src ctx)
+									src)
+				expr (materialize-expr expr0 (expr-bindings ctx))
 				frame ctx.frame]
 		(if (and frame frame.callParserFunction)
 				(let [n (call-parser-expr frame expr)]

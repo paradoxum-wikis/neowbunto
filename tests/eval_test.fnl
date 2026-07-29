@@ -118,7 +118,8 @@
              "TOTAL-EXP L1")
 
   (suite "sum-series with schema branches")
-  ;; N;N;A;A costs — branch A needs level >= 2 for first A cost
+  ;; N;N;A;A costs
+  ;; branch A needs level >= 2 for first A cost
   (assert-eq (sum-series [100 200 50 60] 1 "" ["N" "N" "A" "A"])
              300
              "trunk L1")
@@ -145,78 +146,101 @@
              (/ 20 1.4)
              "Harvester L0 DPS shape")
 
-  ;; Gladiator L0 MCE = 525 / ((5/0.95)*2) = 49.875
-  (suite "integration: Gladiator L0 MCE via $MDPS$ splice")
+  ;; $MCE$ = Total Price / Max DPS (column filled by $MDPS$ cell)
+  (suite "integration: Gladiator L0 MCE via Max DPS column")
   (let [env {"DPS" "Damage / Swingrate"
              "MDPS" "$DPS$ * Max Hits"
-             "MCE" "Total Price / $MDPS$"}
+             "MCE" "Total Price / Max DPS"
+             "CE" "Total Price / DPS"}
+        mdps (* (/ 5 0.95) 2)
         ctx {:row {"Damage" 5
                    "Swingrate" 0.95
                    "Max Hits" 2
-                   "Total Price" 525}
+                   "Total Price" 525
+                   "Max DPS" mdps
+                   "DPS" (/ 5 0.95)}
              :level 0
              :formula-name "MCE"}
         (ast _) (parse-with-env (. env "MCE") env)]
-    (assert-near (eval-node ctx ast) 49.875 1e-9
-                 "Gladiator L0 MCE = 49.875")
-    (let [(a1 _) (parse-with-env "Total Price / $MDPS$" env)
-          (a2 _) (parse-with-env "Total Price / ($MDPS$)" env)]
-      (assert-near (eval-node ctx a1) (eval-node ctx a2) 1e-12
-                   "bare vs paren MCE same value")))
+    (assert-near (eval-node ctx ast) 49.875 1e-9 "Gladiator L0 MCE")
+    (assert-near (eval-string (. env "CE") ctx) (/ 525 (/ 5 0.95)) 1e-9 "CE")
+    (assert-near (eval-string (. env "MDPS") ctx env) mdps 1e-9 "MDPS cell"))
 
+  ;; MDPS = DPS * Max Hits, MCE = Total Price / Max DPS
   (suite "integration: Electroshocker L0 CE and MDPS")
   (let [env {"DPS" "Damage / Firerate"
              "MDPS" "DPS * Max Hits"
-             "CE" "Total Price / DPS"}
-        row {"Damage" 2 "Firerate" 0.75 "Max Hits" 1 "Total Price" 375
-             "DPS" (/ 2 0.75)}
+             "CE" "Total Price / DPS"
+             "MCE" "Total Price / Max DPS"}
+        dps (/ 5 1.35)
+        row {"Damage" 5 "Firerate" 1.35 "Max Hits" 2 "Total Price" 650
+             "DPS" dps "Max DPS" (* dps 2)}
         ctx {:row row :level 0}]
-    (assert-near (eval-string (. env "CE") ctx) 140.625 1e-9 "CE")
-    (assert-near (eval-string (. env "MDPS") ctx) (* (/ 2 0.75) 1) 1e-9
-                 "MDPS")
-    (let [env2 {"DPS" "Damage / Firerate"
-                "MDPS" "$DPS$ * Max Hits"}]
-      (assert-near (eval-string "$MDPS$" ctx env2)
-                   (* (/ 2 0.75) 1) 1e-9
-                   "MDPS via splice")))
+    (assert-near (eval-string (. env "CE") ctx) (/ 650 dps) 1e-9 "CE")
+    (assert-near (eval-string (. env "MDPS") ctx) (* dps 2) 1e-9 "MDPS")
+    (assert-near (eval-string (. env "MCE") ctx) (/ 650 (* dps 2)) 1e-9 "MCE"))
 
-  ;; Harvester L0 TCE = 2000 / (2/0.25) = 250
+  ;; $TCE$ = $TP$ / Thorns DPS (column and not $TDPS$ paste)
   (suite "integration: Harvester L0 TCE = 250")
   (let [env {"TDPS" "Thorns Damage / Thorns Tick"
              "TP" "$FNC-TOTALPRICE$"
-             "TCE" "$TP$ / $TDPS$"}
-        ctx {:row {"Thorns Damage" 2 "Thorns Tick" 0.25}
+             "TCE" "$TP$ / Thorns DPS"}
+        ctx {:row {"Thorns Damage" 2
+                   "Thorns Tick" 0.25
+                   "Thorns DPS" (/ 2 0.25)}
              :level 0
              :costs [2000 625 1500 4000 8750 24300]
              :formula-name "TCE"}
         (ast _) (parse-with-env (. env "TCE") env)]
     (assert-eq (eval-node ctx ast) 250 "Harvester L0 TCE")
-    (assert-eq (eval-string "$TCE$" ctx env) 250 "via $TCE$ varref"))
+    (assert-eq (eval-string "$TCE$" ctx env) 250 "via $TCE$"))
 
-  ;; left-assoc string expand would give 400 not 25
-  (suite "MCE grouping fix: not left-assoc string expand")
+  ;; bare paste is left-assoc (ie Combatant.wiki still has / $MDPS$)
+  (suite "bare $MDPS$ text-macro is left-assoc (same as string expand)")
   (let [env {"MDPS" "DPS * Max Hits"
              "MCE" "Total Price / $MDPS$"}
         ctx {:row {"DPS" 10 "Max Hits" 4 "Total Price" 1000}}
-        right (eval-string (. env "MCE") ctx env)
-        buggy (eval-string "Total Price / DPS * Max Hits" ctx)]
-    (assert-eq right (/ 1000 (* 10 4)) "correct = 25")
-    (assert-eq buggy (* (/ 1000 10) 4) "buggy = 400")
-    (assert-true (not= right buggy) "fix changes the number"))
+        bare (eval-string (. env "MCE") ctx env)
+        explicit (eval-string "Total Price / DPS * Max Hits" ctx)
+        grouped (eval-string "Total Price / ($MDPS$)" ctx env)]
+    (assert-eq bare (* (/ 1000 10) 4) "bare = 400")
+    (assert-eq bare explicit "matches string left-assoc")
+    (assert-eq grouped (/ 1000 (* 10 4)) "parens = 25"))
 
   (suite "parse-var-env + eval whole tower formula set")
   (let [env {"DPS" "Damage / Swingrate"
              "MDPS" "$DPS$ * Max Hits"
-             "MCE" "Total Price / $MDPS$"
+             "MCE" "Total Price / Max DPS"
              "TP" "$FNC-TOTALPRICE$"}
         cache (parse-var-env env)
-        ctx {:row {"Damage" 5 "Swingrate" 0.95 "Max Hits" 2 "Total Price" 525}
+        ctx {:row {"Damage" 5
+                   "Swingrate" 0.95
+                   "Max Hits" 2
+                   "Total Price" 525
+                   "Max DPS" (* (/ 5 0.95) 2)}
              :level 0
              :costs [525 450 1250]}]
     (assert-near (eval-node ctx (. cache "DPS")) (/ 5 0.95) 1e-12 "DPS")
     (assert-near (eval-node ctx (. cache "MDPS")) (* (/ 5 0.95) 2) 1e-12 "MDPS")
     (assert-near (eval-node ctx (. cache "MCE")) 49.875 1e-9 "MCE")
     (assert-eq (eval-node ctx (. cache "TP")) 525 "TP L0"))
+
+  ;; row already has Damage=n while #expr still says Table.Critical Damage
+  (suite "mw-expr: local Damage does not eat Table.Critical Damage")
+  (let [env {"PCDMG" "{{#expr:floor(Warden Stats.Damage * (2 - 1) + Warden Stats.Critical Damage)}}"
+             "CDMG" "{{#expr:Damage * Critical Hit Multiplier round 0}}"}
+        cache (parse-var-env env)
+        tc {"Warden Stats" {4 {"Damage" 80
+                               "Critical Damage" "$CDMG$"
+                               "Critical Hit Multiplier" 3}}}
+        ctx {:row {"Level" 4 "Damage" 160}
+             :level 4
+             :table-cache tc
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "PCDMG")) 320
+               "PCDMG with local Damage=160 still uses remote Critical Damage"))
 
   true)
 
