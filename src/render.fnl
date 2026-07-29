@@ -249,10 +249,10 @@
 									:config base.config}))
 
 (fn set-row-field! [row header value]
-	(tset row header value)
+	(set (. row header) value)
 	(let [stripped (pick-values 1 (header:gsub "%s+" ""))]
 		(when (not= stripped header)
-			(tset row stripped value)))
+			(set (. row stripped) value)))
 	value)
 
 (fn process-table [tbl vars formula-env parse-cache rof-cols rof-offset
@@ -308,7 +308,7 @@
 							(table.insert out line))
 						(and (t:match "^|") (not (t:match "^|}")))
 						(do
-							(var cells (wikitable.split-row-cells t))
+							(local cells (wikitable.split-row-cells t))
 							(each [ci cell0 (ipairs cells)]
 								(var cell cell0)
 								(let [expanded (expand-rc cell)]
@@ -317,10 +317,10 @@
 														content (trim content0)]
 												(if (not= content "")
 														(do
-															(tset recursion col-idx content)
+															(set (. recursion col-idx) content)
 															(set cell content))
 														(set cell (or (. recursion col-idx) ""))))
-											(tset recursion col-idx nil)))
+											(set (. recursion col-idx) nil)))
 								(let [h (. headers col-idx)]
 									(when (= h "Level")
 										(let [keys (wikitable.parse-level-keys cell)]
@@ -367,10 +367,11 @@
 													(set v-rof (fmt rv 3))))))
 									(if (and has-rof (not= (tostring v-norm) (tostring v-rof)))
 											(let [cell-id (next-cell-toggle! builder)]
-												(tset cells ci (rof-cell-html cell-id
-																											(tostring v-norm)
-																											(tostring v-rof))))
-											(tset cells ci (tostring v-norm)))
+												(set (. cells ci)
+														 (rof-cell-html cell-id
+																						(tostring v-norm)
+																						(tostring v-rof))))
+											(set (. cells ci) (tostring v-norm)))
 									(set col-idx (+ col-idx 1))))
 							(table.insert out (.. "|" (table.concat cells "||"))))
 						(table.insert out line))))
@@ -393,7 +394,7 @@
 				ctx (build-eval-ctx base {} false 0)]
 		(each [name (o:gmatch "%$([^%$]+)%$")]
 			(let [tok (.. "$" name "$")]
-				(tset token-count tok (+ (or (. token-count tok) 0) 1))))
+				(set (. token-count tok) (+ (or (. token-count tok) 0) 1))))
 		(pick-values 1
 			(o:gsub "%$([^%$]+)%$"
 							(fn [name]
@@ -405,12 +406,12 @@
 											(= (type r) :number)
 											(fmt r)
 											(do
-												(var str (tostring r))
+												(local str (tostring r))
 												(let [(ref-attrs ref-content)
 															(str:match "^%s*<ref%s*([^>]*)>(.-)</ref>%s*$")]
 													(if (and ref-attrs (> (or (. token-count tok) 0) 1))
 															(let [bare (pick-values 1
-																					 (: name :gsub "[^%a%d]" ""))
+																					 (name:gsub "[^%a%d]" ""))
 																		ref-name (or (get-attr ref-attrs "name")
 																								 (bare:lower))
 																		ref-group (get-attr ref-attrs "group")
@@ -418,7 +419,7 @@
 																									 (.. " group=\"" ref-group "\"")
 																									 "")
 																		count (+ (or (. ref-seen tok) 0) 1)]
-																(tset ref-seen tok count)
+																(set (. ref-seen tok) count)
 																(if (= count 1)
 																		(.. "<ref" group-attr " name=\"" ref-name
 																				"\">" ref-content "</ref>")

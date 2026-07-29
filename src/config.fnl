@@ -60,7 +60,7 @@
 										(if (and (or (= q "\"") (= q "'"))
 														 (or (= v q) (not= (v:sub -1) q)))
 												(do
-													(var parts [(v:sub 2)])
+													(local parts [(v:sub 2)])
 													(var done false)
 													(while (and (not done) (< i (length lines)))
 														(set i (+ i 1))
@@ -75,7 +75,7 @@
 												(set v (v:sub 2 -2))))
 									(when (not (k:match "^%$.*%$$"))
 										(set k (dollar-key k)))
-									(tset vars k v)
+									(set (. vars k) v)
 									(when (and (not is-fse) (k:find "FSE-" 1 true))
 										(set is-fse true))))))
 					(set i (+ i 1)))))
@@ -157,15 +157,16 @@
 							branch-letters []]
 					(each [_ letter (ipairs schema)]
 						(when (and (not= letter trunk) (not (. seen letter)))
-							(tset seen letter true)
+							(set (. seen letter) true)
 							(table.insert branch-letters letter)))
 					(let [branch-key (get-var-key vars prefix "BRANCH")
 								branch-map {}]
 						(var bi 1)
 						(each [_ name (ipairs (parse-string-list (or (. vars branch-key) "")))]
 							(when (. branch-letters bi)
-								(tset branch-map name (. branch-letters bi))
-								(tset branch-map (name:gsub "%s+" "") (. branch-letters bi))
+								(set (. branch-map name) (. branch-letters bi))
+								(set (. branch-map (name:gsub "%s+" ""))
+										 (. branch-letters bi))
 								(set bi (+ bi 1))))
 						branch-map)))))
 
@@ -194,7 +195,7 @@
 									 nil)
 				cols {}]
 		(each [_ c (ipairs (parse-string-list (or raw "")))]
-			(tset cols c true))
+			(set (. cols c) true))
 		(values cols offset)))
 
 (fn collect-fse [vars]

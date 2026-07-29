@@ -134,7 +134,7 @@
 							(expect :lparen)
 							(let [arg (parse-or)]
 								(expect :rparen)
-								(match fname
+								(case fname
 									:abs (math.abs arg)
 									:floor (math.floor arg)
 									:ceil (math.ceil arg)
@@ -172,7 +172,7 @@
 					(do (advance) (parse-unary))
 					(at :op "-")
 					(do (advance) (- (parse-unary)))
-					(and (at :word "not"))
+					(at :word "not")
 					(do (advance) (bool01 (not (truthy (parse-unary)))))
 					(parse-primary)))
 

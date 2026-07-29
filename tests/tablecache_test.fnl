@@ -144,7 +144,7 @@ $FNC-ROFBUG$ = Firerate
         ast (parse-table electroshocker-table {})
         cache (build-table-cache ast "Level" {})
         row (cache-get cache 0 "")
-        _ (tset row "DPS" (/ (. row "Damage") (. row "Firerate")))
+        _ (set row.DPS (/ row.Damage row.Firerate))
         env cfg.formula-env
         (ce-ast _) (parse-with-env (. env "CE") env)
         ctx (make-ctx {:config cfg :level 0 :row row})]

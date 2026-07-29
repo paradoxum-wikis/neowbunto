@@ -43,6 +43,6 @@
 				"'''Neowbunto''': No valid content found."
 				(preprocess frame (render-page content frame)))))
 
-(tset p :content-arg content-arg)
+(set p.content-arg content-arg)
 
 p

@@ -42,14 +42,14 @@
 			(let [stack (or ctx.ident-stack {})]
 				(when (. stack name)
 					(error (.. "eval: cyclic bare identifier '" name "'")))
-				(tset stack name true)
+				(set (. stack name) true)
 				(set ctx.ident-stack stack)
 				(let [asts (or ctx.formula-asts ctx.parse-cache)
 							parser (require :parser)
 							ast (or (and asts (. asts name))
 											(parser.parse-var name env (or ctx.parse-cache {}) []))
 							(ok res) (pcall eval-node ctx ast)]
-					(tset stack name nil)
+					(set (. stack name) nil)
 					(if ok res (error res)))))))
 
 (fn cell-formula-name [v]
@@ -134,7 +134,7 @@
 							target (if (and branch (not= branch "")) branch trunk)]
 					(var total 0)
 					(var trunk-lvl 0)
-					(var branch-lvls {})
+					(local branch-lvls {})
 					(each [i letter (ipairs schema)]
 						(let [cost (or (. costs i) 0)]
 							(if (= letter trunk)
@@ -146,12 +146,12 @@
 										(set trunk-lvl (+ trunk-lvl 1)))
 									(do
 										(when (not (. branch-lvls letter))
-											(tset branch-lvls letter trunk-lvl))
+											(set (. branch-lvls letter) trunk-lvl))
 										(when (and (= target letter)
 															 (<= (. branch-lvls letter) lvl))
 											(set total (+ total cost)))
-										(tset branch-lvls letter
-													(+ (. branch-lvls letter) 1))))))
+										(set (. branch-lvls letter)
+												 (+ (. branch-lvls letter) 1))))))
 					total))))
 
 (fn resolve-branch [ctx br]
@@ -181,12 +181,12 @@
 	(let [b {}]
 		(each [k v (pairs (or ctx.row {}))]
 			(when (= (type v) :number)
-				(tset b k v)
+				(set (. b k) v)
 				(let [(stripped) (k:gsub "%s+" "")]
-					(tset b stripped v))))
+					(set (. b stripped) v))))
 		;; pin/series ctx.level overrides row Level for #expr
 		(when (not= ctx.level nil)
-			(tset b "Level" ctx.level))
+			(set b.Level ctx.level))
 		b))
 
 (fn mid-multiword? [s a]
@@ -273,7 +273,7 @@
 								(when (and (= (type col) :string) (not (col:match "_ROF$")))
 									(let [key (.. tname "." col)]
 										(when (and (not (. seen key)) (s:find key 1 true))
-											(tset seen key true)
+											(set (. seen key) true)
 											(let [n (remote-cell-number ctx row v)]
 												(when n
 													(table.insert entries [key n]))))))))))))
@@ -364,20 +364,20 @@
 							e (or env {name raw})]
 					(set ast (parser.parse-var name e cache []))
 					(when ctx.parse-cache
-						(tset ctx.parse-cache name ast))
+						(set (. ctx.parse-cache name) ast))
 					(when ctx.formula-asts
-						(tset ctx.formula-asts name ast)))))
+						(set (. ctx.formula-asts name) ast)))))
 		ast))
 
 (fn with-level! [ctx lvl f]
 	(let [saved-level ctx.level
 				row (or ctx.row {})
-				saved-rl (. row "Level")]
+				saved-rl row.Level]
 		(set ctx.level lvl)
-		(tset row "Level" lvl)
+		(set row.Level lvl)
 		(let [(ok res) (pcall f)]
 			(set ctx.level saved-level)
-			(tset row "Level" saved-rl)
+			(set row.Level saved-rl)
 			(if ok res (error res)))))
 
 (fn with-pin! [ctx lvl br f]

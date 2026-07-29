@@ -22,7 +22,7 @@
 				seen {}]
 		(fn add [k]
 			(when (and (not= k nil) (not (. seen k)))
-				(tset seen k true)
+				(set (. seen k) true)
 				(table.insert keys k)))
 		(fn add-part [part]
 			(when (not= part "")
@@ -139,8 +139,8 @@
 					(for [i 1 n]
 						(let [h (. headers i)
 									(h-stripped) (h:gsub "%s+" "")]
-							(tset by-header h (. raw-cells i))
-							(tset by-header h-stripped (. raw-cells i))))
+							(set (. by-header h) (. raw-cells i))
+							(set (. by-header h-stripped) (. raw-cells i))))
 					(table.insert rows
 												{:raw-cells raw-cells
 												 :cells cells

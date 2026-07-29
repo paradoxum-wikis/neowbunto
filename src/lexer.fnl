@@ -115,7 +115,7 @@
 	(var j i)
 	(var dot-at nil)
 	(var done false)
-	(var pieces [])
+	(local pieces [])
 	(var piece-start i)
 	(while (and (not done) (<= j (length s)))
 		(let [c (at s j)]

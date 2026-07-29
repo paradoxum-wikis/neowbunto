@@ -49,9 +49,9 @@
 					(if (not= n nil) n cleaned)))))
 
 (fn set-row-field [row header value]
-	(tset row header value)
+	(set (. row header) value)
 	(let [(stripped) (header:gsub "%s+" "")]
-		(tset row stripped value))
+		(set (. row stripped) value))
 	value)
 
 (fn extract-number [v]
@@ -97,14 +97,14 @@
 						(each [_ key (ipairs (parse-level-keys index-val))]
 							(let [entry {}]
 								(each [k v (pairs row-norm)]
-									(tset entry k v))
+									(set (. entry k) v))
 								(each [k v (pairs row-rof)]
-									(tset entry (.. k "_ROF") v))
+									(set (. entry (.. k "_ROF")) v))
 								(when (= (type key) :number)
-									(tset entry "Level" key)
+									(set entry.Level key)
 									(when (= (. entry "Level_ROF") nil)
-										(tset entry "Level_ROF" key)))
-								(tset cache key entry)))))))
+										(set entry.Level_ROF key)))
+								(set (. cache key) entry)))))))
 		cache))
 
 (fn register-cache [page-cache table-name cache prefix]
@@ -112,13 +112,13 @@
 				key (if (not= prefix "")
 								(.. table-name "|" prefix)
 								table-name)]
-		(tset page-cache key cache)
-		(tset page-cache (key:gsub "%s+" "") cache)
+		(set (. page-cache key) cache)
+		(set (. page-cache (key:gsub "%s+" "")) cache)
 		(when (not (. page-cache table-name))
-			(tset page-cache table-name cache))
+			(set (. page-cache table-name) cache))
 		(let [(stripped) (table-name:gsub "%s+" "")]
 			(when (not (. page-cache stripped))
-				(tset page-cache stripped cache)))
+				(set (. page-cache stripped) cache)))
 		page-cache))
 
 (fn table-name-of [table-ast fallback-index]

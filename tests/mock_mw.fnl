@@ -38,10 +38,10 @@
       (table.insert classes c)
       node)
     (fn node.css [_ k v]
-      (tset attrs k v)
+      (set (. attrs k) v)
       node)
     (fn node.attr [_ k v]
-      (tset attrs k v)
+      (set (. attrs k) v)
       node)
     (fn node.wikitext [_ t]
       (set text (.. text (tostring (or t ""))))
@@ -94,7 +94,7 @@
                                                  :args [body]}))))))
     frame))
 
-(tset _G :mw
+(set _G.mw
       {:text {:unstripNoWiki unstrip-no-wiki}
        :language {:getContentLanguage get-content-language}
        :html {:create create-html}

@@ -112,15 +112,14 @@
 
 (set parse-var
 		 (fn [name var-env parse-cache parsing-stack]
-			 (match (. parse-cache name)
-				 ast ast
+			 (case (. parse-cache name)
 				 nil
 				 (let [(base _ _) (parse-pin-parts name)]
 					 ;; $FNC-TOTALPRICE$ / $FNC-TOTAL-X$ are intrinsics (not formula-env entries)
 					 (if (or (= base "FNC-TOTALPRICE")
 									 (base:match "^FNC%-TOTAL%-(.+)$"))
 							 (let [ast (expand-varref name var-env parse-cache parsing-stack)]
-								 (tset parse-cache name ast)
+								 (set (. parse-cache name) ast)
 								 ast)
 							 (do
 								 (when (stack-has? parsing-stack name)
@@ -132,8 +131,9 @@
 									 (let [ast (parse-formula raw var-env parse-cache
 																						parsing-stack)]
 										 (stack-pop parsing-stack)
-										 (tset parse-cache name ast)
-										 ast))))))))
+										 (set (. parse-cache name) ast)
+										 ast)))))
+				 ast ast)))
 
 (set expand-varref
 		 ;; after paste only pins / FNC-* / config keys still need this path
@@ -274,7 +274,7 @@
 (fn parse-var-env [var-env]
 	(let [parse-cache {}
 				parsing-stack []]
-		(each [name raw (pairs var-env)]
+		(each [name _ (pairs var-env)]
 			(when (and (not (config-varref? name))
 								 (= (. parse-cache name) nil))
 				(parse-var name var-env parse-cache parsing-stack)))
