@@ -1,0 +1,27 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 350; 50; 85; 250; 600; 1000
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Laser Sight; Precise Aiming; Stronger Bullets; Dual Wield; Field Operator
+$FNC-UPGRADEICON$ = 3278746120; 3278749117; 3278750530; 3278741672; 3279537687
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 1.5 || 12 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 1.5 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 1.5 || 16 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 1.5 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 5 || 0.75 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 7 || 0.75 || 18 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

@@ -1,0 +1,48 @@
+<var>
+$DPS$ = Damage * Bullet Count / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 800; 300; 1200; 3400; 9500
+$FNC-PVP-COST$ = 400; 150; 1050; 3000; 8500
+$FNC-DETECTION$ = 2; 2;
+$FNC-UPGRADE$ = Heavier Shells; Shotgun Knowledge; Slug Madness; Tactical Blowback
+$FNC-PVP-UPGRADE$ = Faster Reloading; Shotgun Knowledge; Slug Madness; Tactical Blowback
+$FNC-UPGRADEICON$ = 5587697635; 5587697884; 5587698104; 5587698246
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref>First two enemies damaged by the same bullet are dealt full damage, while the third enemy is dealt half of the damage.</ref>
+$DPREF$ = <ref>DPS assumes all bullets hit only one enemy.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage$DREF$ !! Bullet Count !! Firerate !! Range !! Spread !! Max Hits !! DPS$DPREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 6 || 1 || 7.5 || 100 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || 6 || 1 || 7.5 || 100 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 3 || 8 || 1 || 9 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 5 || 8 || 0.8 || 9.5 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 10 || 9 || 0.8 || 11 || 30 || 3 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage$DREF$ !! Bullet Count !! Firerate !! Range !! Spread !! Max Hits !! DPS$DPREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 8 || 2 || 7.5 || 45 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 8 || 1.5 || 7.5 || 45 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 10 || 1.5 || 9 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 10 || 1.25 || 9.5 || 40 || 3 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 8 || 12 || 1 || 11 || 30 || 3 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

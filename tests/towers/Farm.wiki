@@ -1,0 +1,49 @@
+<var>
+$TP$ = $FNC-TOTALPRICE$
+$RU$ = Upgrade Price / Income
+$TPI$ = Total Price / Income
+$FNC-COST$ = 300; 200; 600; 1250; 2500; 4500
+$FNC-PVP-COST$ = 250; 200; 550; 1000; 2500; 5000
+$FNC-UPGRADE$ = Carrot Farm; Wheat Farm; Tree Farm; Apple Farm; Space Fruit Farm
+$FNC-UPGRADEICON$ = 3294497195; 3294496318; 3294498124; 3294499153; 3294500097
+$WREF$ = <ref name=recoup>Amount of waves it would take to regain the spent cash per upgrade via income.<br>Calculated as Upgrade Price ÷ Income.</ref>
+$TREF$ = <ref name=tpi>Parity of income gained to total upgrade cost.<br>Calculated as Total Price ÷ Income.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Upgrade Price !! Income !! Thorn Power !! Waves To Recoup Upgrade$WREF$ !! Total Price:Income$TREF$
+|-
+| 0 || {{Money|$TP$}} || {{Money|300}} || {{Money|60}} || 50% || $RU$ || $TPI$:1
+|-
+| 1 || {{Money|$TP$}} || {{Money|200}} || {{Money|100}} || 60% || $RU$ || $TPI$:1
+|-
+| 2 || {{Money|$TP$}} || {{Money|600}} || {{Money|225}} || 70% || $RU$ || $TPI$:1
+|-
+| 3 || {{Money|$TP$}} || {{Money|1,250}} || {{Money|500}} || 80% || $RU$ || $TPI$:1
+|-
+| 4 || {{Money|$TP$}} || {{Money|2,500}} || {{Money|900}} || 90% || $RU$ || $TPI$:1
+|-
+| 5 || {{Money|$TP$}} || {{Money|4,500}} || {{Money|1,500}} || 100% || $RU$ ||  $TPI$:1
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Upgrade Price !! Income !! Thorn Power !! Waves To Recoup Upgrade$WREF$ !! Total Price:Income$TREF$
+|-
+| 0 || {{Money|$TP$}} || {{Money|250}} || {{Money|50}} || 50% || $RU$ || $TPI$:1
+|-
+| 1 || {{Money|$TP$}} || {{Money|200}} || {{Money|100}} || 60% || $RU$ || $TPI$:1
+|-
+| 2 || {{Money|$TP$}} || {{Money|550}} || {{Money|250}} || 70% || $RU$ || $TPI$:1
+|-
+| 3 || {{Money|$TP$}} || {{Money|1,000}} || {{Money|500}} || 80% || $RU$ || $TPI$:1
+|-
+| 4 || {{Money|$TP$}} || {{Money|2,500}} || {{Money|750}} || 90% || $RU$ || $TPI$:1
+|-
+| 5 || {{Money|$TP$}} || {{Money|5,000}} || {{Money|1,500}} || 100% || $RU$ ||  $TPI$:1
+|}
+</div>
+</tabber></div>

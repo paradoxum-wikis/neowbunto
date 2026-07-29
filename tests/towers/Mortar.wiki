@@ -1,0 +1,54 @@
+<var>
+$DPS$ = [[Splash Damage]] / Firerate
+$CDPS$ = Cluster Damage * Cluster Count / Firerate
+$CE$ = Total Price / ($DPS$ + $CDPS$)
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 1000; 500; 2250; 4250; 19000; 35500
+$FNC-PVP-COST$ = 1000; 300; 1400; 2500; 12000; 22500
+$FNC-DETECTION$ = ; 0; 0
+$FNC-UPGRADE$ = Improved Handling; Upgraded Armaments; Bigger Cannon; Loaded Warhead; City Buster
+$FNC-UPGRADEICON$ = 4538447265; 4538447347; 4538447424; 4538447493; 4538447579
+$FNC-ROFBUG$ = Firerate
+$SREF$ = <ref name="splash">Number is the damage dealt in the inner explosion sphere. Splash damage is decreased linearly if the enemy is in the outer explosion sphere.</ref>
+$FREF$ = <ref name="fr">Firerate does not account for projectile travel time.</ref>
+$DREF$ = <ref name="DPS">DPS assumes only one enemy is hit and receives full splash damage. DPS does not account for projectile travel time.</ref>
+$CREF$ = <ref name="ce">Accounts for both normal and cluster bomb DPS.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! [[Splash Damage]]$SREF$ !! Cluster Damage$SREF$ !! Cluster Count !! Firerate$FREF$ !! Range !! Explosion Radius !! Cluster Explosion Radius !! DPS$DREF$ !! Cluster DPS$DREF$ !! Cost Efficiency$CREF$
+|-
+|0 || {{Money|$TP$}} || 15 || N/A || N/A || 4 || 24 || 5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 15 || N/A || N/A || 2.75 || 27 || 5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 35 || N/A || N/A || 2.75 || 27 || 7.5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 65 || N/A || N/A || 2.75 || 30 || 8.5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 125 || 30 || 4 || 2.75 || 34 || 8.5 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 290 || 40 || 6 || 2.75 || 34 || 9 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! [[Splash Damage]]$SREF$ !! Cluster Damage$SREF$ !! Cluster Count !! Firerate$FREF$ !! Range !! Explosion Radius !! Cluster Explosion Radius !! DPS$DREF$ !! Cluster DPS$DREF$ !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 12 || N/A || N/A || 4 || 20 || 5.5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 12 || N/A || N/A || 3.25 || 22 || 5.5 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || N/A || N/A || 3.25 || 25 || 7 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 50 || N/A || N/A || 3.258 || 30 || 8 || N/A || $DPS$ || N/A || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 100 || 40 || 3 || 3.25 || 32 || 8 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 150 || 50 || 6 || 3.25 || 35 || 8.5 || 5 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

@@ -1,0 +1,76 @@
+<var>
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 850; 300; 1250; 3000; 8000; 20000
+$FNC-DETECTION$ = ; 3;
+$FNC-UPGRADE$ = Laptop Studio; Party Mode; Thrifty Music; Audio Visualizer; Apocalypse Rave
+$FNC-UPGRADEICON$ = 95144637961093; 113548130163293; 101877307760287; 123117801948681; 113854542319656
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="3" | DJ Booth Stats
+|-
+! Level !! Total Price !! Range
+|-
+| 0 || {{Money|$TP$}} || 12
+|-
+| 1 || {{Money|$TP$}} || 15
+|-
+| 2 || {{Money|$TP$}} || 15
+|-
+| 3 || {{Money|$TP$}} || 15
+|-
+| 4 || {{Money|$TP$}} || 16.5
+|-
+| 5 || {{Money|$TP$}} || 18
+|}
+
+{| class="wikitable stats-table"
+! colspan="11" | Purple Track
+|-
+! Level !! Active Range Buff !! Inactive Range Buff !! Pulses !! Cooldown !! Max Hits !! Knockback Force !! Slowness Time !! Base Slowness !! Slowness Per Tower !! Max Slowness
+|-
+| 0 || 12.5% || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A
+|-
+| 1 || 12.5% || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A
+|-
+| 2 || 15% || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A
+|-
+| 3 || 17.5% || N/A || 3 || 1.5 || 6 || 20 || 6 || 20% || 1% || 40%
+|-
+| 4 || 22.5% || N/A || 3 || 1.5 || 7 || 20 || 8 || 20% || 1% || 40%
+|-
+| 5 || 25% || 10% || 4 || 1.5 || 8 || 20 || 10 || 30% || 1% || 50%
+|}
+
+{| class="wikitable stats-table"
+! colspan="6" | Green Track
+|-
+! Level !! Active Discount Buff !! Inactive Discount Buff !! Base Cash !! Cash Per Tower !! Max Cash
+|-
+| 0 || 5% || N/A || N/A || N/A || N/A
+|-
+| 1 || 5% || N/A || N/A || N/A || N/A
+|-
+| 2 || 7.5% || N/A || N/A || N/A || N/A
+|-
+| 3 || 10% || N/A || {{Money|250}} || {{Money|35}} || {{Money|600}}
+|-
+| 4 || 12.5% || N/A || {{Money|500}} || {{Money|50}} || {{Money|1250}}
+|-
+| 5 || 15% || 5% || {{Money|750}} || {{Money|75}} || {{Money|2250}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="9" | Red Track
+|-
+! Level !! Active Damage Buff !! Inactive Damage Buff !! Damage  !! Pulses !! Cooldown !! Base Defense Drop !! Defense Drop Per Tower || Max Defense Drop
+|-
+| 2 || 10% || N/A || N/A || N/A || N/A || N/A || N/A || N/A
+|-
+| 3 || 12.5% || N/A || 15 || 3 || 1.5 || 3% || 1% || 12%
+|-
+| 4 || 15% || N/A || 25 || 3 || 1.5 || 5% || 1% || 15%
+|-
+| 5 || 12.5% || 7.5% || 50 || 4 || 1.5 || 6% || 1% || 18%
+|}
+</div>

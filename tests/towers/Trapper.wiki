@@ -1,0 +1,116 @@
+<var>
+$DPS$ = Damage / Firerate
+$HPS$ = Health / Firerate
+$MDBU$ = Damage * Max Traps
+$MHBU$ = Health * Max Traps
+$BDPS$ = Burn Damage / Burn Tick
+$TED$ = Burn Damage * (Burn Time / Burn Tick)
+$CDPS$ = $DPS$ + $BDPS$
+$MBU$ = Damage * Crystal Limit
+$CDPS$ = $DPS$ + $BDPS$
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 500; 500; 1500; 5000; 13500
+$FNC-PVP-COST$ = 500; 500; 1500; 5000; 13500
+$FNC-DETECTION$ = ; 0;
+$FNC-UPGRADE$ = Faster Throwing; Watch your step; Better Traps; Don't try this at home
+$FNC-UPGRADEICON$ = 16493201931; 16493202507; 16493202350; 16493202129
+$FNC-ROFBUG$ = Firerate
+$BUREF$ = <ref name="MaxBuildUp">Max Build Up assumes only one enemy is hit and only walks the traps once. Max Build Up is calculated as Damage × Max Traps.</ref>
+$HBUREF$ = <ref name="MaxHealthBuildUp">Max Health Build Up but it uses the health statistic of the spike trap instead. Max Health Build Up is calculated as Health × Max Traps.</ref>
+$DREF$ = <ref name="DPS">DPS assumes only one enemy is hit by a single trap and receives full damage. For traps with health, uses health instead of damage.</ref>
+$TREF$ = <ref name="TED">Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$MDREF$ = <ref name="MineDPS">DPS assumes only one enemy is hit by a single trap and receives full damage.<br/>DPS is calculated as Landmine DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Firerate for burn times shorter or equal to one second, while for burn times longer than one second it is calculated as Burn Damage ÷ Tick.</ref>
+</var>
+<div class="mobile-tabber">{{Tabber
+|Regular
+|<tabber>
+|-|Spike =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="13" |Spikes
+|-
+! Level !! Total Price !! Damage !! Health !! Firerate !! Range !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! Max Health Build Up$HBUREF$ !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 10 || 5.25 || 7 || 4 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 20 || 5 || 7 || 5 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || 60 || 5 || 9 || 6 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 40 || 280 || 5 || 10 || 7  || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 60 || 600 || 4.5 || 10 || 9 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|Landmine =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="15" |Landmine
+|-
+! Level !! Total Price !! Damage !! Burn Damage !! Firerate !! Burn Time !! Burn Tick !! Range !! Explosion Range !! Total Elapsed Damage$TREF$ !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! DPS$MDREF$ !! Cost Efficiency
+|-
+| 2 || {{Money|$TP$}} || 50 || 3 || 5 || 1 || 1 || 9 || 5 || $TED$ || 6 || 75 || $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 80 || 5 || 4 || 2 || 0.25 || 10 || 5 || $TED$ || 7 || 75 || $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 140 || 7 || 2.5 || 5 || 0.25 || 10 || 6 || $TED$ || 9 || 75 || $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|}
+</div>
+|-|Bear Trap =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Bear Trap
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Stun Time !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! DPS$DREF$ !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 350 || 3.5 || 10 || 3 || 9 || 75 || $MDBU$ || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber>
+|PVP
+|<tabber>
+|-|Spike =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="13" |Spikes
+|-
+! Level !! Total Price !! Damage !! Health !! Firerate !! Range !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! Max Health Build Up$HBUREF$ !! DPS$DREF$ !! Cost Efficienc |
+|-
+| 0 || {{Money|$TP$}} || 10 || 10 || 4.5 || 7 || 4 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 20 || 4 || 7 || 5 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || 60 || 4 || 9 || 6 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 40 || 280 || 4 || 10 || 7 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 60 || 600 || 4 || 10 || 9 || 75 || $MDBU$ || $MHBU$ || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|Landmine =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="15" |Landmine
+|-
+! Level !! Total Price !! Damage !! Burn Damage !! Firerate !! Burn Time !! Burn Tick !! Range !! Explosion Range !! Total Elapsed Damage$TREF$ !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! DPS$MDREF$ !! Cost Efficiency
+|-
+| 2 || {{Money|$TP$}} || 45 || 3 || 4.5 || 1 || 1 || 9 || 4 || 3 || 6 || 75 || $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 70 || 5 || 3.5 || 2 || 0.25 || 10 || 4 || 40 || 7 || 75 ||  $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 130 || 7 || 2.25 || 5 || 0.25 || 10 || 5 || 140 || 9 || 75 ||  $MDBU$ || $CDPS$<ref>$DPS$ Landmine DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|}
+</div>
+|-|Bear Trap =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="11" |Bear Trap
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Stun Time !! Max Traps !! Lifespan !! Max Build Up$BUREF$ !! DPS$DREF$ !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 350 || 2.75 || 10 || 3 || 9 || 75 || $MDBU$ || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber>
+}}</div>

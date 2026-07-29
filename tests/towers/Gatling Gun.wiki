@@ -1,0 +1,56 @@
+<var>
+$DPS$ = (Damage * Ammo) / (Reload Time + (Firerate * Ammo))
+$MDPS$ = (Damage * Ammo) / (Reload Time + (Firerate * Ammo)) * 2 + ((Damage/2) * Ammo) / (Reload Time + (Firerate * Ammo))
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 5250; 3000; 7500; 15000; 32500; 50000; 100000
+$FNC-PVP-COST$ = 4500; 2500; 7500; 15000; 32500; 42000; 100000
+$FNC-DETECTION$ = 3; ; 0
+$FNC-UPGRADE$ = Heavier Bullets; Bigger Magazine; Extra Barrel; Minigun Barrel; Impenetrable Fortress; Destruction
+$FNC-UPGRADEICON$ = 70569444235865; 104227180979769; 71764582498505; 128136625170591; 125372339735512
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref name=dps>Calculated as (Damage × Ammo) ÷ (Reload Time + (Firerate × Ammo)). Assumes bullets only hit one enemy.</ref>
+$CREF$ = <ref name=ce>Uses normal DPS.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Ammo !! Firerate !! Reload Time !! Range !! Angle !! Spread !! Recoil !! Max Hits !! DPS$DREF$ !! Max DPS !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 5 || 50 || 0.15 || 2.5 || 25 || 40 || 10 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 8 || 50 || 0.15 || 2.5 || 30 || 40 || 10 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 12 || 100 || 0.15 || 2 || 30 || 45 || 9 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 16 || 200 || 0.12 || 2 || 35 || 55 || 7.5 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 25 || 200 || 0.09 || 2 || 45 || 55 || 6.5 || 0.06 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 45 || 400 || 0.09 || 6 || 50 || 65 || 6.5 || 0.03 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 6 || {{Money|$TP$}} || 85 || 600 || 0.09 || 6 || 50 || 70 || 6.5 || 0.03 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Ammo !! Firerate !! Reload Time !! Range !! Angle !! Spread !! Recoil !! Max Hits !! DPS$DREF$ !! Max DPS !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 5 || 50 || 0.15 || 2.5 || 25 || 40 || 10 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 8 || 50 || 0.15 || 2.5 || 30 || 40 || 10 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 15 || 100 || 0.15 || 2 || 30 || 45 || 9 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 20 || 200 || 0.12 || 2 || 35 || 55 || 7.5 || 0.08 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 30 || 200 || 0.09 || 2 || 45 || 55 || 6.5 || 0.06 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 50 || 400 || 0.09 || 6 || 50 || 65 || 6.5 || 0.03 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 6 || {{Money|$TP$}} || 100 || 600 || 0.09 || 6 || 50 || 70 || 6.5 || 0.03 || 3 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

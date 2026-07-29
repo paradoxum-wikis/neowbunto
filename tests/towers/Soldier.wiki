@@ -1,0 +1,49 @@
+<var>
+$DPS$ = (Damage * Burst Count)  / (Cooldown + (Firerate * Burst Count))
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 400; 50; 650; 1350; 5000
+$FNC-PVP-COST$ = 450; 200; 800; 3000; 8000
+$FNC-DETECTION$ = 2; ; 4
+$FNC-PVP-DETECTION$ = 2; ; 0
+$FNC-UPGRADE$ = Barracks Training; Better Aiming; Equipment Upgrades; Deadliest Soldier
+$FNC-PVP-UPGRADE$ = Better Vision; Better Aiming; Equipment Upgrades; Deadliest Soldier
+$FNC-UPGRADEICON$ = 5523192002; 5523193619; 5523195646; 5523196519
+$FNC-ROFBUG$ = Firerate
+$FREF$ = <ref>Firerate only applies to the burst and is not the time between bursts.</ref>
+$DREF$ = <ref>DPS is calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)).</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Burst Count !! Firerate$FREF$ !! Cooldown !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 3 || 0.15 || 0.55 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 3 || 0.125 || 0.55 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 4 || 0.125 || 0.55 || 19 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3 || 8 || 0.125 || 0.4 || 19 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 8 || 12 || 0.125 || 0.4 || 22 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Burst Count !! Firerate$FREF$ !! Cooldown !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 4 || 0.15 || 0.4 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 6 || 0.125 || 0.3 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 6 || 0.125 || 0.3 || 19 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 5 || 8 || 0.125 || 0.3 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 10 || 10 || 0.1 || 0.2 || 21 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

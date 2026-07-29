@@ -1,0 +1,50 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-ROFBUG$ = Firerate
+$FNC-COST$ = 8250; 3250; 7500; 20000; 35000; 75000
+$FNC-PVP-COST$ = 4000; 1000; 2750; 9000; 20000; 42500
+$FNC-DETECTION$ = 1; 4;
+$FNC-PVP-DETECTION$ = ; 2
+$FNC-UPGRADE$ = Radar; Stronger Ammunition; Dual Turret; Even Heavier Ammo
+$FNC-UPGRADEICON$ = File:Radar.png; File:Radar.png; File:Turret3.png; File:Turret4.png; File:Turret5.png
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 20 || 0.4 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 0.3 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 30 || 0.3 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 40 || 0.16 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 65 || 0.16 || 24 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 78 || 0.12 || 27 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 0.35 || 16.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 10 || 0.3 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 15 || 0.3 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 15 || 0.15 || 23 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 32 || 0.15 || 24.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 55 || 0.12 || 26.5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

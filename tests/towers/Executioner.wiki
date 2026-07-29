@@ -1,0 +1,29 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 750; 250; 750; 1900; 4500; 12500
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Improved Throwing; Double Head Axe; Blood Seeking; Tactical Ops; Head Chopping
+$FNC-UPGRADEICON$ = 129697807; 542098553; 6426220009; 27386833; 143769378
+$FNC-ROFBUG$ = Firerate
+$FREF$ = <ref>The firerate assumes that the axe returns on time.</ref>
+$DREF$ = <ref>DPS assumes that only one enemy is hit per throw.<br/>DPS also assumes that the axe returns on time.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate$FREF$ !! Tick !! Bounces !! Max Hits !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 5 || 3 || 0.15 || 3 || 3 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || 2 || 0.15 || 3 || 3 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 2 || 0.15 || 3 || 3 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 18 || 2 || 0.15 || 4 || 3 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 2 || 0.15 || 4 || 3 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 80 || 2 || 0.15 || 7 || 3 || 18 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

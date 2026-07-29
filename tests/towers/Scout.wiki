@@ -1,0 +1,45 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 125; 50; 375; 1350; 2200
+$FNC-PVP-COST$ = 300; 100; 650; 1800; 3250
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Faster Reloading; Precise Aiming; Stronger Equipment; Akimbo Handguns
+$FNC-UPGRADEICON$ = 3278746120; 3278749117; 3278741672; 3279537687
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 1 || 12 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 0.75 || 12 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 0.75 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 6 || 0.6 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 8 || 0.3 || 16 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 3 || 0.9 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 4 || 0.9 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 8 || 0.75 || 16 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 12 || 0.5 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 14 || 0.3 || 17 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

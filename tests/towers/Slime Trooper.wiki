@@ -1,0 +1,25 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 500; 250; 650; 2100; 4650
+$FNC-DETECTION$ = 2; ; 3
+$FNC-UPGRADE$ = Stickier Slime; Heavy Globs; Potent Goo; Explosive Goo
+$FNC-UPGRADEICON$ = 120435945409322; 121720184434292; 105885379664792; 90312326197262
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !!  Slowdown !! Slowdown Time !! Explosion Radius !! DPS<ref>DPS does not consider projectile travel time.<br/>DPS assumes that only one enemy is hit and it receives full damage.</ref> !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 3 || 11.5 || 15% || 3 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 10 || 2.25 || 13 || 17.5% || 3 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 20 || 2.25 || 15.5 || 17.5% || 3 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 46 || 2.25 || 17 || 20% || 5 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 64 || 1.8 || 17 || 22.5% || 5 || 2.5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

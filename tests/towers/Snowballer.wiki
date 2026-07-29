@@ -1,0 +1,23 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 250; 75; 375; 1650
+$FNC-DETECTION$ = ; 0; 3
+$FNC-UPGRADE$ = Snow Day; Frigid Temperatures; Snowball Cannon
+$FNC-UPGRADEICON$ = File:Freezer Upgrade 1.png; File:Freezer Upgrade 2.png; File:Freezer Upgrade 3.png
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! Explosion Range !! Max Slowdown !! Slowdown per Hit !! Slowdown Time !! Freeze Time !! Max Hits !! Projectile Speed !! Placement Limit !! DPS<ref>DPS does not consider projectile travel time.<br/>DPS assumes that only one enemy is hit and it receives full damage.</ref> !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 4 || 2.25 || 11 || 2 || 30% || 15% || 3 || N/A || 1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || 2 || 13 || 2 || 40% || 20% || 3 || N/A || 1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 2 || 15 || 2 || 60% || 30% || 4 || N/A || 1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 28 || 1.75 || 21 || 4 || 60% || 30% || 4 || 15 || 4 || 4 || 20 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

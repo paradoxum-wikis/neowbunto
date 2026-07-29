@@ -1,0 +1,78 @@
+<var>
+$DPS$ = Damage / Firerate
+$RDPS$ = Health / Spawnrate
+$TDPS$ = Gun DPS + Ram DPS
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 1600; 1150; 3400; 13500; 47500
+$FNC-PVP-COST$ = 800; 525; 1000; 5000; 16000
+$FNC-DETECTION$ = 2; ;0
+$FNC-PVP-DETECTION$ = 2; ;2
+$FNC-UPGRADE$ = Quick Getaway; Double Trouble; Tommy Goons; The Godfather
+$FNC-UPGRADEICON$ = 3032133716; 3444643559; 3838914605; 3444644903
+$FNC-ROFBUG$ = Firerate
+$CREF$ = <ref name=ce>Does not account for unit DPS.</ref>
+$GREF$ = <ref name=goon>Goons are not affected by any buffs or debuffs.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="7" | Crook Boss Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 10 || 0.9 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 12 || 0.6 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || 0.6 || 17.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 25 || 0.175 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 45 || 0.15 || 22 || $DPS$ || {{Money|$CE$}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="13" | Goon Stats$GREF$
+|-
+! Level !! Goon !! Health !! Damage !! Spawnrate !! Firerate !! Lifespan !! Limit !! Range !! Detections !! Gun DPS !! Ram DPS !! Total DPS
+|-
+| 0-4 || [[Pistol Goon]] || 30 || 3 || 45 || 0.6 || 200 || 10 || 17 || Hidden, Flying || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 3 || [[Tommy Goon 1]] || 175 || 5 || 32.5 || 0.18 || 150 || 3 || 18.5 || Hidden || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 4 || [[Tommy Goon 2]] || 275 || 6 || 32.5 || 0.12 || 150 || 3 || 20 || Hidden || $DPS$ || $RDPS$ || $TDPS$
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="7" | Crook Boss Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 5 || 1 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 6 || 0.6 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 0.6 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 10 || 0.2 || 16.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 18 || 0.15 || 17.5 || $DPS$ || {{Money|$CE$}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="13" | Goon Stats$GREF$
+|-
+! Level !! Goon !! Health !! Damage !! Spawnrate !! Firerate !! Lifespan !! Limit !! Range !! Detections !! Gun DPS !! Ram DPS !! Total DPS
+|-
+| 0-4 || [[Pistol Goon]] || 25 || 2 || 50 || 0.8 || 150 || 10 || 18 || Hidden, Flying || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 3 || [[Tommy Goon 1]] || 125 || 5 || 50 || 0.25 || 200 || 4 || 20 || Hidden || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 4 || [[Tommy Goon 2]] || 225 || 8 || 50 || 0.12 || 200 || 4 || 20 || Hidden || $DPS$ || $RDPS$ || $TDPS$
+|}
+</div>
+</tabber></div>

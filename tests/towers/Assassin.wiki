@@ -1,0 +1,51 @@
+<var>
+$DPS$ = Damage / Swingrate
+$DPS2$ = (Damage * 2 + Whirlwind Damage) / (Swingrate * Whirlwind Hit)
+$DPS4$ = (Damage Threshold + Knife Damage * Knife Count) / (Damage Threshold / ((Damage * (Whirlwind Hit - 1) + Whirlwind Damage) / Whirlwind Hit) * Swingrate + Knife Cooldown)
+$CE$ = Total Price / DPS
+$CE2$ = Total Price / DPS2
+$CE4$ = Total Price / DPS4
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 300; 450; 750; 2400; 6350
+$FNC-PVP-COST$ = 300; 150; 600; 1700; 4250
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = CQC Training; Umbral Tempest; Ascended Shadows; Death Arms Ninja
+$FNC-PVP-UPGRADE$ = CQC Training; Advanced Hand to Hand Training; Upgraded Blades; Black Ops
+$FNC-UPGRADEICON$ = 111493227843909; 92894447316956; 71356771597575; 88526006090438
+$FNC-ROFBUG$ = Swingrate
+$DREF$ = <ref name=dps>Calculated as (Damage × 2 + Whirlwind Damage) ÷ (Swingrate × Whirlwind Hit) from Level 2+.<br>For Level 4, DPS is calculated as (Threshold + Knife Damage) ÷ (Threshold ÷ ((Damage × (Whirlwind Hit - 1) + Whirlwind Damage) ÷ Whirlwind Hit) × Swingrate + Knife Cooldown) assuming all knives hit one enemy.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Swingrate !! Range !! Whirlwind Hit !! Whirlwind Damage !! Whirlwind Range !! Damage Threshold !! Knife Damage !! Knife Count !! Knife Cooldown !! Knife Max Hits !! Knife Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 3 || 0.6 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 6 || 0.5 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 6 || 0.5 || 6 || 3 || 12 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || $DPS2$ || {{Money|$CE2$}}
+|-
+| 3 || {{Money|$TP$}} || 14 || 0.35 || 6 || 3 || 21 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || $DPS2$ || {{Money|$CE2$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 0.35 || 6.5 || 3 || 35 || 6 || 500 || 60 || 3 || 0.5 || 3 || 10 || $DPS4$ || {{Money|$CE4$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Swingrate !! Range !! Whirlwind Hit !! Whirlwind Damage !! Whirlwind Range !! Damage Threshold !! Knife Damage !! Knife Count !! Knife Cooldown !! Knife Max Hits !! Knife Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.6 || 5.5 || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || 0.6 || 6.5 || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 8 || 0.6 || 6.5 || 3 || 6 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || $DPS2$ || {{Money|$CE2$}}
+|-
+| 3 || {{Money|$TP$}} || 14 || 0.6 || 6.5 || 3 || 14 || 6 || N/A || N/A || N/A || N/A || N/A || N/A || $DPS2$ || {{Money|$CE2$}}
+|-
+| 4 || {{Money|$TP$}} || 25 || 0.5 || 7 || 3 || 25 || 7 || 150 || 25 || 3 || 0.5 || 3 || 10 || $DPS4$ || {{Money|$CE4$}}
+|}
+</div>
+</tabber></div>

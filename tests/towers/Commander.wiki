@@ -1,0 +1,42 @@
+<var>
+$DPS$ = Damage / Firerate
+$TDPS$ = Damage * Missile Count / Firerate
+$CDPS$ = ((Damage / Firerate) * 10) / 30
+$SDPS$ = ((Damage / Firerate) * 10) / 60
+$CE$ = Total Price / Call to Arms DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 650; 400; 2450; 4500; 14000
+$FNC-DETECTION$ = 2; 2; 2
+$FNC-UPGRADE$ = Leadership; Call to Arms; Intense Training; Strength in Numbers
+$FNC-UPGRADEICON$ = 5525000768; 4594880289; 5525002879; 17512145719
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref>DPS is calculated as ((Damage ÷ Firerate) × Attack Time) ÷ Ability Cooldown<br>'''Attack Time''' is the time in which the Commander can attack during its abilities while '''Ability Cooldown''' is the minimum time between ability activations.<br>DPS does not include any Firerate Buffs.</ref>
+$SREF$ = <ref>If both abilites are used, DPS is the same as Call to Arms DPS.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" | Commander Stats
+|-
+! Level !! Total Price !! Firerate Buff !! Call to Arms Buff !! Damage !! Firerate !! Range !! Call to Arms DPS$DREF$ !! Support Caravan DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10% || N/A || N/A || N/A || 10 || N/A || N/A || N/A
+|-
+| 1 || {{Money|$TP$}} || 15% || N/A || N/A || N/A || 10 || N/A || N/A || N/A
+|-
+| 2 || {{Money|$TP$}} || 15% || 10% || 15 || 0.6 || 13 || $CDPS$ || N/A || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 17.5% || 15% || 30 || 0.6 || 15 || $CDPS$ || N/A || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 20% || 20% || 50 || 0.6 || 17 || $CDPS$$SREF$ || $SDPS$ || {{Money|$CE$}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="8" | Support Caravan Units Stats
+|-
+! Unit !! Health !! Damage !! Missile Count !! Firerate !! Range !! Explosion Range !! DPS
+|-
+| [[Gunner APC]] || 200 || 8 || N/A || 0.2 || 30 || N/A || $DPS$
+|-
+| [[Missile APC]] || 300 || 40 || 4 || 2 || 25 || 5 || $TDPS$
+|}
+</div>

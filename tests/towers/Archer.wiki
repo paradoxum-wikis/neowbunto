@@ -1,0 +1,64 @@
+<var>
+$DPS$ = Damage / Firerate
+$BDPS$ = Burn Damage / Burn Tick
+$SDPS$ = [[Splash Damage]] / Firerate
+$CDPS1$ = $DPS$ + $BDPS$
+$CDPS2$ = $DPS$ + $SDPS$
+$TED$ = Burn Damage * (Burn Time / Burn Tick)
+$CE$ = $TP$ / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 600; 250; 550; 1250; 3000; 8500
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Eagle Eye; Deadshot; Flame-tipped Arrows; Powder Keg Arrows; Shot of the Century
+$FNC-UPGRADEICON$ = 78487255054043; 118177062176518; 83003777730604; 115104563492355; 73857609172576
+$FNC-ROFBUG$ = Firerate
+$FREF$ = <ref name="firerate">Firerate is seperated into two parts, loading the bow, and aiming and firing the bow. The firerate is halved if the bow is already loaded.</ref>
+$DREF1$ = <ref>DPS assumes one arrow successfully hits one enemy only.<br/>Total DPS is calculated as Normal DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
+$TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × Burn Time.</ref>
+$DREF2$ = <ref>DPS assumes one arrow successfully hits one enemy only.</ref>
+$MREF$ = <ref>Refers to the arrow only, not the explosion.</ref>
+</var>
+<tabber>
+|-|Flame Arrow =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Flame Arrows
+|-
+! Level !! Total Price !! Damage !! Burn Damage !! Firerate$FREF$ !! Burn Tick !! Burn Time !! Range !! Max Hits !! Total Elapsed Damage$TREF$ !! DPS$DREF1$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 5 || N/A || 1.6 || N/A || N/A || 16.5 || 2 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || N/A || 1.4 || N/A || N/A || 20 || 2 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 8 || N/A || 1.4 || N/A || N/A || 20 || 2 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 10 || 3 || 1.4 || 1 || 2 || 21 || 3 || $TED$ || $CDPS1$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 16 || 5 || 1.2 || 1 || 4 || 21 || 4 || $TED$ || $CDPS1$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 40 || 14 || 1 || 1 || 4 || 24 || 8 || $TED$ || $CDPS1$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|}
+</div>
+|-|Explosive Arrow =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |Explosive Arrows
+|-
+! Level !! Total Price !! Damage !! [[Splash Damage]] !! Firerate$FREF$ !! Range !! Explosion Range !! Max Hits$MREF$ !! DPS !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 16 || 25 || 1.2 || 21 || 2 || 1 || $CDPS2$<ref>$DPS$ Normal DPS + $SDPS$ Splash DPS</ref> || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 40 || 45 || 1 || 24 || 2.5 || 1 || $CDPS2$<ref>$DPS$ Normal DPS + $SDPS$ Splash DPS</ref> || {{Money|$CE$}}
+|}
+</div>
+|-|Shock Arrow =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="9" |Shock Arrows
+|-
+! Level !! Total Price !! Damage !! Firerate$FREF$ !! Range !! Max Hits !! Stun Time !! DPS$DREF2$ !! Cost Efficiency
+|-
+| 5 || {{Money|$TP$}} || 40 || 1 || 24 || 5 || 0.15 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber>

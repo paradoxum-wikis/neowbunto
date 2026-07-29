@@ -1,0 +1,30 @@
+<var>
+$DPS$ = Damage / Firerate
+$MDPS$ = DPS * Max Hits
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 375; 200; 700; 2500; 6350; 16935
+$FNC-DETECTION$ = 2; 0;
+$FNC-UPGRADE$ = Improved Handling; Higher Voltage; Faraday's Vest; Shock Force; Zeus Cannon
+$FNC-UPGRADEICON$ = 3280081327; 4675534331; 4675521746; 4675504505; 4675504640
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref>Assumes that only one enemy is hit per shock.</ref>
+$MREF$ = <ref>Calculated as DPS × Max Hits.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! Chain Range !! Max Hits !! Shock Time !! Defense Drop !! DPS$DREF$ !! Max DPS$MREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.75 || 11 || 7 || 1 || 0.05 || 5% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || 0.75 || 12.5 || 7 || 1 || 0.05 || 5% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 6 || 0.65 || 12.5 || 7 || 1 || 0.08 || 10% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 12 || 0.65 || 12.5 || 7 || 2 || 0.08 || 10% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 115 || 2.25 || 16 || 10 || 2 || 0.18 || 15% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 200 || 2.25 || 17 || 10 || 3 || 0.3 || 25% || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>

@@ -1,0 +1,31 @@
+<var>
+$DPS$ = Damage / Firerate
+$MBU$ = Damage * Crystal Limit
+$CDPS$ = $DPS$ + $BDPS$
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 800; 2350; 5000; 8500; 22500
+$FNC-DETECTION$ = ; ;
+$FNC-UPGRADE$ = Better Production; Durable Minerals; High Radiation; Larger Isotopes; Nuclear Silo
+$FNC-UPGRADEICON$ = 0; 0; 0; 0; 0
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$DREF$ = <ref>DPS assumes the flames only hit one enemy.<br/>Total DPS is calculated as Normal DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage!! Firerate !! Range !! Crystal Limit !! Damage Vulnerability !! Vulnerability Time !! Max Build Up !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 20 || 6 || 8 || 3 || N/A || N/A || $MBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 5.5 || 10 || 5 || N/A || N/A || $MBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 35 || 5.5 || 10 || 6 || N/A || N/A || $MBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 65 || 5.5 || 10 || 6 || 20% || 5 || $MBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 110 || 5.5 || 10 || 8 || 20% || 5 || $MBU$ || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 225 || 4.75 || 12 || 12 || 30% || 7 || $MBU$ || $DPS$ || {{Money|$CE$}}
+|}
+</div>

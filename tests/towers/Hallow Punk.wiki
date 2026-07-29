@@ -1,0 +1,26 @@
+<var>
+$NDPS$ = [[Splash Damage]] / Firerate
+$BDPS$ = Burn Damage / Tick
+$DPS$ = $NDPS$ + $BDPS$
+$TP$ = $FNC-TOTALPRICE$
+$CE$ = Total Price / DPS
+$FNC-COST$ = 450; 350; 2450; 7500
+$FNC-ROFBUG$ = Firerate
+$FNC-UPGRADE$ = Bewitching Blaze; Vengeful Missiles; Queen of the Blood Ember
+$FNC-UPGRADEICON$ = File:HallowPunkUpgrade1.png; File:HallowPunkUpgrade2.png; File:HallowPunkMaxUpgrade.png
+$FREF$ = <ref>Firerate does not account for projectile travel time.</ref>
+$DREF$ = <ref>DPS assumes only one enemy is hit and receives full splash damage, and does not account for projectile travel time.<br/>With burn, Total DPS is calculated as Normal DPS + Burn DPS, with Burn DPS being calculated as Burn Damage ÷ Tick.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! [[Splash Damage]] !! Firerate$FREF$ !! Range !! Deadzone Range !! Explosion Range !! Rocket Speed !! Knockback !! Burn Damage !! Burn Duration !! Tick !! Total Elapsed Damage !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 4.5 || 18 || 7.5 || 3.5 || 35 || 10 || N/A || N/A || N/A || N/A || $NDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 18 || 4.15 || 20 || 7.5 || 3.5 || 35 || 12.5 || N/A || N/A || N/A || N/A || $NDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 52 || 4.15 || 20 || 7.5 || 5 || 40 || 12.5 || 6 || 6 || 1 || 36 || $DPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS.</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 180 || 4 || 21 || 7.5 || 6 || 45 || 15 || 12 || 7 || 1 || 84 || $DPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS.</ref> || {{Money|$CE$}}
+|}
+</div>

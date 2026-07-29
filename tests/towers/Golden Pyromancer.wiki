@@ -1,0 +1,34 @@
+<var>
+$NDPS$ = Normal Damage / Firerate
+$BDPS$ = Burn Damage / Tick
+$TDPS$ = $NDPS$ + $BDPS$
+$MDPS$ = $TDPS$ * Max Hits
+$TED$ = Burn Damage * (Burn Time / Tick)
+$CE$ = $TP$ / $TDPS$
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 850; 325; 900; 2777; 9800; 21435
+$FNC-DETECTION$ = 0; 0;
+$FNC-UPGRADE$ = Improved Handling; Golden Flare; Ring Of Fire; Eternal Ember; Kagutsuchi's Blood
+$FNC-UPGRADEICON$ = 3280081327; 3304823121; 3304823988; 3304824958; 3304825822
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$NREF$ = <ref>DPS assumes the flames only hit one enemy.<br/>Total DPS is calculated as Normal DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
+$MREF$ = <ref>Calculated as Total DPS × Max Hits.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! Burn Damage !! Firerate !! Range !! Defense Melt !! Burn Time !! Tick !! Max Hits !! Hitbox !! Total Elapsed Damage$TREF$ !! DPS$NREF$ !! Max DPS$MREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 2 || 0.25 || 9 || 2% || 4 || 1 || 4 || 1.25 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 2 || 0.15 || 11 || 2% || 4 || 1 || 4 || 1.5 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 2 || 0.15 || 11 || 2% || 4 || 1 || 6 || 1.5 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 5 || 0.15 || 13.5 || 7% || 7 || 1 || 8 || 1.5 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|-
+| 4  || {{Money|$TP$}} || 9 || 12 || 0.15 || 13.5 || 10% || 360 || 1 || 8 || 1.75 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 12 || 30 || 0.15 || 15 || 15% || 360 || 1 || 10 || 2.5 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || $MDPS$ || {{Money|$CE$}}
+|}
+</div>

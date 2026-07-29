@@ -1,0 +1,52 @@
+<var>
+$DPS$ = Splash Damage / Firerate
+$MDPS$ = DPS * Max Hits
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 100; 25; 150; 600; 1500; 3600
+$FNC-PVP-COST$ = 200; 125; 500; 800; 1500; 3000
+$FNC-DETECTION$ = 1; ;
+$FNC-UPGRADE$ = Paintball Gear; Shoulder Pads; Double Barrel Gun; Competitive Gear
+$FNC-UPGRADEICON$ = 3280081327; 3319083300; 3280082028; 3319084508; 3319085582
+$FNC-ROFBUG$ = Firerate
+$MREF$ = <ref>Max DPS is calculated as DPS x Max Hits.</ref>
+$CREF$ = <ref>Cost Efficiency is calculated with normal DPS.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Splash Damage !! Firerate !! Range !! Explosion Range !! Max Hits !! DPS !! Max DPS$MREF$ !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 1 || 1.7 || 7.5 || 3 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 1.7 || 9 || 3.5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 1.4 || 9 || 4 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3 || 0.7 || 9 || 4 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 8 || 0.7 || 10.5 || 4.5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 20 || 0.7 || 10.5 || 5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Splash Damage !! Firerate !! Range !! Explosion Range !! Max Hits !! DPS !! Max DPS$MREF$ !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 2 || 1.6 || 9 || 3 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || 1.6 || 9.5 || 3 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 6 || 1.3 || 9.5 || 3.5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 8 || 0.9 || 9.5 || 3.5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 12 || 0.75 || 11 || 4 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 18 || 0.6 || 13 || 4.5 || 8 || $DPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

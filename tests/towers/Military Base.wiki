@@ -1,0 +1,56 @@
+<var>
+$RDPS$ = Health / Spawnrate
+$GDPS$ = Gunner Damage / Firerate
+$CDPS$ = Cannon Splash Damage / Cannon Firerate
+$TDPS$ = Ram DPS + Gunner DPS + Cannon DPS
+$NDPS$ = Ram DPS + Gunner DPS
+$CE$ = Total Price / Total DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 400; 200; 400; 1600; 7500; 25000
+$FNC-PVP-COST$ = 400; 200; 400; 1750; 7500; 25000
+$FNC-DETECTION$ = 3; 0;
+$FNC-UPGRADE$ = Mechanics; Barbed Wire; Mounted Gunner; Tank; Railgun Tank
+$FNC-UPGRADEICON$ = 3877874591; 3877875003; 3877873543; 3444568329; 3444568580
+$FNC-ROFBUG$ = Firerate
+$SREF$ = <ref name=splash>Damage dealt in the inner explosion sphere. Splash damage is decreased linearly if the enemy is in the outer explosion sphere.</ref>
+$RREF$ = <ref name=ram>DPS dealt with its collisions. It is calculated as Health ÷ Spawnrate.</ref>
+$CREF$ = <ref name=cannon>Assumes only one enemy is hit and receives full splash damage.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table" ! colspan="5"
+! Level !! Total Price !! Health !! Gunner Damage !! Cannon Splash Damage$SREF$ !! Cannon Firerate !! Airstrike Damage$SREF$ !! Spawnrate !! Firerate !! Range !! Ram DPS !! Gunner DPS !! Cannon DPS !! Total DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 50 || N/A || N/A || N/A || N/A || 45 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 50 || N/A || N/A || N/A || N/A || 35 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 80 || N/A || N/A || N/A || N/A || 35 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 100 || 3 || N/A || N/A || N/A || 35 || 0.2 || 35 || $RDPS$ || $GDPS$  || N/A || $NDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 500 || 8 || 40 || 2 || 75x6 || 35 || 0.2 || 35 || $RDPS$ || $GDPS$  || $CDPS$ || $TDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 1,600 || 22 || 100 || 3 || 125x6 || 35 || 0.15 || 35 || $RDPS$ || $GDPS$  || $CDPS$ || $TDPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table" ! colspan="5"
+! Level !! Total Price !! Health !! Gunner Damage !! Cannon Splash Damage$SREF$ !! Cannon Firerate !! Airstrike Damage$SREF$ !! Spawnrate !! Firerate !! Range !! Ram DPS !! Gunner DPS !! Cannon DPS !! Total DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 60 || N/A || N/A || N/A || N/A || 40 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 60 || N/A || N/A || N/A || N/A || 25 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 100 || N/A || N/A || N/A || N/A || 25 || N/A || 5 || $RDPS$ || N/A || N/A || $RDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 100 || 3 || N/A || N/A || N/A || 25 || 0.2 || 30 || $RDPS$ || $GDPS$  || N/A || $NDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 500 || 8 || 40 || 2 || 75x6 || 25 || 0.2 || 30 || $RDPS$ || $GDPS$  || $CDPS$ || $TDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 1,600 || 22 || 100 || 3 || 125x6 || 25 || 0.15 || 30 || $RDPS$ || $GDPS$  || $CDPS$ || $TDPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

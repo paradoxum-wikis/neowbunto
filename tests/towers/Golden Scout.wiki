@@ -1,0 +1,25 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 250; 150; 600; 2250; 3400
+$FNC-UPGRADE$ = Higher Caliber; Precise Aiming; Golden Deagle; Double Tap
+$FNC-UPGRADEICON$ = 3032133716; 115730014; 3278741672; 3279537687
+$FNC-DETECTION$ = 1; 2;
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.8 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.5 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 5 || 0.5 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 35 || 1.2 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 0.6 || 18 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

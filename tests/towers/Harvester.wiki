@@ -1,0 +1,54 @@
+<var>
+$DPS$ = Damage / Firerate
+$TDPS$ = Thorns Damage / Thorns Tick
+$CE$ = $TP$ / $DPS$
+$TCE$ = $TP$ / $TDPS$
+$TP$ = $FNC-TOTALPRICE$
+$TED$ = Thorns Damage * (Thorns Duration / Thorns Tick)
+$FNC-COST$ = 2000; 625; 1500; 4000; 8750; 24300
+$FNC-DETECTION$ = 3; ; 0
+$FNC-UPGRADE$ = Sharper Thorns; Early Harvest; Nature's Vengence; Cold-Hearted Scarecrow; Harvesting Season
+$FNC-UPGRADEICON$ = 84794687219284; 128833693887182; 140040939003373; 83141210249578; 117691212648454
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Assuming the enemy stays inside the Thorns' full duration.<br/>Total Elapsed Damage is calculated as Thorns Damage × (Thorns Duration ÷ Thorns Tick)</ref>
+$DREF$ = <ref>DPS assumes thorns only hit one enemy.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="8" |Harvester Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! Projectile Speed !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 20 || 1.4 || 20 || 50 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 1.2 || 20 || 50 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 35 || 1.2 || 20 || 50 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 65 || 1.2 || 20 || 50 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 90 || 0.75 || 25 || 50 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 420 || 1.75 || 30 || 75 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |Thorns Stats
+|-
+! Level !! Total Price !! Thorns Damage !! Thorns Range !! Thorns Duration !! Thorns Slowdown !! Thorns Tick !! Total Elapsed Damage$TREF$ !! Thorns DPS$DREF$ || Cost Efficiency
+|-
+| 0 || {{Money|2,000}} || 2 || 12  || 8 || 20% || 0.25 || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|-
+| 1 || {{Money|2,625}} || 4 || 12 || 8 || 20% || 0.25 || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|-
+| 2 || {{Money|4,125}} || 4 || 14 || 11 || 25% || 0.25 || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|-
+| 3 || {{Money|8,125}} || 8 || 16 || 11 || 25% || 0.2 || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|-
+| 4 || {{Money|16,875}} || 9 || 17 || 12 || 25% || 0.2  || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|-
+| 5 || {{Money|41,175}} || 14  || 18 || 15  || 40% || 0.2 || $TED$ || $TDPS$ || {{Money|$TCE$}}
+|}
+</div>

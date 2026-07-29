@@ -1,0 +1,23 @@
+<var>
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 400; 400; 675; 2700; 6000; 15000
+$FNC-UPGRADE$ = Medical Precautions; Prescribed Vitamins; BIG BRAIN; Medical Pack; PHD
+$FNC-UPGRADEICON$ = 117008581932706; 71546954858462; 130592941614779; 112504548905627; 112504548905627
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Firerate Buff !! Damage Buff !! Range !! Healing !! Overheal Limit !! Max Targets !! Shield Recharge Speed !! Tower Selection Cooldown !! Ubercharge Duration
+|-
+| 0 || {{Money|$TP$}} || 15% || 0% || 12 || 5 || 0 || 1 || 8 || 0.5 || N/A
+|-
+| 1 || {{Money|$TP$}} || 15% || 0% || 12 || 5 || 0 || 2 || 8 || 0.5 || N/A
+|-
+| 2 || {{Money|$TP$}} || 15% || 0% || 14 || 5 || 0 || 3 || 6 || 0.5 || N/A
+|-
+| 3 || {{Money|$TP$}} || 15% || 20% || 15 || 10 || 10 || 3 || 6 || 0.5 || 10
+|-
+| 4 || {{Money|$TP$}} || 15% || 30% || 18 || 20 || 20 || 4 || 4.5 || 0.5 || 12.5
+|-
+| 5 || {{Money|$TP$}} || 15% || 40% || 20 || 25 || 50 || 5 || 4 || 0.5 || 15
+|}
+</div>

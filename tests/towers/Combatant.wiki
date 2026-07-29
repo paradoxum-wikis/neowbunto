@@ -1,0 +1,52 @@
+<var>
+$DPS$ = Damage / Swingrate
+$FNC-ROFBUG$ = Swingrate
+$FNC-COST$ = 300; 250; 500; 1500; 2500; 6000
+$FNC-Combatant-COST$ = 100; 250; 500; 1500; 2500; 6000
+$CE$ = Total Price / DPS
+$MCE$ = Total Price / $MDPS$
+$TP$ = $FNC-TOTALPRICE$
+$FNC-UPGRADE$ = Warrior Armor; Dangersense; Extra Protection; Illumina; Darkheart Swordsman
+$FNC-UPGRADEICON$ = 3356186535; 141745478; 4118882122; 16620737; 16868189
+$FNC-DETECTION$ = 2; ;
+$DREF$ = <ref>DPS assumes that only one enemy is hit per swing.<br />Ability is not taken into account.</ref>
+$MDREF$ = <ref>DPS assumes that the maximum number of enemies are hit per swing.<br/>Ability is not taken into account.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Brawler =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Swingrate !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 1 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1  || {{Money|$TP$}} || 3 || 1 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 5 || 1 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 10 || 1 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 25 || 0.75 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 40 || 0.5 || 6 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|Combatant =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Swingrate !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.85 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1  || {{Money|$TP$}} || 3 || 0.85 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 5 || 0.85 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 10 || 0.85 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 25 || 0.75 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 40 || 0.5 || 6 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

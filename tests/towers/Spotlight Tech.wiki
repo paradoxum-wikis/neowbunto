@@ -1,0 +1,30 @@
+<var>
+$DPS$ = Normal Damage / Firerate
+$BDPS$ = Burn Damage / Tick
+$CDPS$ = $DPS$ + $BDPS$
+$TED$ = Burn Damage * (Burn Time / Tick)
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 3225; 1865; 4820; 12560; 19320
+$FNC-DETECTION$ = 2; ; 0
+$FNC-UPGRADE$ = Backstage Crew; Non OSHA Compliant; Backstage Crew; Certified Spotlight Operator
+$FNC-UPGRADEICON$ = 131910648185483; 83428900433369; 120016900424836; 120615607474754
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$DREF$ = <ref>DPS assumes the flames only hit one enemy.<br/>Total DPS is calculated as Normal DPS + Burn DPS.<br/>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! Burn Damage !! Firerate !! Range !! Spotlight Radius !! Burn Time !! Tick !! Confusion Threshold !! Confusion Time !! Confusion Cooldown !! Total Elapsed Damage$TREF$ !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 4 || N/A || 0.3 || 30 || 2 || N/A || N/A || N/A || N/A || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 4 || 1 || 0.3 || 30 || 3.5 || 2 || 0.25 || N/A || N/A || N/A || $TED$ || $CDPS$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 8 || 2 || 0.3 || 35 || 4.5 || 2 || 0.25 || N/A || N/A || N/A || $TED$ || $CDPS$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 12 || 5 || 0.2 || 35 || 4.5 || 4 || 0.25 || N/A || N/A || N/A || $TED$ || $CDPS$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 15 || 10 || 0.2 || 40 || 5.5 || 6 || 0.25 || 1,800 || 2.5 || 7.5 || $TED$ || $CDPS$<ref>$DPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|}
+</div>

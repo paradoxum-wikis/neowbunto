@@ -1,0 +1,28 @@
+<var>
+$DPS$ = (Damage * Burst Count)  / (Cooldown + (Firerate * Burst Count))
+$DPS2$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 450; 150; 800; 3750; 12000
+$FNC-DETECTION$ = 2; ; 0
+$FNC-UPGRADE$ = Trigger Finger; Field Training; Gilded Gear; Maximum Potential
+$FNC-UPGRADEICON$ = 5523192002; 5523193619; 5523195646; 5523196519
+$FNC-ROFBUG$ = Firerate
+$FREF$ = <ref name=firerate>Firerate only applies to the burst and is not the time between bursts.</ref>
+$DREF$ = <ref name=dps>Calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)).</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Burst Count !! Firerate$FREF$ !! Cooldown !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 4 || 0.15 || 0.35 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 4 || 0.125 || 0.25 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 5 || 0.125 || 0.25 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 5 || N/A || 0.125 || 0 || 22 || $DPS2$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 14 || N/A || 0.125 || 0 || 22 || $DPS2$ || {{Money|$CE$}}
+|}
+</div>

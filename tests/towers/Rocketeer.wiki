@@ -1,0 +1,27 @@
+<var>
+$DPS$ = [[Splash Damage]] * Missile Count / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 600; 1800; 6000; 18500
+$FNC-DETECTION$ = 2; 0;
+$FNC-UPGRADE$ = Faster Reloading; Heavier Payload; Explosive Risks; Missile Maelstrom
+$FNC-UPGRADEICON$ = 84475876520565; 76900038470572; 103303357353083; 133610100963797
+$FNC-ROFBUG$ = Firerate
+$FREF$ = <ref>Does not account for projectile travel time.</ref>
+$DREF$ = <ref>Assumes only one enemy is hit.<br>Does not account for projectile travel time.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! [[Splash Damage]] !! Missile Count !! Firerate$FREF$ !! Range !! Deadzone Range !! Explosion Range !! Spread Angle !! Accuracy !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 30 || 1 || 3.75 || 20 || 9 || 3 || N/A || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 30 || 1 || 3 || 20 || 9 || 3 || N/A || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 50 || 1 || 3 || 22.5 || 9 || 4 || N/A || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 95 || 1 || 2.75 || 22.5 || 9 || 5 || N/A || 1 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 95 || 4 || 4.5 || 24 || 9 || 5 || 100 || 0.25 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

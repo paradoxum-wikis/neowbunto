@@ -1,0 +1,46 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 1850; 400; 1500; 7000; 15500
+$FNC-PVP-COST$ = 2550; 850; 1550; 8500; 18750
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Improved Handling; Specialized Tech; Geared Up; Futuristic Armory
+$FNC-UPGRADEICON$ = 15184753790; 15184753514; 15184753289; 15184752970
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.15 || 1.4 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.12 || 1.2 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 3 || 0.12 || 1.2 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 7 || 0.1 || 1 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 15 || 0.09 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 3 || 0.18 || 1.4 || 16 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 4 || 0.17 || 1.2 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 6 || 0.17 || 1.2 || 18.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 15 || 0.15 || 1 || 19 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 24 || 0.1 || 1 || 20 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

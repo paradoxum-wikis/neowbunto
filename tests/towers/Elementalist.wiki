@@ -1,0 +1,81 @@
+<var>
+$NDPS$ = (Damage * Burst Size) / ((Burst Size--) * Firerate + Burst Cooldown)
+$BDPS$ = Burn Damage / Burn Tick
+$TDPS$ = $NDPS$ + $BDPS$
+$DPS$ = Damage / Firerate
+$HDPS$ = Damage / 40
+$THDPS$ = $HDPS$ + $BDPS$
+$TED$ = Burn Damage * (Burn Time / Burn Tick)
+$CE$ = $TP$ / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 1500; 4000; 8000; 15000
+$FNC-DETECTION$ = 2; 0;
+$FNC-UPGRADE$ = Elemental Armory; Experimental Tech; Improved Exhaust Systems; Frost Fire Specialist
+$FNC-UPGRADEICON$ = 136223791844063; 124219033045691; 77890912829468; 90889171304008
+$FNC-ROFBUG$ = Firerate; Burst Cooldown
+$TREF$ = <ref name="TED">Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$DREF$ = <ref>Normal DPS assumes the flames only hit one enemy.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="13" |Fire Mode
+|-
+! Level !! Total Price !! Damage !! Burn Damage !! Burst Size !! Firerate !! Burst Cooldown !! Burn Tick !! Range !! Burn Time !! Total Elapsed Damage$TREF$ !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 3 || 5 || 3 || 0.2 || 0.6 || 0.5 || 12 || 2 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || 8 || 4 || 0.2 || 0.6 || 0.5 || 15 || 3 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 8 || 4 || 0.2 || 0.6 || 0.5 || 17 || 4 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 13 || 10 || 5 || 0.2 || 0.5 || 0.25 || 17 || 2 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 18 || 10 || 7 || 0.125 || 0.4 || 0.25 || 17 || 4 || $TED$ || $TDPS$<ref>$NDPS$ Normal DPS + $BDPS$ Burn DPS</ref> || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Frost Mode
+|-
+! Level !! Total Price !! Damage !! Burst Size !! Firerate !! Burst Cooldown !! Range !! Slowdown per Hit !! Max Slowdown !! Slowdown Time !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 3 || 3 || 0.2 || 0.6 || 12 || 5% || 45% || 2 || $NDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || 4 || 0.2 || 0.6 || 15 || 7.5% || 45% || 2 || $NDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 4 || 0.2 || 0.6 || 17 || 7.5% || 50% || 2 || $NDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 13 || 5 || 0.2 || 0.5 || 17 || 10% || 50% || 2 || $NDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|30,500}} || 18 || 7 || 0.125 || 0.4 || 17 || 12.5% || 60% || 2 || $NDPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="10" |Heatwave
+|-
+! Level !! Damage !! Burn Damage !! Range !! Burn Tick !! Burn Time !! Knockback Force !! Speed !! Total Elapsed Damage$TREF$ !! DPS
+|-
+| 2 || 150 || 10 || 12.5 || 0.5 || 5 || 20 || 2 || $TED$ || $THDPS$<ref>$HDPS$ Normal DPS + $BDPS$ Burn DPS</ref>
+|-
+| 3 || 250 || 15 || 13.5 || 0.5 || 5 || 22.5 || 2 || $TED$ || $THDPS$<ref>$HDPS$ Normal DPS + $BDPS$ Burn DPS</ref>
+|-
+| 4 || 400 || 20 || 15 || 0.5 || 5 || 25 || 2 || $TED$ || $THDPS$<ref>$HDPS$ Normal DPS + $BDPS$ Burn DPS</ref>
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="11" |Ice Turret
+|-
+! Level !! Health !! Damage !! Firerate !! Range !! Slowdown per Hit !! Max Slowdown !! Slowdown Time !! Freeze Time !! Lifespan !! DPS
+|-
+| 2 || 1,000 || 10 || 0.45 || 10 || 25% || 50% || 5 || 2 || 45 || $DPS$
+|-
+| 3 || 1,000 || 20 || 0.35 || 12.5 || 25% || 50% || 5 || 2 || 45 || $DPS$
+|-
+| 4 || 1,000 || 30 || 0.3 || 15 || 30% || 60% || 5 || 2 || 45 || $DPS$
+|}
+</div>

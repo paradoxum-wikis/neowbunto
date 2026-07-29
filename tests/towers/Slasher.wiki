@@ -1,0 +1,28 @@
+<var>
+$DPS$ = (Normal Damage * Crit Swing-- + Crit Damage) / Crit Swing / Swingrate
+$CDMG$ = {{#expr:Normal Damage * Crit Multiplier round 0}}
+$FNC-ROFBUG$ = Swingrate
+$FNC-COST$ = 2400; 1000; 4800; 11003; 40000
+$TP$ = $FNC-TOTALPRICE$
+$CE$ = Total Price / DPS
+$CREF$ = <ref>Number listed is the required number of shots for it to deal a critical hit.</ref>
+$DREF$ = <ref>DPS is calculated as (Damage × 2 + Crit Damage) ÷ Crit Swing ÷ Swingrate. DPS does not include bleed damage.</ref>
+$FNC-UPGRADE$ = Sleight of Hands; Bloodlust; Psycho Knife; Ocean Of Blood
+$FNC-UPGRADEICON$ = 92740435796975; 93224058728799; 102669883500047; File:SledgerLevel4.png; 102686099141752
+$FNC-DETECTION$ = 1; 2;
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! Crit Multiplier !! Crit Damage !! Base Bleed Damage !! Swingrate !! Crit Swing$CREF$ !! Bleed Stack !! EV !! Max Stack !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || 32.68 || {{Money|73.44}}
+|-
+| 1 || {{Money|$TP$}} || 15 || 2 || $CDMG$ || N/A || 0.4 || 3 || N/A || N/A || N/A || 5 || 49.02 || {{Money|69.36}}
+|-
+| 2 || {{Money|$TP$}} || 15 || 2.1 || $CDMG$ || 4 || 0.6 || 3 || 13 || 0.2 || 450 || 5 || 33.99 || {{Money|241.25}}
+|-
+| 3 || {{Money|$TP$}} || 25 || 2.5 || $CDMG$ || 4 || 0.55 || 3 || 20 || 0.2 || 450 || 5 || 67.50 || {{Money|284.49}}
+|-
+| 4 || {{Money|$TP$}} || 40 || 4 || $CDMG$ || 4 || 0.5 || 3 || 45 || 0.2 || 450 || 5 || 157.48 || {{Money|375.94}}
+|}
+</div>

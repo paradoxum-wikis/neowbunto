@@ -1,0 +1,31 @@
+<var>
+$GDPS$ = Normal Damage / Firerate
+$BDPS$ = Splash Damage / Bomb Cooldown
+$TDPS$ = Gun DPS + Bomb DPS
+$CE0$ = Total Price / Gun DPS
+$CE2$ = Total Price / Total DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 500; 225; 625; 1500; 2500; 9500
+$FNC-DETECTION$ = 4; 2; 0
+$FNC-UPGRADE$ = Greased Guns; Bombs away!; Aerial Ace; Spy Plane; The Surging Sky
+$FNC-UPGRADEICON$ = 17847640091; 17847639896; 17847640366; 17847640366; 17847640211
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Calculated as Gun DPS + Bomb DPS.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! Splash Damage !! Firerate !! Bomb Cooldown !! Range !! Explosion Range !! Hidden Detection Range !! Speed Multiplier !! Gun DPS !! Bomb DPS !! Total DPS$TREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || N/A || 0.2 || N/A || 9 || N/A || N/A || 1 || $GDPS$ || N/A || $GDPS$ || {{Money|$CE0$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || N/A || 0.2 || N/A || 9 || N/A || N/A || 1 || $GDPS$ || N/A || $GDPS$ || {{Money|$CE0$}}
+|-
+| 2 || {{Money|$TP$}} || 4 || 10 || 0.2 || 4 || 9 || 3 || N/A || 1 || $GDPS$ || $BDPS$ || $TDPS$ || {{Money|$CE2$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 30 || 0.1 || 4 || 10 || 3 || N/A || 1.1 || $GDPS$ || $BDPS$ || $TDPS$ || {{Money|$CE2$}}
+|-
+| 4 || {{Money|$TP$}} || 6 || 30 || 0.1 || 2 || 10 || 3 || N/A || 1.1 || $GDPS$ || $BDPS$ || $TDPS$ || {{Money|$CE2$}}
+|-
+| 5 || {{Money|$TP$}} || 15 || 45 || 0.1 || 1.5 || 10 || 3.5 || 7 || 1.35 || $GDPS$ || $BDPS$ || $TDPS$ || {{Money|$CE2$}}
+|}
+</div>

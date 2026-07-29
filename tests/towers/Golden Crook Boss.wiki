@@ -1,0 +1,43 @@
+<var>
+$DPS$ = Damage / Firerate
+$RDPS$ = Health / Spawnrate
+$TDPS$ = Gun DPS + Ram DPS
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 1250; 3400; 16500; 50000
+$FNC-DETECTION$ = 2; ; 0
+$FNC-UPGRADE$ = Lvl 1. Broke; Lvl. 2 Normie; Lvl 3. Gamer; Lvl. 4 GOD
+$FNC-UPGRADEICON$ = 3032133716; 3444643559; 3838914605; 3444644903
+$FNC-ROFBUG$ = Firerate
+$CREF$ = <ref>Does not account for unit DPS.</ref>
+$GREF$ = <ref>Goons are not affected by any buffs or debuffs.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="7" | Crook Boss Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency$CREF$
+|-
+| 0 || {{Money|$TP$}} || 12 || 0.8 || 16.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 14 || 0.55 || 16.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || 0.55 || 19 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 25 || 0.15 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 50 || 0.12 || 22 || $DPS$ || {{Money|$CE$}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="13" | Goon Stats$GREF$
+|-
+! Level !! Goon !! Health !! Damage !! Spawnrate !! Firerate !! Lifespan !! Limit !! Range !! Detections !! Gun DPS !! Ram DPS !! Total DPS
+|-
+| 0-4 || [[Pistol Goon]] || 40 || 4 || 45 || 0.6 || 200 || 10 || 17 || Flying || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 3 || [[Tommy Goon 1]] || 175 || 6 || 31 || 0.18 || 150 || 3 || 22.5 || Hidden, Flying || $DPS$ || $RDPS$ || $TDPS$
+|-
+| 4 || [[Tommy Goon 2]] || 300 || 8 || 31 || 0.12 || 150 || 3 || 24 || Hidden, Flying || $DPS$ || $RDPS$ || $TDPS$
+|}
+</div>

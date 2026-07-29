@@ -1,0 +1,31 @@
+<var>
+$DPS$ = Normal Damage / Firerate
+$MDPS$ = [[Splash Damage]] * Missile Count / Missile Reload
+$TDPS$ = $DPS$ + $MDPS$
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2000; 250; 650; 5000; 12500; 50000;
+$FNC-DETECTION$ = 2; 5; 5
+$FNC-UPGRADE$ = IMPROVED HANDLING; STARK MISSILE; EPIC ARMOR PLATING; ULTRA CHARGED BODY ARMOR; TO THE VOID AND BACK
+$FNC-UPGRADEICON$ = 4989372339; 4989372568; 3584258139; 4989373124; 4989373460
+$FNC-ROFBUG$ = Firerate
+$SREF$ = <ref>Number is the damage dealt in the inner explosion sphere. Splash damage is decreased linearly from the edge of the inner explosion sphere to the edge of the outer explosion sphere, if the enemy is in the outer explosion sphere.</ref>
+$DREF$ = <ref>Total DPS is calculated as Normal DPS + Missile DPS.<br/>Missile DPS assumes only one enemy is hit with all missiles and it receives full splash damage.</ref>
+</var>
+<div class="overflowbugy" style="width:100%;overflow:auto;">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! [[Splash Damage]]$SREF$ !! Missile Count !! Firerate !! Missile Reload !! Range !! Explosion Range !! [[Damage Buff]] !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || N/A || N/A || 0.1 || N/A || 12 || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || N/A || N/A || 0.1 || N/A || 18 || N/A || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 3 || 20 || 1 || 0.1 || 5 || 22 || 5 || N/A || $TDPS$<ref>$DPS$ Normal DPS + $MDPS$ Missile DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 8 || 20 || 1 || 0.1 || 5 || 22 || 5 || 10% || $TDPS$<ref>$DPS$ Normal DPS + $MDPS$ Missile DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 15 || 40 || 4 || 0.1 || 5 || 24 || 6 || 10% || $TDPS$<ref>$DPS$ Normal DPS + $MDPS$ Missile DPS</ref> || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 40 || 80 || 4 || 0.1 || 4 || 26 || 6 || 10% || $TDPS$<ref>$DPS$ Normal DPS + $MDPS$ Missile DPS</ref> || {{Money|$CE$}}
+|}
+</div>

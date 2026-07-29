@@ -1,0 +1,30 @@
+<var>
+$IDPS$ = Chill Damage / Tick
+$DPS$ = (Damage * Ammo) / (Reload Time + (Firerate * Ammo))
+$CDPS$ = $DPS$ + $IDPS$
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$TED$ = Chill Damage * (Slowdown Time / Tick)
+$FNC-COST$ = 300; 250; 935; 4000; 9500
+$FNC-DETECTION$ = ; 0;
+$FNC-UPGRADE$ = Frosty Gear; Freezing Tanks; Ice Commando; Winter's Fury
+$FNC-UPGRADEICON$ = 15686403377; 15686403176; 15686403037; 15686402849
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>At Level 2+ Total Elapsed Damage is calculated as Chill Damage × (Slowdown Time ÷ Tick).</ref>
+$DREF$ = <ref>DPS assumes the ice flames only hit one enemy.<br>At Level 2+, Ice DPS is calculated as Chill Damage ÷ Tick.<br>At Level 3+ DPS is calculated as (Damage × Ammo) ÷ (Reload Time + (Firerate × Ammo)) + Ice DPS.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Chill Damage !! Firerate !! Tick !! Max Hits !! Slowdown per Hit !! Max Slowdown !! Slowdown Time !! Defense Melt !! Freeze Time !! Ammo !! Reload Time !! Hitbox Width !! Turning Speed !! Total Elapsed Damage$TREF$ !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 0 || 0 || 0.2 || 0.25 || 3 || 5% || 50% || 2 || 10% || N/A || 40 || 2 || 1.25 || 4 || 0 || 10 || 0 || N/A
+|-
+| 1 || {{Money|$TP$}} || 0 || 0 || 0.2 || 0.25 || 3 || 5% || 65% || 2 || 10% || N/A || 50 || 2 || 1.25 || 4 || 0 || 12 || 0 || N/A
+|-
+| 2 || {{Money|$TP$}} || 0 || 1 || 0.2 || 0.25 || 3 || 5% || 65% || 2 || 10% || N/A || 80 || 2 || 1.25 || 4 || $TED$ || 13.5 || $IDPS$ || $CE$
+|-
+| 3 || {{Money|$TP$}} || 1 || 1 || 0.2 || 0.25 || 3 || 10% || 65% || 6 || 10% || N/A || 80 || 2 || 1.75 || 4 || $TED$ || 13.5 || $CDPS$<ref>$DPS$ Normal DPS + $IDPS$ Chill DPS</ref> || {{Money|622.58}}
+|-
+| 4 || {{Money|$TP$}} || 2 || 3 || 0.2 || 0.25 || 6 || 10% || 65% || 6 || 10% || 2 || 80 || 2 || 2 || 4 || $TED$ || 15 || $CDPS$<ref>$DPS$ Normal DPS + $IDPS$ Chill DPS</ref> || {{Money|622.58}}
+|}
+</div>

@@ -1,0 +1,60 @@
+<var>
+$DPS$ = Damage / Firerate
+$BOSS$ = {{#expr:Damage * Boss Multiplier round 0}}
+$BDPS$ = Boss Damage / Firerate
+$CE$ = Total Price / DPS
+$BCE$ = Total Price / Boss DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-SCHEMA$ = N; N; N; N; A; A; A; A; B; B; B; B;
+$FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
+$FNC-COST$ = 10000; 8000; 19500; 41000; 55000; 72000; 95000; 150000; 85000; 120000; 180000; 500320;
+$FNC-DETECTION$ = 2; ; ; ; ; 5; ; 7; -1;
+$FNC-UPGRADE$ = Combat Tactics; 32nd Spec-Ops; Re-routed Funds; Fortifier; Defensive Maneuvers; Flak Jacket; Hammerhead; Experimental Weaponry; Bigger Guns; Titanium Armor; Thresher;
+$FNC-UPGRADEICON$ = 123365136014760; 93721065871366; 96118655853436; 111732653007157; 95544278655808; 98941243657730; 106308635701035; 110879981278605; 88574561737643; 126158680785346; 106308635701035;
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref name=dps>DPS does not consider rev-up time.</ref>
+$RC$ = $FNC-RECURSION$
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="8" |Neutral Stats
+|-
+!Level !!Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}}$RC$ || 14 || 0.2 || 2 || 16 || $DPS$ || $RC${{Money|$CE$}}
+|-
+| 1 || $RC$ || 22 || 0.17 || 2 || 16 || $DPS$ || $RC$
+|-
+| 2 || $RC$ || 48 || 0.17 || 1.8 || 19 || $DPS$ || $RC$
+|-
+| 3 || $RC$ || 100 || 0.17 || 1.8 || 21 || $DPS$ || $RC$
+|}
+
+{| class="wikitable stats-table"
+! colspan="10" |Top Path Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Rev-Up Time !! Range !! Fortify Radius !! Fortify Debuff Time Reduction !! DPS$DREF$ !! Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 185 || 0.2 || 1.2 || 21 || 6 || 15% || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 230 || 0.17 || 1.2 || 24 || 7.5 || 15% || $DPS$ || {{Money|$CE$}}
+|-
+| 6 || {{Money|$TP$}} || 315 || 0.17 || 1 || 24 || 7.5 || 30% || $DPS$ || {{Money|$CE$}}
+|-
+| 7 || {{Money|$TP$}} || 425 || 0.17 || 1 || 24 || 11 || 50% || $DPS$ || {{Money|$CE$}}
+|}
+
+{| class="wikitable stats-table"
+! colspan="12" |Bottom Path Stats
+|-
+! Level !! Total Price !! Damage !! Boss Multiplier !! Boss Damage !! Firerate !! Rev-Up Time !! Range !! DPS$DREF$ !! Boss DPS !! Cost Efficiency !! Boss Cost Efficiency
+|-
+| 4 || {{Money|$TP$}} || 100 || 1.25 || $BOSS$ || 0.1 || 1.8 || 21 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+|-
+| 5 || {{Money|$TP$}} || 175 || 1.25 || $BOSS$ || 0.1 || 1.8 || 24 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+|-
+| 6 || {{Money|$TP$}} || 260 || 1.5 || $BOSS$ || 0.1 || 1.8 || 26 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+|-
+| 7 || {{Money|$TP$}} || 400 || 1.5 || $BOSS$ || 0.1 || 1.6 || 30 || $DPS$ || $BDPS$ || {{Money|$CE$}} || {{Money|$BCE$}}
+|}
+</div>

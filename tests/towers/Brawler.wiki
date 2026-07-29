@@ -1,0 +1,55 @@
+<var>
+$DPS$ = Damage / Swingrate
+$DPS2$ = ((Damage * 2) + Final Hit Damage) / (Cooldown + (Swingrate * (Hit Count - 1)))
+$CE$ = $TP$ / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-ROFBUG$ = Swingrate
+$FNC-COST$ = 300; 150; 750; 1500; 3000; 8250;
+$FNC-PVP-COST$ = 600; 300; 950; 2250; 5200; 12000;
+$FNC-DETECTION$ = 4; 0; ;
+$FNC-PVP-DETECTION$ = 3; 0; ;
+$FNC-UPGRADE$ = Hand to Hand Training; Enhanced Gauntlets; Pack a Punch; GALVAKNUCKLES; Boreas' Fury
+$FNC-PVP-UPGRADE$ = Hand to Hand Training; Enhanced Gauntlets; Pack a Punch; Prototype Frame; Faster Hydraulics
+$FNC-UPGRADEICON$ = 17522564142; 17522564142; 17522564023; 17522564307; 17522563932
+$FNC-PVP-UPGRADEICON$ = 0; 17522564142; 17522564023; 17522564307; 17522563932
+$SREF$ = <ref name="swingrate">Swingrate only applies to the first two hits in each burst and is not the time between bursts from level 2+.</ref>
+$DREF$ = <ref name="dps">DPS is calculated as [(Damage × 2) + Final Hit Damage] ÷ [Cooldown + (Swingrate × (Hit Count - 1))] from Level 2+.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Final Hit Damage !! Reposition Damage !! Hit Count !! Swingrate$SREF$ !! Cooldown !! Knockback Force !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 6 || N/A || N/A || N/A || 1.2 || N/A || N/A || 6 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 6 || N/A || N/A || N/A || 0.8 || N/A || N/A || 6 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 15 || N/A || 3 || 0.75 || 0.75 || 6 || 17.5 || $DPS2$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 22 || 33 || 20 || 3 || 0.6 || 0.6 || 20 || 6.25 || $DPS2$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 70 || 50 || 3 || 0.6 || 0.5 || 24 || 6.5 || $DPS2$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 66 || 111 || 100 || 3 || 0.5 || 0.4 || 35 || 7.25 || $DPS2$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Final Hit Damage !! Reposition Damage !! Hit Count !! Swingrate$SREF$ !! Cooldown !! Knockback Force !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || N/A || N/A || N/A || 0.9 || N/A || N/A || 6 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 10 || N/A || N/A || N/A || 0.6 || N/A || N/A || 6 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 12 || 24 || N/A || 3 || 0.6 || 0.75 || 17.5 || 6 || $DPS2$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 20 || 40 || 20 || 3 || 0.6 || 0.65 || 20 || 6 || $DPS2$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 40 || 70 || 80 || 3 || 0.5 || 0.5 || 24 || 6.5 || $DPS2$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 75 || 150 || 150 || 3 || 0.5 || 0.5 || 30 || 7 || $DPS2$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

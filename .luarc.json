@@ -1,0 +1,23 @@
+{
+	"$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+	"runtime": {
+		"builtin": {
+			"coroutine": "disable",
+			"debug": "disable",
+			"ffi": "disable",
+			"io": "disable",
+			"jit": "disable",
+			"os": "disable",
+			"package": "disable"
+		},
+		"version": "Lua 5.1"
+	},
+	"workspace": {
+		"checkThirdParty": false,
+		"library": ["vendor/"],
+		"ignoreDir": ["scripts/"]
+	},
+	"diagnostics": {
+		"ignoredFiles": "Disable"
+	}
+}

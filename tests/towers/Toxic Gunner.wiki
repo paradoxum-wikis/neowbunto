@@ -1,0 +1,34 @@
+<var>
+$DPS$ = $DPSGUN$ + $DPSPOISON$
+$DPSGUN$ = (Damage * Burst Count) / (Cooldown + (Firerate * Burst Count))
+$DPSPOISON$ = (Poison Damage / Tick)
+$DPS2$ = $DPS2GUN$ + $DPS2POISON$
+$DPS2GUN$ = Damage / Firerate
+$DPS2POISON$ = Poison Damage / Tick
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$TED$ = Poison Damage * (Poison Time / Tick)
+$FNC-COST$ = 525; 200; 800; 3500; 14000
+$FNC-DETECTION$ = ; 0; 3
+$FNC-UPGRADE$ = Faster Reloading; Poisonous Bullets; Sinister Gear; Going Nuclear!
+$FNC-UPGRADEICON$ = File:ToxicGunnerLevel1Icon.png; File:ToxicGunnerLevel2Icon.png; File:ToxicGunnerLevel3Icon.png; File:ToxicGunnerLevel4Icon.png
+$FNC-ROFBUG$ = Firerate
+$CREF$ = <ref>Firerate only applies to the burst and is not the time between bursts.</ref>
+$TREF$ = <ref>Total Elapsed Damage is calculated as Poison Damage × (Poison Time ÷ Tick)</ref>
+$DREF$ = <ref>DPS is calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)) + (Poison Damage ÷ Tick).<br/>When the '''Toxic Gunner''' stops firing in bursts, it is calculated as Damage ÷ Firerate + Poison Damage ÷ Tick<br/>DPS assumes all shots poison the same enemy.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Poison Damage !! Burst Count !! Firerate$CREF$ !! Tick !! Cooldown !! Range !! Poison Time !! Defense Dropping !! Max Defense Dropping !! Total Elapsed Damage$TREF$ !! Slowdown !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 1 || 4 || 0.1 || 1 || 1.2 || 10 || 6 || N/A || N/A || $TED$ || 10% || $DPS$<ref>$DPSGUN$ Gun DPS + $DPSPOISON$ Poison DPS</ref> || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 1 || 4 || 0.1 || 1 || 0.6 || 10 || 6 || N/A || N/A || $TED$ || 10% || $DPS$<ref>$DPSGUN$ Gun DPS + $DPSPOISON$ Poison DPS</ref> || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 1 || 3 || 8 || 0.1 || 1 || 0.6 || 14 || 6 || N/A || N/A || $TED$ || 20% || $DPS$<ref>$DPSGUN$ Gun DPS + $DPSPOISON$ Poison DPS</ref> || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 4 || 4 || 20 || 0.1 || 1 || 0.6 || 14 || 6 || 3% || 50% || $TED$ || 20% || $DPS$<ref>$DPSGUN$ Gun DPS + $DPSPOISON$ Poison DPS</ref> || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 11 || 10 || N/A || 0.135 || 1 || 0 || 18 || 10 || 3% || 50% || $TED$ || 30% || $DPS2$<ref>$DPS2GUN$ Gun DPS + $DPS2POISON$ Poison DPS</ref> || {{Money|$CE$}}
+|}
+</div>

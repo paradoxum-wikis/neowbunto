@@ -1,0 +1,47 @@
+<var>
+$DPS$ = (Ammo * Damage) / (Ammo * Firerate + Reload Time)
+$SDPS$ = [[Splash Damage]] / Ability Cooldown
+$CDPS$ = DPS + Missile Stats.DPS
+$MRNG$ = Tower Stats.Range * 2
+$CE$ = Total Price / Combined DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 2350; 935; 3250; 8500; 18000
+$FNC-DETECTION$ = 2; ; 0
+$FNC-UPGRADE$ = Faster Reloading; Precise Aiming; Stronger Equipment; Akimbo Handguns
+$FNC-UPGRADEICON$ = 119448063654848; 72540829223100; 111526844050563; 113494545335861
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref>DPS is calculated as (Ammo x Damage) ÷ (Ammo x Firerate + Reload Time).</ref>
+$DREF2$ = <ref>DPS is calculated as Splash Damage ÷ Ability Cooldown.</ref>
+$CREF$ = <ref>Includes both the DPS from the guns and the missiles</ref>
+$CEREF$ = <ref>Cost efficiency uses combined DPS.</ref>
+$SREF$ = <ref>Number is the damage dealt in the inner explosion sphere. Splash damage is decreased linearly from the edge of the inner explosion sphere to the edge of the outer explosion sphere, if the enemy is in the outer explosion sphere.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="11" | Tower Stats
+|-
+! Level !! Total Price !! Damage !! Firerate !! Reload Time !! Ammo !! Max Hits !! Range !! DPS$DREF$ !! Combined DPS$CREF$ !! Cost Efficiency$CEREF$
+|-
+| 0 || {{Money|$TP$}} || 5 || 0.2 || 3 || 30 || 2 || 13 || $DPS$ || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 5 || 0.15 || 2 || 30 || 2 || 13 || $DPS$ || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 8 || 0.15 || 2 || 45 || 2 || 14.5 || $DPS$ || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 15 || 0.13 || 1.5 || 60 || 2 || 16 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 24 || 0.13 || 1.25 || 80 || 2 || 17 || $DPS$ || $CDPS$ || {{Money|$CE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="9" | Missile Stats
+|-
+! Level !! [[Splash Damage]]$SREF$ !! Ability Cooldown !! Missile Count !! Stun Time !! Missile Lifespan !! Missile Range !! Explosion Range !! DPS$DREF2$
+|-
+| 3 || 100 || 20 || 2 || 0.5 || 360 || $MRNG$ || 4 || $SDPS$
+|-
+| 4 || 125 || 10 || 4 || 1 || 360 || $MRNG$ || 6 ||$SDPS$
+|}
+</div>

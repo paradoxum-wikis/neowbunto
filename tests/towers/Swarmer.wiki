@@ -1,0 +1,38 @@
+<var>
+$DPS$ = Damage / Firerate
+$SDPS$ = Bee Damage / Tick
+$CDPS$ = $DPS$ + $SDPS$
+$MDPS$ = $DPS$ + $SDPS$ * Stack Limit
+$MDPS2$ = $SDPS$ * Stack Limit
+$DPSR$ = $SDPS$ / Firerate
+$TED$ = {{#expr:floor(Sting Time / Tick) * Bee Damage}}
+$CE$ = $TP$ / DPS
+$MCE$ = $TP$ / Max DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 900; 600; 1200; 2500; 6000; 12000
+$FNC-DETECTION$ = ; ;
+$FNC-UPGRADE$ = Extra Honey; Aggressive Bees; Bee Certified Weapons; Beehive of Madness; Beekeeper of Death
+$FNC-UPGRADEICON$ = 125107182964673; 119703739718324; 111277904554322; 115125540733937; 115125540733937
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Total Elapsed Damage is (Sting Time ÷ Tick) × Bee Damage. In cases where Sting Time ÷ Tick results in a number that is not a full number, such as 7.33, it should be rounded down, in the previous example that being 7.</ref>
+$DREF$ = <ref>DPS assumes that only one enemy is currently being stung and only one stack is applied. It is calculated as (Damage ÷ Firerate) + (Bee Damage ÷ Tick)</ref>
+$DRREF$ = <ref>How much DPS is added every second through it applying bee stacks. It is calculated as (Bee Damage ÷ Tick) ÷ Firerate</ref>
+$MDREF$ = <ref>DPS when every single stack is applied for one '''Swarmer'''. It is calculated as (Damage ÷ Firerate) + [(Bee Damage ÷ Tick) × Stack Limit]</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Bee Damage !! Grenade Damage !! Firerate !! Tick !! Sting Time !! Stack Limit !! Global Stack Limit !! Range !! Explosion Range !! Total Elapsed Damage$TREF$ !! DPS$DREF$ !! DPS Rate$DRREF$ !! Max DPS$MDREF$ !! Min Cost Efficiency !! Max Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 1 || N/A || 1.2 || 1.25 || 4 || 5 || 1,500 || 13 || N/A || $TED$ || $CDPS$<ref>$DPS$ Regular DPS + $SDPS$ Sting DPS</ref> || $DPSR$ || $MDPS$<ref>$DPS$ Regular DPS + $MDPS2$ Sting DPS</ref> || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 2 || N/A || 1.2 || 1.25 || 4 || 5 || 1,500 || 13 || N/A || $TED$ || $CDPS$<ref>$DPS$ Regular DPS + $SDPS$ Sting DPS</ref> || $DPSR$ || $MDPS$<ref>$DPS$ Regular DPS + $MDPS2$ Sting DPS</ref> || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 2 || {{Money|$TP$}} || 4 || 2 || N/A || 1 || 1 || 4.5 || 10 || 1,500 || 15 || N/A || $TED$ || $CDPS$<ref>$DPS$ Regular DPS + $SDPS$ Sting DPS</ref> || $DPSR$ || $MDPS$<ref>$DPS$ Regular DPS + $MDPS2$ Sting DPS</ref> || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 3 || {{Money|$TP$}} || 0 || 2 || 50 || 2 || 0.75 || 5.25 || 20 || 1,500 || 18 || 6 || $TED$ || $SDPS$ || $DPSR$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 4 || {{Money|$TP$}} || 0 || 3 || 75 || 1.6 || 0.75 || 7.5 || 25 || 1,500 || 20 || 7 || $TED$ || $SDPS$ || $DPSR$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 5 || {{Money|$TP$}} || 0 || 3 || 125 || 1.2 || 0.75 || 15 || 40 || 1,500 || 20 || 7 || $TED$ || $SDPS$ || $DPSR$ || $MDPS2$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|}
+</div>

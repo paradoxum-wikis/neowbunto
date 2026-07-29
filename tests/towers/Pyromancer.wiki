@@ -1,0 +1,37 @@
+<var>
+$NDPS$ = Normal Damage / Firerate
+$BDPS$ = Burn Damage / Tick
+$TDPS$ = Normal DPS + Burn DPS
+$MDPS$ = Total DPS * Max Hits
+$TED$ = Burn Damage * (Burn Time / Tick)
+$CE$ = Total Price / Total DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 900; 325; 1000; 1750; 3750; 7500
+$FNC-DETECTION$ = 2; 0;
+$FNC-UPGRADE$ = Improved Handling; Fire Fighting; Fire Hazard; Napalm Thrower; Pyromaniac
+$FNC-UPGRADEICON$ = 3280081327; 3304823121; 3304823988; 3304824958; 3304825822
+$FNC-ROFBUG$ = Firerate
+$TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Tick).</ref>
+$NREF$ = <ref>Normal DPS assumes the flames only hit one enemy.</ref>
+$BREF$ = <ref>Burn DPS is calculated as Burn Damage ÷ Tick.</ref>
+$TDREF$ = <ref>Total DPS is calculated as Normal DPS + Burn DPS.</ref>
+$MREF$ = <ref>Max DPS is calculated as Total DPS × Max Hits.</ref>
+
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Normal Damage !! Burn Damage !! Firerate !! Range !! Defense Drop !! Burn Time !! Tick !! Max Hits !! Hitbox !! Total Elapsed Damage$TREF$  !! Normal DPS$NREF$ !! Burn DPS$BREF$ !! Total DPS$TDREF$ !! Max DPS$MREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 2 || 0.25 || 8 || 1% || 3 || 1 || 3 || 1.25 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 2 || 0.15 || 10 || 1% || 3 || 1 || 4 || 1.5 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 2 || 0.15 || 10 || 1% || 3 || 1 || 5 || 1.5 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3 || 5 || 0.15 || 12.5 || 5% || 6 || 1 || 7 || 1.5 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 4 || 10 || 0.15 || 12.5 || 10% || 10 || 1 || 7 || 1.75 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 6 || 25 || 0.15 || 14 || 10% || 10 || 1 || 10 || 2.5 || $TED$ || $NDPS$ || $BDPS$ || $TDPS$ || $MDPS$ || {{Money|$CE$}}
+|}
+</div>

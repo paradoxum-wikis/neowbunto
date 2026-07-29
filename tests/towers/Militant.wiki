@@ -1,0 +1,46 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 600; 300; 850; 2750; 8000
+$FNC-PVP-COST$ = 1400; 600; 2600; 5000; 10000
+$FNC-DETECTION$ = 1; ; 1
+$FNC-UPGRADE$ = Radio Comms; Field Ops; Guerrilla Tactics; Stealth Mercenary
+$FNC-PVP-UPGRADE$ = Radio Comms; Bigger Rifle; Upskill; Stealth Mercenary
+$FNC-UPGRADEICON$ = 5523212631; 5523215135; 5523216332; 5523217773
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 0.2 || 14 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 1 || 0.15 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 0.15 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 5 || 0.15 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 12 || 0.15 || 20 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.2 || 15 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.15 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 3 || 0.1 || 17 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 6 || 0.1 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 12 || 0.1 || 20 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

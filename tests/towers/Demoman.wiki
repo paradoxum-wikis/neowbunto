@@ -1,0 +1,51 @@
+<var>
+$DPS$ = Splash Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 550; 225; 800; 2325; 5750
+$FNC-PVP-COST$ = 575; 150; 500; 1500; 6000
+$FNC-DETECTION$ = ; 0;
+$FNC-UPGRADE$ = Faster Throwing; Ullapool Caber; Loch-n-Load; Expert's Ordnance
+$FNC-PVP-UPGRADE$ = Further Throwing; Steil Grenade; Chinalake; Collateral Damage
+$FNC-UPGRADEICON$ = 5523227714; 5523227714; 5523228733; 5523229364
+$FNC-PVP-UPGRADEICON$ = ; 5523227714; 5523228733; 5523229364
+$FNC-ROFBUG$ = Firerate
+$SREF$ = <ref>Number is the damage dealt in the inner explosion sphere. Splash damage is decreased linearly from the edge of the inner explosion sphere to the edge of the outer explosion sphere, if the enemy is in the outer explosion sphere.</ref>
+$AREF$ = <ref>Aim Time happens before the '''Demoman''' throws a grenade. This does not affect its firerate.</ref>
+$DREF$ = <ref>DPS does not consider projectile travel time.</ref>
+DPS assumes that only one enemy is hit and it receives full splash damage.</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Splash Damage$SREF$ !! Firerate !! Aim Time$AREF$ !! Range !! Explosion Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 6 || 2.4 || 1 || 10 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 6 || 1.75 || 1 || 12 || 5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 12 || 1.75 || 1 || 12 || 5.25 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 25 || 1.5 || 0 || 14 || 5.25 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 50 || 1.3 || 0 || 15.5 || 6 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Splash Damage$SREF$ !! Firerate !! Aim Time$AREF$ !! Range !! Explosion Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 6 || 1.75 || 1 || 9 || 4.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 6 || 1.5 || 1 || 11 || 4.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 10 || 1.5 || 1 || 11 || 5.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 15 || 1.35 || 0 || 14 || 5.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 1 || 0 || 16 || 5.5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

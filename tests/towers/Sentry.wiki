@@ -1,0 +1,34 @@
+<var>
+$LFR$ = {{#expr:Highest Firerate / 2 round 3}}
+$HDPS$ = Damage / Highest Firerate
+$LDPS$ = Damage / Lowest Firerate
+$HCE$ = Total Price / Min DPS
+$LCE$ = Total Price / Max DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 750; 500; 1200; 2200; 4500; 9250
+$FNC-DETECTION$ = 5; ;
+$FNC-UPGRADE$ = N/A; N/A; N/A; N/A; N/A
+$FNC-UPGRADEICON$ = File:Sentry1.png; File:Sentry2.png; File:Sentry3.png; File:Sentry4.png; File:Sentry5.png
+$FNC-ROFBUG2019$ = Highest Firerate; Lowest Firerate
+$HFREF$ = <ref>Highest Firerate is the highest firerate, before spooling-up.</ref>
+$LFREF$ = <ref>Lowest Firerate is the lowest firerate, after a full spool-up.</ref>
+$HDREF$ = <ref>Minimum DPS uses highest firerate.</ref>
+$LDREF$ = <ref>Maximum DPS uses lowest firerate.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Highest Firerate$HFREF$ !! Lowest Firerate$LFREF$ !! Spool-Up Time !! Range !! Min DPS$HDREF$ !! Max DPS$LDREF$ !! Min Cost Efficiency !! Max Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 0.7 || $LFR$ || 5 || 15 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|-
+| 1 || {{Money|$TP$}} || 3 || 0.7 || $LFR$ || 5 || 17 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|-
+| 2 || {{Money|$TP$}} || 4 || 0.4 || $LFR$ || 5 || 18 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|-
+| 3 || {{Money|$TP$}} || 6 || 0.4 || $LFR$ || 5 || 19 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|-
+| 4 || {{Money|$TP$}} || 7 || 0.25 || $LFR$ || 5 || 21 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|-
+| 5 || {{Money|$TP$}} || 9 || 0.2 || $LFR$ || 5 || 23 || $HDPS$ || $LDPS$ || {{Money|$HCE$}} || {{Money|$LCE$}}
+|}
+</div>

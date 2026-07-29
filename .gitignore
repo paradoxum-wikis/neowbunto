@@ -1,0 +1,8 @@
+vendor/
+dist/
+
+source*.wiki
+result*.wiki
+result*_*.wiki
+diff_*.lua
+Help*

@@ -1,0 +1,24 @@
+<var>
+$TED$ = Burn Damage * (Burn Time / Burn Tick)
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 1500; 2000; 6500; 12000; 22000
+$FNC-DETECTION$ = ; 0;
+$FNC-UPGRADE$ = Pyrotechnics; Bigger Boom; Light the Sky; The Finale
+$FNC-UPGRADEICON$ = 113918271734207; 102159060729309; 76789690706169; 83889465749773
+$DREF$ = <ref>While the game states it as ''added'' damage, this is actually how much damage the fireworks deal.</ref>
+$TREF$ = <ref>Total Elapsed Damage is calculated as Burn Damage × (Burn Time ÷ Burn Tick).</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Firework Damage$DREF$ !! Range !! Detection Buff Duration !! Explosion Range !! Firework Shot Chance Cap !! Burn Damage !! Burn Tick !! Burn Time !! Total Elapsed Damage$TREF$
+|-
+| 0 || {{Money|$TP$}} || 5 || 8 || 15 || 1 || 0.5 (50%) || 1 || 0.5 || 5 || $TED$
+|-
+| 1 || {{Money|$TP$}} || 10 || 8 || 20 || 1 || 0.6 (60%) || 2 || 0.5 || 5 || $TED$
+|-
+| 2 || {{Money|$TP$}} || 20 || 9 || 25 || 2 || 0.7 (70%) || 2 || 0.25 || 5 || $TED$
+|-
+| 3 || {{Money|$TP$}} || 30 || 9 || 30 || 2 || 0.85 (85%) || 4 || 0.25 || 5 || $TED$
+|-
+| 4 || {{Money|$TP$}} || 45 || 10 || 40 || 3 || 1 (100%) || 7 || 0.25 || 5 || $TED$
+|}

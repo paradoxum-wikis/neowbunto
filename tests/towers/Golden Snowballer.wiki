@@ -1,0 +1,23 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 67; 320; 2222; 1000000
+$FNC-DETECTION$ = 0; 0; 0
+$FNC-UPGRADE$ = Lord Exo Slayer; QA Leaker; Spectin destroyer
+$FNC-UPGRADEICON$ = File:V1.46.0Render.png; File:GoldenSnowballerUpgrade2.png; File:Png Bot11.png
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! Explosion Range !! Max Slowdown !! Slowdown per Hit !! Slowdown Time !! Freeze Time !! Max Hits !! Projectile Speed !! Placement Limit !! DPS<ref>DPS does not consider projectile travel time.<br/>DPS assumes that only one enemy is hit and it receives full damage.</ref> !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 6 || 0.5 || 14 || 6 || 67% || 67% || 100 || 8 || 2 || 20 || 67 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 18 || 0.35 || 14 || 6 || 67% || 67% || 100 || 8 || 2 || 20 || 67 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 60 || 0.2 || 15 || 8 || 67% || 67% || 4 || 8 || 2 || 20 || 67 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3267 || 0.1 || 19 || 8 || 67% || 67% || 4 || 15 || 4 || 20 || 21432 || $DPS$ || {{Money|$CE$}}
+|}
+</div>

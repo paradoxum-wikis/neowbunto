@@ -1,0 +1,55 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$IPS$ = Income / (Spin Time + (Firerate * (Cash Shot - 1)))
+$IE$ = (Income + Cash Shot * Damage) / (Cash Shot * Damage)
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 450; 150; 850; 3000; 5500; 12500
+$FNC-PVP-COST$ = 550; 200; 500; 2000; 3500; 7000
+$FNC-DETECTION$ = 2; ;
+$FNC-PVP-DETECTION$ = 3; ;
+$FNC-UPGRADE$ = Steady Hand; Lucky Shot; Faster Instincts; Double Tap; Outlawed
+$FNC-UPGRADEICON$ = 4999425200; 5523233366; 5523231844; 5523234030; 5523234990
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref name=dps>DPS is calculated as (Damage × Cash Shot) ÷ (Spin Time + (Firerate × (Cash Shot - 1))).</ref>
+$IREF$ = <ref name=ips>This is calculated as Income ÷ (Spin Time + (Firerate × (Cash Shot - 1))).</ref>
+$IEREF$ = <ref name=ie>Money generated per 1 damage is calculated as (Income + Cash Shot × Damage) ÷ (Cash Shot × Damage).</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Spin Time !! Cash Shot !! Income !! Range !! DPS$DREF$ !! Cost Efficiency || Income Per Second$IREF$ || Income Efficiency$IEREF$
+|-
+| 0 || {{Money|$TP$}} || 2 || 0.55 || 1.5 || 6 || {{Money|20}} || 15 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.45 || 1.25 || 6 || {{Money|20}} || 15 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 2 || {{Money|$TP$}} || 4 || 0.45 || 1.25 || 6 || {{Money|40}} || 17 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 3 || {{Money|$TP$}} || 14 || 0.6 || 1 || 6 || {{Money|75}} || 19 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 4 || {{Money|$TP$}} || 14 || 0.25 || 1 || 12 || {{Money|150}} || 19 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 5 || {{Money|$TP$}} || 28 || 0.25 || 1 || 12 || {{Money|250}} || 21 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Spin Time !! Cash Shot !! Income !! Range !! DPS$DREF$ !! Cost Efficiency || Income Per Second$IREF$ || Income Efficiency$IEREF$
+|-
+| 0 || {{Money|$TP$}} || 4 || 1 || 1.25 || 6 || {{Money|50}} || 14 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 1 || {{Money|$TP$}} || 4 || 0.8 || 1 || 6 || {{Money|50}} || 14.5 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 2 || {{Money|$TP$}} || 6 || 0.8 || 1 || 6 || {{Money|60}} || 16 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 3 || {{Money|$TP$}} || 10 || 0.5 || 0.75 || 12 || {{Money|75}} || 18 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 4 || {{Money|$TP$}} || 10 || 0.25 || 0.75 || 12 || {{Money|175}} || 20 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|-
+| 5 || {{Money|$TP$}} || 18 || 0.25 || 0.75 || 12 || {{Money|300}} || 20 || $DPS$ || {{Money|$CE$}} || {{Money|$IPS$}} || {{Money|$IE$}}
+|}
+</div>
+</tabber></div>

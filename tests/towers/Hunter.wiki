@@ -1,0 +1,46 @@
+<var>
+$DPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 1625; 725; 2850; 9400; 20000
+$FNC-PVP-COST$ = 1600; 750; 1800; 6250; 12000
+$FNC-DETECTION$ = 3; ; 0
+$FNC-UPGRADE$ = Quickscope; Survivalist's Kit; Sharp Shooter; Hunter In The Night
+$FNC-PVP-UPGRADE$ = Faster Hands; Experienced; Better Gear; Deadliest Hunter
+$FNC-UPGRADEICON$ = 3839040358; 3839041547; 3839042767; 3839043838
+$FNC-ROFBUG$ = Firerate
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 45 || 3.45 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 45 || 2.45 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 96 || 2.45 || 24 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 156 || 2.1 || 26 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 225 || 1.8 || 27.5 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Range !! DPS !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 20 || 1.7 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 20 || 1.2 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 35 || 1.2 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 85 || 1.2 || 21 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 165 || 1.2 || 24 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>

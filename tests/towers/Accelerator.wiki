@@ -1,0 +1,53 @@
+<var>
+$DPS$ = "Overcharge / (Charge-Up + Cooldown + (Overcharge / Damage * Tick))"
+$CE$ = "Total Price / DPS"
+$TP$ = "$FNC-TOTALPRICE$"
+$FNC-ROFBUG$ = Tick
+$FNC-COST$ = 7500; 2000; 6000; 9999; 27500; 60000;
+$FNC-PVP-COST$ = 4250; 750; 2000; 4500; 12000; 28500;
+$FNC-DETECTION$ = 1; 0; ;
+$FNC-UPGRADE$ = Extra Juice; Second Energy Canister; Powerhouse Armor; Supercharger; Vessel Of Infinite Destruction
+$FNC-UPGRADEICON$ = 11821094308; 11821094198; 11821093989; 11821093828; 11821093672
+$CUREF$ = <ref name="charge">The Charge-Up happens when the '''Accelerator''' first starts attacking or its cooldown ends. This is indicated by an animation where the '''Accelerator''' charges up its plasma gun.</ref>
+$CREF$ = <ref name="cooldown">The Cooldown happens when the Overcharge occurs. This is indicated by an animation where the '''Accelerator''' waves its hand.</ref>
+$DREF$ = <ref name="dps">DPS is calculated as Overcharge ÷ (Charge-Up + Cooldown + [Overcharge ÷ Damage x Tick]).</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Tick !! Charge-Up$CUREF$ !! Cooldown$CREF$ !! Overcharge !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 12 || 0.2 || 6.5 || 2.5 || 9,000 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 15 || 0.2 || 6.5 || 2.5 || 11,250 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 25 || 0.2 || 6.5 || 2.5 || 18,750 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 40 || 0.2 || 6.5 || 1 || 30,000 || 22 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 50 || 0.15 || 5.5 || 1 || 50,000 || 24 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 55 || 0.1 || 6.5 || 1 || 100,000 || 26 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Tick !! Charge-Up$CUREF$ !! Cooldown$CREF$ !! Overcharge !! Range !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 12 || 0.2 || 2.5 || 2 || 300 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 15 || 0.2 || 2.5 || 2 || 300 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 15 || 0.2 || 2.5 || 2 || 600 || 18 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 35 || 0.15 || 2.5 || 2 || 600 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 35 || 0.1 || 1.5 || 2 || 1,280 || 20 || $DPS$ || {{Money|$CE$}}
+|-
+| 5 || {{Money|$TP$}} || 90 || 0.1 || 1.5 || 2 || 2,400 || 23 || $DPS$ || {{Money|$CE$}}
+|}
+</center>
+</div>
+</tabber></div>

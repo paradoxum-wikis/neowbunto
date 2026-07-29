@@ -1,0 +1,26 @@
+<var>
+$TP$ = $FNC-TOTALPRICE$
+$TPI$ = $TP$ / Corruption
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 800; 600; 900; 1250; 2500; 5500
+$FNC-UPGRADE$ = Corrupted Vision; Unknown Title; Unknown Title; Unknown Title; Unknown Title
+$FNC-UPGRADEICON$ = File:Minigunner1.png; File:Minigunner2.png; File:Minigunner3.png; File:Minigunner4.png; File:Minigunner6.png
+$WREF$ = <ref>Calculated as Upgrade Cost ÷ Corruption Gain.</ref>
+</var>
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Cost !! Corruption !! Waves to recoup upgrade$WREF$ !! Total Price:Corruption
+|-
+| 0 || {{Money|800}} || {{Corruption|1}} || 800 || $TPI$:1
+|-
+| 1 || {{Money|$TP$}} || {{Corruption|2}} || 600 || $TPI$:1
+|-
+| 2 ||  {{Money|$TP$}} ||  {{Corruption|3}} ||  900 ||  $TPI$:1
+|-
+| 3 || {{Money|$TP$}} || {{Corruption|5}} || 625 || $TPI$:1
+|-
+| 4 || {{Money|$TP$}} || {{Corruption|9}} || 625 || 672.22:1
+|-
+| 5 || {{Money|$TP$}} || {{Corruption|15}} || 916.67 || $TPI$:1
+|}
+</div>

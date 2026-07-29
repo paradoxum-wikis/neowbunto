@@ -1,0 +1,47 @@
+<var>
+$DPS$ = (Damage * Burst Count) / (Cooldown + (Firerate * Burst Count))
+$CE$ = Total Price / DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-COST$ = 425; 225; 650; 2000; 4500
+$FNC-PVP-COST$ = 425; 225; 650; 2000; 4500
+$FNC-DETECTION$ = 2; ;
+$FNC-UPGRADE$ = Expedition Gear; Bundled Up!; Arctic Soldier; Ull's Arrow
+$FNC-PVP-UPGRADE$ = Expedition Gear; Bundled Up!; Arctic Soldier; Frost Bite!
+$FNC-UPGRADEICON$ = 15686418975; 15686418835; 15686418748; 15686418571
+$FNC-ROFBUG$ = Firerate
+$DREF$ = <ref>At Level 3+, DPS is calculated as (Damage × Burst Count) ÷ (Cooldown + (Firerate × Burst Count)).</ref>
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Tick !! Max Slowdown !! Slowdown Per Hit !! Slowdown Time !! Defense Dropping !! Burst Count !! Cooldown !! Range !! Freeze Time !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 0.5 || 0.25 || 50% || 10% || 5 || N/A || 1 || 0 || 12 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.5 || 0.25 || 60% || 15% || 5 || N/A || 1 || 0 || 12 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 0.5 || 0.25 || 60% || 20% || 5 || N/A || 1 || 0 || 14 || 2 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3 || 0.15 || 0.25 || 75% || 25% || 5 || 10% || 4 || 0.75 || 14 || 2.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 5 || 0.15 || 0.25 || 75% || 25% || 5 || 10% || 7 || 0.75 || 16 || 3 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+|-|PVP =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! Level !! Total Price !! Damage !! Firerate !! Tick !! Max Slowdown !! Slowdown Per Hit !! Slowdown Time !! Defense Dropping !! Burst Count !! Cooldown !! Range !! Freeze Time !! DPS$DREF$ !! Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 1 || 0.5 || 0.25 || 30% || 10% || 5 || N/A || 1 || 0 || 12 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 1 || {{Money|$TP$}} || 2 || 0.5 || 0.25 || 40% || 10% || 5 || N/A || 1 || 0 || 12 || N/A || $DPS$ || {{Money|$CE$}}
+|-
+| 2 || {{Money|$TP$}} || 2 || 0.5 || 0.25 || 40% || 20% || 5 || N/A || 1 || 0 || 14 || 2 || $DPS$ || {{Money|$CE$}}
+|-
+| 3 || {{Money|$TP$}} || 3 || 0.15 || 0.25 || 60% || 20% || 5 || 10% || 4 || 0.8 || 14 || 2.5 || $DPS$ || {{Money|$CE$}}
+|-
+| 4 || {{Money|$TP$}} || 5 || 0.15 || 0.25 || 60% || 20% || 5 || 10% || 7 || 0.8 || 16 || 3 || $DPS$ || {{Money|$CE$}}
+|}
+</div>
+</tabber></div>
