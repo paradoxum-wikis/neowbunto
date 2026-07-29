@@ -1,0 +1,16 @@
+name: Test
+
+on:
+    push:
+
+permissions:
+    contents: write
+
+jobs:
+    build-and-release:
+        runs-on: ubuntu-slim
+        steps:
+            - uses: actions/checkout@v7
+
+            - name: Run tests
+              run: ./fnl.sh test
