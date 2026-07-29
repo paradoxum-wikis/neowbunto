@@ -1,12 +1,12 @@
 #!/usr/bin/env lua
--- src/init.fnl -> dist/neowtext.lua
+-- src/init.fnl -> dist/neowbunto.lua
 
 local util = dofile("scripts/util.lua")
 util.ensure_fennel()
 
 local path = "src/?.fnl;src/?/init.fnl"
 local raw_path = "dist/neowtext.raw.lua"
-local out_path = "dist/neowtext.lua"
+local out_path = "dist/neowbunto.lua"
 
 util.mkdir_p("dist")
 

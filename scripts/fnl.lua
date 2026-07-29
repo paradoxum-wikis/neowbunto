@@ -11,7 +11,7 @@ Usage: ./fnl <command> [args...]
 Commands:
   help, -h             Show this help
   setup                Download vendor deps (Fennel, lua-minify, ...)
-  build                Compile + minify src/init.fnl -> dist/neowtext.lua
+  build                Compile + minify src/init.fnl -> dist/neowbunto.lua
   test                 Run check + corpus
   check                Unit tests
   corpus               Corpus tests

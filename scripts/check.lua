@@ -24,9 +24,9 @@ if not util.exec("lua scripts/build.lua") then
 	os.exit(1)
 end
 
-local f = io.open("dist/neowtext.lua", "r")
+local f = io.open("dist/neowbunto.lua", "r")
 if not f then
-	io.stderr:write("check: dist/neowtext.lua missing\n")
+	io.stderr:write("check: dist/neowbunto.lua missing\n")
 	os.exit(1)
 end
 local src = f:read("*a")
@@ -41,10 +41,10 @@ if not luac then
 else
 	local label = (luac:find("5%.1") or luac:find("luac5.1")) and "luac5.1" or "luac"
 	local exe = luac:gsub('"', "")
-	if util.exec(string.format('"%s" -p dist/neowtext.lua', exe)) then
-		print("check OK: " .. label .. " -p dist/neowtext.lua")
+	if util.exec(string.format('"%s" -p dist/neowbunto.lua', exe)) then
+		print("check OK: " .. label .. " -p dist/neowbunto.lua")
 	else
-		io.stderr:write("check FAIL: " .. label .. " -p dist/neowtext.lua\n")
+		io.stderr:write("check FAIL: " .. label .. " -p dist/neowbunto.lua\n")
 		failed = true
 	end
 end
