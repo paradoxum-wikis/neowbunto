@@ -16,7 +16,7 @@
         (each [k v (pairs a) &until (not ok)]
           (when (not (deep-eq? v (. b k)))
             (set ok false)))
-        (each [k v (pairs b) &until (not ok)]
+        (each [k _v (pairs b) &until (not ok)]
           (when (= (. a k) nil)
             (set ok false)))
         ok)))
@@ -64,7 +64,7 @@
       (do
         (set failed (+ failed 1))
         (print (.. "FAIL [" current-suite "] " (or msg "")))
-        (print (.. "  expected: true"))
+        (print "  expected: true")
         (print (.. "  actual:   " (tostring cond))))))
 
 (fn assert-near [actual expected tol msg]

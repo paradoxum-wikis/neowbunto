@@ -1,6 +1,6 @@
 ;; FNC/FSE config + TOTAL* wiring
 
-(local {: suite : assert-eq : assert-near : assert-true : assert-error}
+(local {: suite : assert-eq : assert-true : assert-error}
        (require :test_util))
 (local {: parse-vars : build-config : parse-page-config : split-semi
         : is-numeric-array-body : parse-number-list : get-var-key

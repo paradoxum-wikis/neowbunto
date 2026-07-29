@@ -2,26 +2,6 @@
 ;; #expr goes through mwexpr (same language offline)
 ;; callParserFunction accepts name+args, varargs, or { name, args }
 
-(fn trim [s]
-  (let [str (tostring (or s ""))]
-    (pick-values 1 (str:match "^%s*(.-)%s*$"))))
-
-(fn split [s sep plain?]
-  (let [parts []
-        needle (tostring (or sep ""))]
-    (var rest (tostring (or s "")))
-    (var done false)
-    (while (not done)
-      (let [(a b) (rest:find needle 1 (if plain? true false))]
-        (if a
-            (do
-              (table.insert parts (rest:sub 1 (- a 1)))
-              (set rest (rest:sub (+ b 1))))
-            (do
-              (table.insert parts rest)
-              (set done true)))))
-    parts))
-
 (fn unstrip-no-wiki [s]
   s)
 
@@ -29,9 +9,9 @@
   {:formatNum (fn [_self n] (tostring n))})
 
 (fn create-html [tag]
-  (var children [])
-  (var classes [])
-  (var attrs {})
+  (local children [])
+  (local classes [])
+  (local attrs {})
   (var text "")
   (let [node {}]
     (fn node.addClass [_ c]
@@ -64,7 +44,7 @@
   (let [frame {:args (or args {})}]
     (fn frame.getParent [_]
       nil)
-    (fn frame.callParserFunction [self a b ...]
+    (fn frame.callParserFunction [_self a b ...]
       (var name nil)
       (var expr nil)
       (if (and (= (type a) :table) a.name)

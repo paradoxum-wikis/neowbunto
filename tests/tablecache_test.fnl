@@ -98,7 +98,7 @@ $FNC-ROFBUG$ = Firerate
               "{|\n! Level !! Damage !! Firerate !! DPS\n|-\n| 0 || 20 || 1.4 || $DPS$\n|}"
               {})
         env {"DPS" "Damage / Firerate"}
-        resolve (fn [raw header row rof?]
+        resolve (fn [raw _header row _rof?]
                   (if (raw:match "%$[^%$]+%$")
                       (let [name (raw:match "%$([^%$]+)%$")
                             (ast _) (parse-with-env (. env name) env)]

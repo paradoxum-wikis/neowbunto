@@ -3,7 +3,7 @@
 (local {: suite : assert-eq : assert-near : assert-error : assert-true}
        (require :test_util))
 (local {: eval-node : eval-string : sum-series} (require :eval))
-(local {: parse-string : parse-with-env : parse-var-env} (require :parser))
+(local {: parse-with-env : parse-var-env} (require :parser))
 
 (fn run []
   (suite "num / binop / pow / unop pure arithmetic")

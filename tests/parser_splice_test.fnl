@@ -1,8 +1,7 @@
 ;; $VAR$ text-macro + cycles
 
 (local {: suite : assert-eq : assert-error : assert-true} (require :test_util))
-(local {: parse-with-env : parse-var : parse-var-env : parse-formula
-        : literal-raw?}
+(local {: parse-with-env : parse-var : parse-var-env : literal-raw?}
        (require :parser))
 
 (fn run []

@@ -1,12 +1,11 @@
 ;; ROF chrome, refs, nested $DPSREF$ footnotes
 
-(local {: suite : assert-eq : assert-true : assert-near} (require :test_util))
+(local {: suite : assert-eq : assert-true} (require :test_util))
 (local {: new-toggle-builder : next-cell-toggle! : rof-cell-html
-        : make-editor-btn-html : wrap-rofbug : process-table : build-out
-        : strip-var-blocks : render-page : fmt : expand-dollars}
+        : make-editor-btn-html : wrap-rofbug : build-out
+        : strip-var-blocks : render-page : fmt}
        (require :render))
-(local {: parse-page-config : formula-env} (require :config))
-(local {: eval-node : make-ctx} (require :eval))
+(local {: parse-page-config} (require :config))
 
 (fn first-leftover-var [s]
   ;; catches $DPSGUN$ still sitting in footnotes
@@ -28,7 +27,7 @@
   (let [b (new-toggle-builder 42)
         id1 (next-cell-toggle! b)
         id2 (next-cell-toggle! b)]
-    (assert-true (: b.id :find "^rofbug%-") "id prefix")
+    (assert-true (b.id:find "^rofbug%-") "id prefix")
     (assert-eq id1 (.. b.id "-c0") "first cell")
     (assert-eq id2 (.. b.id "-c1") "second cell")
     (assert-eq (length b.classes) 4 "two pairs of classes")
