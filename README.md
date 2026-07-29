@@ -1,6 +1,6 @@
 # Neowbunto
 
-This repository contains the Neowtext engine ran on Scribunto, while the one that runs natively on JavaScript is integrated tightly inside the [Statistics Editor](https://github.com/paradoxum-wikis/Statistics-Editor).
+This repository contains the [Neowtext](https://tds.fandom.com/wiki/Help:Neowtext) engine ran on Scribunto, while the one that runs natively on JavaScript is integrated tightly inside the [Statistics Editor](https://github.com/paradoxum-wikis/Statistics-Editor).
 
 The final iteration of the old Neowbunto that was written entirely in Lua can be found [here](https://tds.fandom.com/wiki/Module:Neowbunto?oldid=572606).
 
