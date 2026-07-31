@@ -26,14 +26,16 @@
 (fn fmt [n dec]
 	(if (not= (type n) :number)
 			(tostring n)
-			(let [d (or dec 2)
-						raw (: (.. "%." d "f") :format n)
-						(s) (raw:gsub "%.?0+$" "")
-						num (tonumber s)
-						fmtn (warm-format-num!)]
-				(if fmtn
-						(fmtn num)
-						(tostring num)))))
+			(do
+				(when (= cached-format-num false)
+					(warm-format-num!))
+				(let [d (or dec 2)
+							raw (: (.. "%." d "f") :format n)
+							(s) (raw:gsub "%.?0+$" "")
+							num (tonumber s)]
+					(if cached-format-num
+							(cached-format-num num)
+							(tostring num))))))
 
 (fn extract-prefix [pre-text]
 	(var last "")
@@ -119,14 +121,23 @@
 					"</div>"))))
 
 (fn formula-name-evaluable? [name formula-env]
-	(let [(base _ _) (parser.parse-pin-parts name)]
-		(if (. formula-env base)
-				true
-				(= base "FNC-TOTALPRICE")
-				true
-				(base:match "^FNC%-TOTAL%-(.+)$")
-				true
-				false)))
+	;; pins (@N) are relatively rare
+	(if (. formula-env name)
+			true
+			(= name "FNC-TOTALPRICE")
+			true
+			(name:match "^FNC%-TOTAL%-(.+)$")
+			true
+			(name:find "@" 1 true)
+			(let [(base _ _) (parser.parse-pin-parts name)]
+				(or (. formula-env base)
+						(= base "FNC-TOTALPRICE")
+						(not= (base:match "^FNC%-TOTAL%-(.+)$") nil)))
+			false))
+
+;; free fn pcall(f, ...) so we do not alloc a closure per $VAR$
+(fn eval-known-var [name ctx formula-env parse-cache]
+	(eval.eval-node ctx (parser.parse-var name formula-env parse-cache [])))
 
 (fn eval-var-name [name ctx formula-env parse-cache]
 	;; unknown -> nil (leave token)
@@ -134,11 +145,7 @@
 	;; (N/A, wikilinks) does not abort the whole page
 	(if (not (formula-name-evaluable? name formula-env))
 			nil
-			(let [(ok result) (pcall
-													(fn []
-														(let [ast (parser.parse-var name formula-env
-																												parse-cache [])]
-															(eval.eval-node ctx ast))))]
+			(let [(ok result) (pcall eval-known-var name ctx formula-env parse-cache)]
 				(if ok result nil))))
 
 (fn expand-dollars [text ctx formula-env parse-cache]
@@ -265,10 +272,12 @@
 				branch (detect-table-branch tbl branch-map)
 				base (make-eval-base vars prefix formula-env parse-cache frame
 														 table-cache branch branch-map)
-				header-ctx (build-eval-ctx base {} false 0)
+				ctx-n (build-eval-ctx base {} false 0)
+				ctx-r (when has-rof (build-eval-ctx base {} true 0))
 				rc-aliases (collect [k v (pairs vars)]
 										 (when (= (trim v) "$FNC-RECURSION$")
-											 (values k true)))]
+											 (values k true)))
+				has-rc (next rc-aliases)]
 		(var level -1)
 		(var col-idx 1)
 		(var row-norm {})
@@ -300,7 +309,7 @@
 								(each [cell (: (.. norm "!!") :gmatch "([^!]*)!!")]
 									(let [hc (trim cell)]
 										(when (not= hc "")
-											(let [temp (expand-dollars hc header-ctx formula-env
+											(let [temp (expand-dollars hc ctx-n formula-env
 																								 parse-cache)
 														clean (wikitable.clean-header-text temp)]
 												(when (not= clean "")
@@ -311,16 +320,17 @@
 							(local cells (wikitable.split-row-cells t))
 							(each [ci cell0 (ipairs cells)]
 								(var cell cell0)
-								(let [expanded (expand-rc cell)]
-									(if (expanded:find "$FNC-RECURSION$" 1 true)
-											(let [(content0) (expanded:gsub "%$FNC%-RECURSION%$" "")
-														content (trim content0)]
-												(if (not= content "")
-														(do
-															(set (. recursion col-idx) content)
-															(set cell content))
-														(set cell (or (. recursion col-idx) ""))))
-											(set (. recursion col-idx) nil)))
+								(when has-rc
+									(let [expanded (expand-rc cell)]
+										(if (expanded:find "$FNC-RECURSION$" 1 true)
+												(let [(content0) (expanded:gsub "%$FNC%-RECURSION%$" "")
+															content (trim content0)]
+													(if (not= content "")
+															(do
+																(set (. recursion col-idx) content)
+																(set cell content))
+															(set cell (or (. recursion col-idx) ""))))
+												(set (. recursion col-idx) nil))))
 								(let [h (. headers col-idx)]
 									(when (= h "Level")
 										(let [keys (wikitable.parse-level-keys cell)]
@@ -338,16 +348,15 @@
 									(var v-rof cell)
 									(when (cell:match "%$[^%$]+%$")
 										;; dual expand only with ROF as formulas may read things like Firerate_ROF
-										(let [ctx-n (build-eval-ctx base row-norm false level)]
-											(set v-norm (expand-dollars cell ctx-n formula-env
-																									parse-cache))
-											(if has-rof
-													(let [ctx-r (build-eval-ctx base row-rof true
-																											level)]
-														(set v-rof (expand-dollars cell ctx-r
-																											 formula-env
-																											 parse-cache)))
-													(set v-rof v-norm))))
+										(eval.bind-ctx! ctx-n row-norm false level)
+										(set v-norm (expand-dollars cell ctx-n formula-env
+																								parse-cache))
+										(if has-rof
+												(do
+													(eval.bind-ctx! ctx-r row-rof true level)
+													(set v-rof (expand-dollars cell ctx-r formula-env
+																										 parse-cache)))
+												(set v-rof v-norm)))
 									(set v-norm (preprocess-if-needed v-norm frame))
 									(set v-rof (if has-rof
 																 (preprocess-if-needed v-rof frame)
@@ -357,7 +366,7 @@
 										(set-row-field! row-rof h
 																		(if has-rof
 																				(coerce-row-value v-rof)
-																				(coerce-row-value v-norm))))
+																				(. row-norm h))))
 									(when (and has-rof h (. rof-cols h))
 										(let [n (or (tonumber v-norm)
 																(tonumber (v-norm:match "%d+%.?%d*")))]

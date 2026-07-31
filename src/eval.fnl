@@ -2,6 +2,7 @@
 
 (local config (require :config))
 (local mwexpr (require :mwexpr))
+(local parser (require :parser))
 
 (fn extract-number [v]
 	;; numbers, "1,000", {{Money|7500}} scrape, N/A -> 0 (stats tables)
@@ -44,8 +45,8 @@
 					(error (.. "eval: cyclic bare identifier '" name "'")))
 				(set (. stack name) true)
 				(set ctx.ident-stack stack)
+				;; pcall so cycle flag clears even when eval errors
 				(let [asts (or ctx.formula-asts ctx.parse-cache)
-							parser (require :parser)
 							ast (or (and asts (. asts name))
 											(parser.parse-var name env (or ctx.parse-cache {}) []))
 							(ok res) (pcall eval-node ctx ast)]
@@ -59,10 +60,12 @@
 					s (pick-values 1 (s:gsub "<ref[^>]*/>" ""))]
 			(s:match "%$([A-Za-z][%w%-]*)%$"))))
 
-(fn with-row! [ctx row f]
+(fn with-row! [ctx row f a b c]
+	;; a b c optional
+	;; pcall(f, ...) avoids a fresh closure
 	(let [saved ctx.row]
 		(set ctx.row row)
-		(let [(ok res) (pcall f)]
+		(let [(ok res) (pcall f a b c)]
 			(set ctx.row saved)
 			(if ok res (error res)))))
 
@@ -76,7 +79,7 @@
 						n
 						(let [fname (cell-formula-name v)]
 							(if fname
-									(with-row! ctx row #(formula-fallback ctx fname))
+									(with-row! ctx row formula-fallback ctx fname)
 									(as-number v label)))))))
 
 (fn row-lookup [ctx name]
@@ -246,12 +249,12 @@
 			v
 			(let [fname (cell-formula-name v)]
 				(if fname
+						;; nil on fail
+						;; #expr then errors loud on the raw name
 						(let [saved ctx.row]
 							(set ctx.row row)
 							(let [(ok res) (pcall formula-fallback ctx fname)]
 								(set ctx.row saved)
-								;; nil on fail
-								;; #expr then errors loud on the raw name
 								(and ok (= (type res) :number) res)))
 						(extract-number v)))))
 
@@ -352,7 +355,6 @@
 (fn resolve-named-ast [ctx name]
 	(let [asts (or ctx.formula-asts ctx.parse-cache)
 				env (or ctx.formula-env (and ctx.config ctx.config.formula-env))
-				parser (require :parser)
 				vars (or ctx.vars (and ctx.config ctx.config.vars) {})
 				prefix (or ctx.prefix (and ctx.config ctx.config.prefix) "")
 				key (config.get-array-var-key vars prefix name)
@@ -369,23 +371,23 @@
 						(set (. ctx.formula-asts name) ast)))))
 		ast))
 
-(fn with-level! [ctx lvl f]
+(fn eval-at-level [ctx lvl ast]
 	(let [saved-level ctx.level
 				row (or ctx.row {})
 				saved-rl row.Level]
 		(set ctx.level lvl)
 		(set row.Level lvl)
-		(let [(ok res) (pcall f)]
+		(let [(ok res) (pcall eval-node ctx ast)]
 			(set ctx.level saved-level)
 			(set row.Level saved-rl)
 			(if ok res (error res)))))
 
-(fn with-pin! [ctx lvl br f]
+(fn with-pin! [ctx lvl br f a b c]
 	(let [saved-level ctx.level
 				saved-branch ctx.branch]
 		(set ctx.level (or lvl ctx.level))
 		(set ctx.branch (resolve-branch ctx br))
-		(let [(ok res) (pcall f)]
+		(let [(ok res) (pcall f a b c)]
 			(set ctx.level saved-level)
 			(set ctx.branch saved-branch)
 			(if ok res (error res)))))
@@ -398,7 +400,7 @@
 		(let [lvl (or (tonumber ctx.level) 0)]
 			(var total 0)
 			(for [i 0 lvl]
-				(let [n (with-level! ctx i #(eval-node ctx ast))]
+				(let [n (eval-at-level ctx i ast)]
 					(when (not= (type n) :number)
 						(error (.. "eval: $FNC-TOTAL-" name "$ at level " (tostring i)
 											 " is not a number: " (tostring n))))
@@ -464,8 +466,7 @@
 	(- (eval-node ctx (. node 3))))
 
 (fn node-handlers.pin [ctx node]
-	(with-pin! ctx (. node 2) (. node 3)
-						 #(eval-node ctx (. node 4))))
+	(with-pin! ctx (. node 2) (. node 3) eval-node ctx (. node 4)))
 
 (fn node-handlers.intrinsic [ctx node]
 	(case (. node 2)
@@ -495,10 +496,9 @@
 						 (error (.. "eval: unhandled node tag " (tostring tag)))))))
 
 (fn eval-string [s ctx var-env]
-	(let [parser (require :parser)
-				ast (if (and var-env (next var-env))
-								(let [(a _) (parser.parse-with-env s var-env)] a)
-								(parser.parse-string s))]
+	(let [ast (if (and var-env (next var-env))
+							(let [(a _) (parser.parse-with-env s var-env)] a)
+							(parser.parse-string s))]
 		(eval-node ctx ast)))
 
 (fn make-ctx [opts]
@@ -522,9 +522,17 @@
 						 :formula-env (or opts.formula-env (and cfg cfg.formula-env))}]
 		ctx))
 
+;; rebind per cell
+(fn bind-ctx! [ctx row rof? lvl]
+	(set ctx.row (or row {}))
+	(set ctx.level (or lvl 0))
+	(set ctx.rof? (or rof? false))
+	ctx)
+
 {:eval-node eval-node
  :eval-string eval-string
  :make-ctx make-ctx
+ :bind-ctx! bind-ctx!
  :row-lookup row-lookup
  :table-lookup table-lookup
  :cache-get cache-get
