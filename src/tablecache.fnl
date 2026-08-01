@@ -108,6 +108,8 @@
 		cache))
 
 (fn register-cache [page-cache table-name cache prefix]
+	;; same title under Regular/PVP
+	;; bare key keeps first while rest is name|Prefix
 	(let [prefix (or prefix "")
 				key (if (not= prefix "")
 								(.. table-name "|" prefix)
@@ -121,6 +123,29 @@
 				(set (. page-cache stripped) cache)))
 		page-cache))
 
+(fn scope-page-cache [page-cache prefix]
+	;; collapse Name|tab onto bare Name for this tab
+	(when page-cache
+		(let [prefix (or prefix "")]
+			(if (= prefix "")
+					page-cache
+					(let [view {}
+								suffix (.. "|" prefix)
+								slen (length suffix)]
+						(each [k v (pairs page-cache)]
+							(when (and (= (type k) :string) (not (k:find "|" 1 true)))
+								(set (. view k) v)))
+						(each [k v (pairs page-cache)]
+							(when (and (= (type k) :string)
+												 (> (length k) slen)
+												 (= (k:sub (- slen)) suffix))
+								(let [base (k:sub 1 (- (length k) slen))]
+									(set (. view base) v)
+									(let [(stripped) (base:gsub "%s+" "")]
+										(when (not= stripped base)
+											(set (. view stripped) v))))))
+						view)))))
+
 (fn table-name-of [table-ast fallback-index]
 	(or table-ast.title
 			(and fallback-index (.. "Table" (tostring fallback-index)))
@@ -130,12 +155,14 @@
 	(let [opts (or opts {})
 				page {}
 				index-overrides opts.index-overrides
-				prefix (or opts.prefix "")]
+				default-prefix (or opts.prefix "")
+				table-prefixes (or opts.table-prefixes [])]
 		(each [i table-ast (ipairs (or tables []))]
 			(let [name (table-name-of table-ast i)
 						idx (index-col table-ast index-overrides)
-						cache (build-table-cache table-ast idx opts)]
-				(register-cache page name cache prefix)))
+						cache (build-table-cache table-ast idx opts)
+						pfx (or (. table-prefixes i) default-prefix "")]
+				(register-cache page name cache pfx)))
 		page))
 
 (fn build-page-cache-from-text [content branch-map opts]
@@ -147,4 +174,5 @@
  :build-table-cache build-table-cache
  :build-page-cache build-page-cache
  :build-page-cache-from-text build-page-cache-from-text
- :register-cache register-cache}
+ :register-cache register-cache
+ :scope-page-cache scope-page-cache}

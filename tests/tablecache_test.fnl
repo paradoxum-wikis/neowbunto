@@ -3,7 +3,7 @@
 (local {: suite : assert-eq : assert-near : assert-true} (require :test_util))
 (local {: parse-table : parse-all-tables} (require :wikitable))
 (local {: build-table-cache : build-page-cache : build-page-cache-from-text
-        : cache-get : rof-bug}
+        : cache-get : rof-bug : scope-page-cache}
        (require :tablecache))
 (local {: eval-node : make-ctx} (require :eval))
 (local {: parse-with-env} (require :parser))
@@ -121,6 +121,26 @@ $FNC-ROFBUG$ = Firerate
                "thorns L1")
     (assert-eq (. (cache-get (. page "Thorns Stats") 0 "") "Extra") "x"
                "|| header fix"))
+
+  (suite "same title under Regular/PVP keeps both caches")
+  (let [t-reg (parse-table "{| \n! colspan=\"2\" |Sentry Stats\n|-\n! Level !! Damage\n|-\n| 0 || 2\n|}" {})
+        t-pvp (parse-table "{| \n! colspan=\"2\" |Sentry Stats\n|-\n! Level !! Damage\n|-\n| 0 || 8\n|}" {})
+        page (build-page-cache [t-reg t-pvp]
+                               {:table-prefixes ["Regular" "PVP"]})
+        view-r (scope-page-cache page "Regular")
+        view-p (scope-page-cache page "PVP")
+        view0 (scope-page-cache page "")]
+    (assert-eq (. (cache-get (. page "Sentry Stats|Regular") 0 "") "Damage") 2
+               "Regular keyed")
+    (assert-eq (. (cache-get (. page "Sentry Stats|PVP") 0 "") "Damage") 8
+               "PVP keyed")
+    (assert-eq (. (cache-get (. page "Sentry Stats") 0 "") "Damage") 2
+               "bare name keeps first (Regular)")
+    (assert-eq (. (cache-get (. view-r "Sentry Stats") 0 "") "Damage") 2
+               "scope Regular")
+    (assert-eq (. (cache-get (. view-p "Sentry Stats") 0 "") "Damage") 8
+               "scope PVP")
+    (assert-eq view0 page "empty prefix is identity"))
 
   (suite "build-page-cache-from-text end-to-end")
   (let [page (build-page-cache-from-text harvester-page {} {})]

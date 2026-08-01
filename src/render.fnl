@@ -213,12 +213,14 @@
 (fn make-eval-base [vars prefix formula-env parse-cache frame table-cache
 										branch ?branch-map]
 	;; COST/SCHEMA once per table not per cell
+	;; tab-scope cache so same title i.e. Regular/PVP do not collide
 	(let [prefix (or prefix "")
 				costs (config.parse-number-list
 								(or (. vars (config.get-var-key vars prefix "COST")) ""))
 				schema (config.parse-schema
 								 (. vars (config.get-var-key vars prefix "SCHEMA")))
 				bmap (or ?branch-map {})
+				tc (tablecache.scope-page-cache table-cache prefix)
 				cfg {:vars vars
 						 :prefix prefix
 						 :costs costs
@@ -231,7 +233,7 @@
 		 :parse-cache parse-cache
 		 :formula-asts parse-cache
 		 :frame frame
-		 :table-cache table-cache
+		 :table-cache tc
 		 :branch (or branch "")
 		 :branch-map bmap
 		 :costs costs
@@ -447,16 +449,12 @@
 				prefix0 (or (and cfg cfg.prefix) "")
 				page-bmap (or (and cfg cfg.branch-map) {})
 				spans (wikitable.find-table-spans content)
-				parsed (icollect [_ span (ipairs spans)]
-								 (wikitable.parse-table span.text page-bmap))
-				page-cache (tablecache.build-page-cache
-										 parsed
-										 {:prefix prefix0
-											:index-overrides (or (and cfg cfg.index) [])
-											:rof-cols rof-cols
-											:rof-offset rof-offset})
+				parsed []
+				table-prefixes []
 				result []
 				n (length content)]
+		;; prefixes while parsing
+		;; register needs them before process-table
 		(var cursor 1)
 		(var last-prefix "")
 		(each [_ span (ipairs spans)]
@@ -467,24 +465,40 @@
 						prefix (if (not= extracted "") extracted last-prefix)]
 				(when (not= extracted "")
 					(set last-prefix extracted))
-				;; free text kept raw until finalize-output (needs ref counts)
-				(when (not= pre "")
-					(table.insert result pre))
-				(let [branch-map (config.build-branch-map vars prefix)
-							processed (process-table span.text vars formula-env
-																			 parse-cache rof-cols
-																			 rof-offset branch-map
-																			 frame builder page-cache
-																			 prefix)]
-					(table.insert result processed))
+				(table.insert parsed (wikitable.parse-table span.text page-bmap))
+				(table.insert table-prefixes prefix)
 				(set cursor (+ span.stop 1))))
-		(when (<= cursor n)
-			(table.insert result (content:sub cursor)))
-		(trim (finalize-output (table.concat result) vars formula-env parse-cache
-													 {:frame frame
-														:table-cache page-cache
-														:prefix prefix0
-														:branch-map page-bmap}))))
+		(let [page-cache (tablecache.build-page-cache
+											 parsed
+											 {:prefix prefix0
+												:table-prefixes table-prefixes
+												:index-overrides (or (and cfg cfg.index) [])
+												:rof-cols rof-cols
+												:rof-offset rof-offset})]
+			(set cursor 1)
+			(each [i span (ipairs spans)]
+				(let [pre (if (< cursor span.start)
+											(content:sub cursor (- span.start 1))
+											"")
+							prefix (. table-prefixes i)]
+					;; free text kept raw until finalize-output (needs ref counts)
+					(when (not= pre "")
+						(table.insert result pre))
+					(let [branch-map (config.build-branch-map vars prefix)
+								processed (process-table span.text vars formula-env
+																				 parse-cache rof-cols
+																				 rof-offset branch-map
+																				 frame builder page-cache
+																				 prefix)]
+						(table.insert result processed))
+					(set cursor (+ span.stop 1))))
+			(when (<= cursor n)
+				(table.insert result (content:sub cursor)))
+			(trim (finalize-output (table.concat result) vars formula-env parse-cache
+														 {:frame frame
+															:table-cache page-cache
+															:prefix prefix0
+															:branch-map page-bmap})))))
 
 (fn strip-var-blocks [content]
 	(pick-values 1

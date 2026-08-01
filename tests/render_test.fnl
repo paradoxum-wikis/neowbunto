@@ -270,6 +270,68 @@ $FNC-COST$ = 525; 200
              "{| table"
              "stripped")
 
+  ;; last same title table used to win
+  ;; Regular CDPS pulled PVP sentry
+  (suite "tabber-scoped Table.Col (Regular vs PVP Sentry)")
+  (let [wiki "<var>
+$DPS$ = Damage / Firerate
+$CDPS$ = DPS + Sentry Stats.DPS * Max Units
+$FNC-COST$ = 1; 1
+</var>
+<div class=\"mobile-tabber\"><tabber>
+|-|Regular =
+{| class=\"wikitable\"
+! colspan=\"5\" |Engineer Stats
+|-
+! Level !! Damage !! Firerate !! Max Units !! Combined DPS
+|-
+| 0 || 4 || 1.4 || 1 || $CDPS$
+|-
+| 5 || 80 || 0.75 || 3 || $CDPS$
+|-
+| 6 || 90 || 0.6 || 4 || $CDPS$
+|}
+{| class=\"wikitable\"
+! colspan=\"4\" |Sentry Stats
+|-
+! Level !! Damage !! Firerate !! DPS
+|-
+| 0–1 || 2 || 1 || $DPS$
+|-
+| 4–5 || 3 || 0.15 || $DPS$
+|-
+| 6 || 3 || 0.125 || $DPS$
+|}
+|-|PVP =
+{| class=\"wikitable\"
+! colspan=\"5\" |Engineer Stats
+|-
+! Level !! Damage !! Firerate !! Max Units !! Combined DPS
+|-
+| 5 || 30 || 0.75 || 3 || $CDPS$
+|-
+| 6 || 50 || 0.6 || 3 || $CDPS$
+|}
+{| class=\"wikitable\"
+! colspan=\"4\" |Sentry Stats
+|-
+! Level !! Damage !! Firerate !! DPS
+|-
+| 5 || 6 || 0.15 || $DPS$
+|-
+| 6 || 8 || 0.1 || $DPS$
+|}
+</tabber></div>"
+        out (render-page wiki nil {:seed 1})]
+    (assert-true (out:find "4.86" 1 true) "Regular L0 CDPS ~4.86")
+    (assert-true (out:find "166.67" 1 true) "Regular L5 CDPS 166.67")
+    ;; gun only fixture (no $SDPS$ splash) so L6 is 246 not full Engineer 366
+    (assert-true (out:find "246" 1 true) "Regular L6 CDPS 246")
+    (assert-true (out:find "160" 1 true) "PVP L5 CDPS 160")
+    (assert-true (out:find "323.33" 1 true) "PVP L6 CDPS ~323.33")
+    (assert-true (not (out:find "226.67" 1 true)) "not cross-tab 226.67")
+    (assert-true (not (out:find "526" 1 true)) "not cross-tab 526"))
+
   true)
 
 {:run run}
