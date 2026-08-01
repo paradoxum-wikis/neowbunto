@@ -2,5 +2,4 @@
  :macro-path "./src/?.fnl;./?.fnl"
  :lua-version "lua5.1"
  :extra-globals "mw"
- :lints {:unknown-module-field false}
  }
