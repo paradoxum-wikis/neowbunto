@@ -504,22 +504,22 @@
 (fn make-ctx [opts]
 	(let [cfg opts.config
 				ctx {:row (or opts.row {})
-						 :level (or opts.level 0)
-						 :branch (or opts.branch "")
-						 :rof? (or opts.rof? false)
-						 :table-cache opts.table-cache
-						 :frame opts.frame
-						 :formula-name opts.formula-name
-						 :formula-asts opts.formula-asts
-						 :parse-cache (or opts.parse-cache {})
-						 :config cfg
-						 :vars (or opts.vars (and cfg cfg.vars))
-						 :prefix (or opts.prefix (and cfg cfg.prefix) "")
-						 :costs (or opts.costs (and cfg cfg.costs))
-						 :schema (or opts.schema (and cfg cfg.schema))
-						 :branch-map (or opts.branch-map (and cfg cfg.branch-map))
-						 :totals opts.totals
-						 :formula-env (or opts.formula-env (and cfg cfg.formula-env))}]
+					 :level (or opts.level 0)
+					 :branch (or opts.branch "")
+					 :rof? (or opts.rof? false)
+					 :table-cache opts.table-cache
+					 :frame opts.frame
+					 :formula-name opts.formula-name
+					 :formula-asts opts.formula-asts
+					 :parse-cache (or opts.parse-cache {})
+					 :config cfg
+					 :vars (or opts.vars (and cfg cfg.vars))
+					 :prefix (or opts.prefix (and cfg cfg.prefix) "")
+					 :costs (or opts.costs (and cfg cfg.costs))
+					 :schema (or opts.schema (and cfg cfg.schema))
+					 :branch-map (or opts.branch-map (and cfg cfg.branch-map))
+					 :totals opts.totals
+					 :formula-env (or opts.formula-env (and cfg cfg.formula-env))}]
 		ctx))
 
 ;; rebind per cell

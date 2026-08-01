@@ -242,20 +242,20 @@
 
 (fn build-eval-ctx [base row rof? lvl]
 	(eval.make-ctx {:row (or row {})
-									:level (or lvl 0)
-									:branch base.branch
-									:rof? (or rof? false)
-									:table-cache base.table-cache
-									:frame base.frame
-									:vars base.vars
-									:prefix base.prefix
-									:formula-env base.formula-env
-									:parse-cache base.parse-cache
-									:formula-asts base.formula-asts
-									:costs base.costs
-									:schema base.schema
-									:branch-map base.branch-map
-									:config base.config}))
+					:level (or lvl 0)
+					:branch base.branch
+					:rof? (or rof? false)
+					:table-cache base.table-cache
+					:frame base.frame
+					:vars base.vars
+					:prefix base.prefix
+					:formula-env base.formula-env
+					:parse-cache base.parse-cache
+					:formula-asts base.formula-asts
+					:costs base.costs
+					:schema base.schema
+					:branch-map base.branch-map
+					:config base.config}))
 
 (fn set-row-field! [row header value]
 	(set (. row header) value)
@@ -471,10 +471,10 @@
 		(let [page-cache (tablecache.build-page-cache
 											 parsed
 											 {:prefix prefix0
-												:table-prefixes table-prefixes
-												:index-overrides (or (and cfg cfg.index) [])
-												:rof-cols rof-cols
-												:rof-offset rof-offset})]
+											  :table-prefixes table-prefixes
+											  :index-overrides (or (and cfg cfg.index) [])
+											  :rof-cols rof-cols
+											  :rof-offset rof-offset})]
 			(set cursor 1)
 			(each [i span (ipairs spans)]
 				(let [pre (if (< cursor span.start)

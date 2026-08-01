@@ -9,19 +9,19 @@ local function help()
 Usage: ./fnl <command> [args...]
 
 Commands:
-  help, -h             Show this help
-  setup                Download vendor deps (Fennel, lua-minify, ...)
-  build                Compile + minify src/init.fnl -> dist/neowbunto.lua
-  test                 Run check + corpus
-  check                Unit tests
-  corpus               Corpus tests
-  compile <in.fnl> [out.lua]
-                       Compile one Fennel file to dist/
-  run <file.fnl> ...   Run a Fennel file directly
+	help, -h             Show this help
+	setup                Download vendor deps (Fennel, lua-minify, ...)
+	build                Compile + minify src/init.fnl -> dist/neowbunto.lua
+	test                 Run check + corpus
+	check                Unit tests
+	corpus               Corpus tests
+	compile <in.fnl> [out.lua]
+                         Compile one Fennel file to dist/
+	run <file.fnl> ...   Run a Fennel file directly
 
 Anything else is passed through to the actual Fennel CLI:
-  ./fnl --repl
-  ./fnl -e "(+ 1 2)"
+	./fnl --repl
+	./fnl -e "(+ 1 2)"
 ]])
 end
 

@@ -190,8 +190,8 @@
 									(set done true)
 									(let [stop (+ finish 1)]
 										(table.insert out {:start start
-																			 :stop stop
-																			 :text (text:sub start stop)})
+														   :stop stop
+														   :text (text:sub start stop)})
 										(set i (+ stop 1))))))))
 		out))
 
