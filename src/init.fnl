@@ -34,15 +34,11 @@
 			(frame:preprocess out)
 			out))
 
-(local p {})
-
-(fn p.heeho [frame]
+(fn heeho [frame]
 	(let [raw (content-arg frame)
 				content (prepare-content raw)]
 		(if (or (not content) (= content ""))
 				"'''Neowbunto''': No valid content found."
 				(preprocess frame (render-page content frame)))))
 
-(set p.content-arg content-arg)
-
-p
+{: heeho : content-arg}
