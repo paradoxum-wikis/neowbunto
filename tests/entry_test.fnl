@@ -20,7 +20,8 @@
   (assert-eq (p.content-arg (mock-frame nil)) "" "nil")
   (assert-eq (p.content-arg {:args {}}) "" "missing #1")
   (assert-eq (p.content-arg nil) "" "nil frame")
-  ;; parent frame ignored; template already put body in invoke #1
+  ;; parent frame ignored
+  ;; template already put body in invoke #1
   (assert-eq (p.content-arg {:args {1 "from-invoke"}
                              :getParent (fn []
                                           {:args {1 "from-parent"}})})

@@ -98,7 +98,8 @@
     (assert-true (not (out:find "open-se" 1 true)) "no open-se")
     (assert-true (not (out:find "Open in Statistics Editor" 1 true))
                  "no editor label")
-    ;; empty wrapper shell still present; BODY is sibling
+    ;; empty wrapper shell still present
+    ;; BODY is sibling
     (assert-true (out:find "<div class=\"rofbug-wrapper\"></div>" 1 true)
                  "empty wrapper shell")
     (assert-true (out:find "</div>\nBODY" 1 true) "BODY sibling"))

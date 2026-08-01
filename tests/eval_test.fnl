@@ -195,7 +195,7 @@
     (assert-eq (eval-node ctx ast) 250 "Harvester L0 TCE")
     (assert-eq (eval-string "$TCE$" ctx env) 250 "via $TCE$"))
 
-  ;; bare paste is left-assoc (ie Combatant.wiki still has / $MDPS$)
+  ;; bare paste is left-assoc (i.e. Combatant.wiki still has / $MDPS$)
   (suite "bare $MDPS$ text-macro is left-assoc (same as string expand)")
   (let [env {"MDPS" "DPS * Max Hits"
              "MCE" "Total Price / $MDPS$"}

@@ -96,7 +96,7 @@ elseif #bad > 0 then
 else
 	print(
 		string.format(
-			"check OK: self-contained; %d local module(s) inlined via package.preload",
+			"check OK: self-contained, %d local module(s) inlined via package.preload",
 			n_preload
 		)
 	)

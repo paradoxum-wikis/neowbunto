@@ -80,7 +80,8 @@ function util.mkdir_p(dir)
 	end
 end
 
--- stravant minify chokes on function(...); ship preload never needs varargs
+-- stravant minify chokes on function(...)
+-- ship preload never needs varargs
 function util.strip_preload_varargs(src)
 	local n = 0
 	local out = src:gsub("function%s*%(%s*%.%.%.%s*%)", function()

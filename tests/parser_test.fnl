@@ -19,7 +19,7 @@
                      [:binop "*" [:num 3] [:num 4]]]
              "2+3*4")
 
-  ;; ** is right-assoc: 2**3**2 = 2**(3**2) = 512 not 64
+  ;; ** is right-assoc 2**3**2 = 2**(3**2) = 512 not 64
   (suite "** is right-associative (matches old calc)")
   (assert-eq (parse-string "2**3**2")
              [:pow [:num 2] [:pow [:num 3] [:num 2]]]
@@ -78,7 +78,8 @@
   (assert-eq (parse-string "-2**2")
              [:pow [:unop "-" [:num 2]] [:num 2]]
              "-2**2 => (-2)**2")
-  ;; unary binds the primary; * is binary after that
+  ;; unary binds the primary
+  ;; * is binary after that
   (assert-eq (parse-string "2.718**(-0.5*(Level))")
              [:pow [:num 2.718]
                    [:binop "*"

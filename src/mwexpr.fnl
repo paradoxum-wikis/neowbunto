@@ -201,7 +201,7 @@
 			v)
 
 		(fn mw-round [x digits]
-			;; MediaWiki: x round y -> round x to y decimal places
+			;; MediaWiki x round y -> round x to y decimal places
 			(let [d (or digits 0)
 						m (^ 10 d)]
 				(/ (math.floor (+ (* x m) 0.5)) m)))

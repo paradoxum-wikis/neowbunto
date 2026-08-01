@@ -212,7 +212,7 @@
 
 (fn make-eval-base [vars prefix formula-env parse-cache frame table-cache
 										branch ?branch-map]
-	;; COST/SCHEMA once per table not per cell.
+	;; COST/SCHEMA once per table not per cell
 	(let [prefix (or prefix "")
 				costs (config.parse-number-list
 								(or (. vars (config.get-var-key vars prefix "COST")) ""))

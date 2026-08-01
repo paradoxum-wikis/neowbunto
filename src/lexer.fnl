@@ -76,7 +76,7 @@
 			(values name (+ close 2)))))
 
 (fn read-wikilink [s i]
-	;; ie pure [[...]] is a column name
+	;; i.e. pure [[...]] is a column name
 	(let [(name ni) (read-wikilink-span s i)]
 		(values {:type :ident :value name} ni)))
 
@@ -91,7 +91,8 @@
 							(not= n ".") (not= n "[")))))
 
 (fn glued-hyphen? [s j]
-	;; Charge-Up: alnum - alnum, not binary "a - b" and not postfix --
+	;; i.e. Charge-Up alnum - alnum
+	;; not binary 'a - b' and not postfix --
 	(and (= (at s j) "-")
 			 (not= (at s (+ j 1)) "-")
 			 (let [prev (at s (- j 1))
@@ -156,7 +157,8 @@
 				(values {:type :ident :value name} j))))
 
 (fn postfix-ok? [tokens]
-	;; Cash Shot-- after a value; --3 at start stays double unary minus
+	;; Cash Shot-- after a value
+	;; --3 at start stays double unary minus
 	(when (> (length tokens) 0)
 		(let [lt (. tokens (length tokens) :type)]
 			(or (= lt :ident) (= lt :rparen) (= lt :varref) (= lt :num)
@@ -196,7 +198,7 @@
 							(do
 								(table.insert tokens {:type :op :value "**"})
 								(set i (+ i 2)))
-							;; postfix ++/-- only after a primary (Help Increment/Decrement)
+							;; postfix ++ / -- only after a primary
 							(and (= c "+") (= (at s (+ i 1)) "+") (postfix-ok? tokens))
 							(do
 								(table.insert tokens {:type :op :value "++"})

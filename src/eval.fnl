@@ -193,7 +193,7 @@
 		b))
 
 (fn mid-multiword? [s a]
-	;; Damage tail ie "Critical Damage"
+	;; Damage tail i.e. "Critical Damage"
 	;; not the bare name after " + "
 	(var i (- a 1))
 	(while (and (> i 0) (= (s:sub i i) " "))
@@ -307,7 +307,7 @@
 
 (fn eval-mw-expr-node [source ctx]
 	;; Table.Col first as ltr expand may already put things on the row
-	;; ie Damage=n
+	;; i.e. Damage=n
 	(let [src (tostring (or source ""))
 				expr0 (if (has-table-col? src)
 									(materialize-dotrefs src ctx)

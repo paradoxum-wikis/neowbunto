@@ -36,7 +36,7 @@ for _ in minified:gmatch("\n") do
 	lines = lines + 1
 end
 print(string.format(
-	"built %s (%d bytes, %d lines, minified; stripped %d preload vararg wrapper(s))",
+	"built %s (%d bytes, %d lines, minified, stripped %d preload vararg wrapper(s))",
 	out_path,
 	#minified,
 	lines,
