@@ -262,7 +262,11 @@
 																															stack)]
 																 (when (<= pos (length tokens))
 																	 (error (unexpected (at tokens pos))))
-																 ast)))))))))))
+																 ;; lone bare ident has column / plain display text
+																 (if (and (= (length tokens) 1)
+																					(= (. (. tokens 1) :type) :ident))
+																		 [:soft-ident (. (. tokens 1) :value)]
+																		 ast))))))))))))
 
 
 (fn parse-with-env [s var-env]

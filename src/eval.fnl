@@ -84,7 +84,7 @@
 
 (fn row-lookup [ctx name]
 	;; exact key then stripped dual-write
-	;; missing / still-$token$ may be a formula (DPS2, remote $SDPS$)
+	;; missing / still-$token$ may be a formula (i.e. DPS2, remote $SDPS$)
 	;; Level -> ctx.level
 	(let [row (or ctx.row {})
 				direct (. row name)
@@ -92,17 +92,12 @@
 							direct
 							(let [stripped (pick-values 1 (name:gsub "%s+" ""))]
 								(. row stripped)))]
+		;; nil = unresolvable as callers hard-error or soft-ident
 		(if (not= v nil)
-				(or (resolve-cell-value ctx row v name)
-						(unresolved ctx name))
+				(resolve-cell-value ctx row v name)
 				(= name "Level")
-				(if (not= ctx.level nil)
-						ctx.level
-						(unresolved ctx name))
-				(let [fb (formula-fallback ctx name)]
-					(if (not= fb nil)
-							fb
-							(unresolved ctx name))))))
+				ctx.level
+				(formula-fallback ctx name))))
 
 (fn cache-get [cache level branch]
 	(when cache
@@ -445,7 +440,12 @@
 	(. node 2))
 
 (fn node-handlers.ident [ctx node]
-	(row-lookup ctx (. node 2)))
+	(or (row-lookup ctx (. node 2)) (unresolved ctx (. node 2))))
+
+(fn node-handlers.soft-ident [ctx node]
+	;; bare-ident formula has row / formula wining
+	;; else the text only spot a missing ident does not hard error
+	(or (row-lookup ctx (. node 2)) (. node 2)))
 
 (fn node-handlers.dotref [ctx node]
 	(let [v (table-lookup ctx (. node 2) (. node 3))]

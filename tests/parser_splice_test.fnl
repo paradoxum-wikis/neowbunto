@@ -58,7 +58,7 @@
 				   [:binop "/" [:ident "Total Price"] [:ident "Max DPS"]]
 				   "column ident, no paste"))
 
-	(suite "alias chain Hello -> World pastes to ident")
+	(suite "alias chain Hello -> World pastes to soft-ident")
 	(let [env {"Hello" "World"
 			   "Alias" "$Hello$"}
 		  (ast _) (parse-with-env "$Alias$" env)]
