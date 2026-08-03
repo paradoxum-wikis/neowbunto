@@ -1,4 +1,4 @@
-#!/usr/bin/env fennel
+;;/usr/bin/env fennel
 ;; mock mw first, then every suite
 
 (print "neowtext tests")
