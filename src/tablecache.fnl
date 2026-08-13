@@ -26,9 +26,12 @@
         (/ (math.floor (+ (* (/ frames 60) 1000) 0.5)) 1000))))
 
 (fn coerce-cell [raw]
-  (let [clean (strip-cell-refs raw)
-        n (tonumber clean)]
-    (if (not= n nil) n clean)))
+  (let [n (tonumber raw)]
+    (if (not= n nil)
+        n
+        (let [clean (strip-cell-refs raw)
+              clean-n (tonumber clean)]
+          (if (not= clean-n nil) clean-n clean)))))
 
 (fn strip-html [s]
   (var t (tostring (or s "")))
@@ -47,9 +50,9 @@
               n (tonumber cleaned)]
           (if (not= n nil) n cleaned)))))
 
-(fn set-row-field [row header value]
+(fn set-row-field [row header stripped value]
   (set (. row header) value)
-  (let [(stripped) (header:gsub "%s+" "")]
+  (when (not= stripped header)
     (set (. row stripped) value))
   value)
 
@@ -71,39 +74,55 @@
         rof-offset opts.rof-offset
         rof-fn (or opts.rof-bug rof-bug)
         headers (or table-ast.headers [])
+        header-keys (icollect [_ header (ipairs headers)]
+                      (pick-values 1 (header:gsub "%s+" "")))
         idx (or index-col (. headers 1))
+        idx-key (and idx (pick-values 1 (idx:gsub "%s+" "")))
+        has-rof (next rof-cols)
         cache {}]
     (each [_ row (ipairs (or table-ast.rows []))]
       (let [row-norm {}
-            row-rof {}
+            row-rof (and has-rof {})
             raw-cells (or row.raw-cells [])]
         (each [i header (ipairs headers)]
           (when (<= i (length raw-cells))
             (let [raw (. raw-cells i)
+                  header-key (. header-keys i)
                   res-norm (apply-resolve resolve-cell raw header row-norm
-                                          false)
-                  res-rof (apply-resolve resolve-cell raw header row-rof true)]
-              (set-row-field row-norm header res-norm)
-              (var rof-val res-rof)
-              (when (. rof-cols header)
-                (let [n (extract-number res-norm)]
-                  (when n
-                    (set rof-val (rof-fn n rof-offset)))))
-              (set-row-field row-rof header rof-val))))
+                                          false)]
+              (set-row-field row-norm header header-key res-norm)
+              (when has-rof
+                (var rof-val (apply-resolve resolve-cell raw header row-rof
+                                            true))
+                (when (. rof-cols header)
+                  (let [n (extract-number res-norm)]
+                    (when n
+                      (set rof-val (rof-fn n rof-offset)))))
+                (set-row-field row-rof header header-key rof-val)))))
         (let [index-val (when idx
-                          (or (. row-norm idx) (. row-norm (idx:gsub "%s+" ""))))]
+                          (or (. row-norm idx) (. row-norm idx-key)))]
           (when (not= index-val nil)
-            (each [_ key (ipairs (parse-level-keys index-val))]
-              (let [entry {}]
-                (each [k v (pairs row-norm)]
-                  (set (. entry k) v))
+            (let [keys (parse-level-keys index-val)
+                  entry row-norm]
+              (when has-rof
                 (each [k v (pairs row-rof)]
-                  (set (. entry (.. k "_ROF")) v))
-                (when (= (type key) :number)
-                  (set entry.Level key)
-                  (when (= (. entry "Level_ROF") nil)
-                    (set entry.Level_ROF key)))
-                (set (. cache key) entry)))))))
+                  (set (. entry (.. k "_ROF")) v)))
+              (if (= (length keys) 1)
+                  (let [key (. keys 1)]
+                    (when (= (type key) :number)
+                      (set entry.Level key)
+                      (when (and has-rof (= (. entry "Level_ROF") nil))
+                        (set entry.Level_ROF key)))
+                    (set (. cache key) entry))
+                  (each [_ key (ipairs keys)]
+                    (let [copy {}]
+                      (each [k v (pairs entry)]
+                        (set (. copy k) v))
+                      (when (= (type key) :number)
+                        (set copy.Level key)
+                        (when (and has-rof (= (. copy "Level_ROF") nil))
+                          (set copy.Level_ROF key)))
+                      (set (. cache key) copy)))))))))
     cache))
 
 (fn register-cache [page-cache table-name cache prefix]
