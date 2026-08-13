@@ -117,7 +117,7 @@
       ""
       (or (. branch-map title) (. branch-map (title:gsub "%s+" "")) "")))
 
-(fn parse-table [tbl-text branch-map]
+(fn parse-table [tbl-text branch-map ?cache-only]
   ;; structure without $VAR$ eval
   (let [branch-map (or branch-map {})
         headers []
@@ -128,20 +128,24 @@
 
     (fn flush-row []
       (when (and pending-cells (> (length pending-cells) 0))
-        (let [raw-cells pending-cells
-              cells (icollect [_ c (ipairs raw-cells)] (strip-cell-refs c))
-              by-header {}
-              n (math.min (length headers) (length raw-cells))]
-          (for [i 1 n]
-            (let [h (. headers i)
-                  (h-stripped) (h:gsub "%s+" "")]
-              (set (. by-header h) (. raw-cells i))
-              (set (. by-header h-stripped) (. raw-cells i))))
-          (table.insert rows
-                        {:raw-cells raw-cells
-                         :cells cells
-                         :by-header by-header
-                         :level-raw (and (> (length cells) 0) (. cells 1))})
+        (let [raw-cells pending-cells]
+          (if ?cache-only
+              ;; page cache only reads headers + raw cells
+              (table.insert rows {:raw-cells raw-cells})
+              (let [cells (icollect [_ c (ipairs raw-cells)]
+                            (strip-cell-refs c))
+                    by-header {}
+                    n (math.min (length headers) (length raw-cells))]
+                (for [i 1 n]
+                  (let [h (. headers i)
+                        (h-stripped) (h:gsub "%s+" "")]
+                    (set (. by-header h) (. raw-cells i))
+                    (set (. by-header h-stripped) (. raw-cells i))))
+                (table.insert rows
+                              {:raw-cells raw-cells
+                               :cells cells
+                               :by-header by-header
+                               :level-raw (and (> (length cells) 0) (. cells 1))})))
           (set pending-cells nil))))
 
     (each [_ line (ipairs (split-lines tbl-text))]
