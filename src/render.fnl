@@ -250,11 +250,10 @@
                   :branch-map base.branch-map
                   :config base.config}))
 
-(fn set-row-field! [row header value]
+(fn set-row-field! [row header stripped value]
   (set (. row header) value)
-  (let [stripped (pick-values 1 (header:gsub "%s+" ""))]
-    (when (not= stripped header)
-      (set (. row stripped) value)))
+  (when (not= stripped header)
+    (set (. row stripped) value))
   value)
 
 (fn process-table [tbl
@@ -267,25 +266,31 @@
                    frame
                    builder
                    table-cache
-                   prefix]
+                   prefix
+                   ?cached-base
+                   ?cached-rc-aliases]
   (let [headers []
+        header-keys []
         out []
         recursion {}
         rof-cols (or rof-cols {})
         has-rof (next rof-cols)
         branch (detect-table-branch tbl branch-map)
-        base (make-eval-base vars prefix formula-env parse-cache frame
-                             table-cache branch branch-map)
+        base (or ?cached-base
+                 (make-eval-base vars prefix formula-env parse-cache frame
+                                 table-cache branch branch-map))
+        _ (set base.branch branch)
         ctx-n (build-eval-ctx base {} false 0)
         ctx-r (when has-rof (build-eval-ctx base {} true 0))
-        rc-aliases (collect [k v (pairs vars)]
-                     (when (= (trim v) "$FNC-RECURSION$")
-                       (values k true)))
+        rc-aliases (or ?cached-rc-aliases
+                       (collect [k v (pairs vars)]
+                         (when (= (trim v) "$FNC-RECURSION$")
+                           (values k true))))
         has-rc (next rc-aliases)]
     (var level -1)
     (var col-idx 1)
     (var row-norm {})
-    (var row-rof {})
+    (var row-rof (and has-rof {}))
 
     (fn expand-rc [s]
       (pick-values 1 (s:gsub "%$([^%$]+)%$"
@@ -300,10 +305,11 @@
             (do
               (set col-idx 1)
               (set row-norm {})
-              (set row-rof {})
+              (set row-rof (and has-rof {}))
               (when (>= level 0)
-                (set-row-field! row-norm "Level" level)
-                (set-row-field! row-rof "Level" level))
+                (set-row-field! row-norm "Level" "Level" level)
+                (when has-rof
+                  (set-row-field! row-rof "Level" "Level" level)))
               (table.insert out line))
             (and (t:match "^!") (not (: (t:lower) :match "colspan")))
             (do
@@ -316,7 +322,9 @@
                                                  parse-cache)
                             clean (wikitable.clean-header-text temp)]
                         (when (not= clean "")
-                          (table.insert headers clean)))))))
+                          (table.insert headers clean)
+                          (table.insert header-keys
+                                        (pick-values 1 (clean:gsub "%s+" "")))))))))
               (table.insert out line))
             (and (t:match "^|") (not (t:match "^|}")))
             (do
@@ -334,7 +342,8 @@
                                 (set cell content))
                               (set cell (or (. recursion col-idx) ""))))
                         (set (. recursion col-idx) nil))))
-                (let [h (. headers col-idx)]
+                (let [h (. headers col-idx)
+                      h-key (. header-keys col-idx)]
                   (when (= h "Level")
                     (let [keys (wikitable.parse-level-keys cell)]
                       (if (> (length keys) 0)
@@ -346,8 +355,9 @@
                                      (and from-str (tonumber from-str))
                                      (+ level 1))))
                           (set level (or (tonumber cell) (+ level 1))))
-                      (set-row-field! row-norm "Level" level)
-                      (set-row-field! row-rof "Level" level)))
+                      (set-row-field! row-norm "Level" "Level" level)
+                      (when has-rof
+                        (set-row-field! row-rof "Level" "Level" level))))
                   (var v-norm cell)
                   (var v-rof cell)
                   (when (cell:match "%$[^%$]+%$")
@@ -367,17 +377,15 @@
                                  (preprocess-if-needed v-rof frame)
                                  v-norm))
                   (when h
-                    (set-row-field! row-norm h (coerce-row-value v-norm))
-                    (set-row-field! row-rof h
-                                    (if has-rof
-                                        (coerce-row-value v-rof)
-                                        (. row-norm h))))
+                    (set-row-field! row-norm h h-key (coerce-row-value v-norm))
+                    (when has-rof
+                      (set-row-field! row-rof h h-key (coerce-row-value v-rof))))
                   (when (and has-rof h (. rof-cols h))
                     (let [n (or (tonumber v-norm)
                                 (tonumber (v-norm:match "%d+%.?%d*")))]
                       (when n
                         (let [rv (tablecache.rof-bug n rof-offset)]
-                          (set-row-field! row-rof h rv)
+                          (set-row-field! row-rof h h-key rv)
                           (set v-rof (fmt rv 3))))))
                   (if (and has-rof (not= (tostring v-norm) (tostring v-rof)))
                       (let [cell-id (next-cell-toggle! builder)]
@@ -462,6 +470,10 @@
         spans (wikitable.find-table-spans content)
         parsed []
         table-prefixes []
+        base-cache {}
+        rc-aliases (collect [k v (pairs vars)]
+                     (when (= (trim v) "$FNC-RECURSION$")
+                       (values k true)))
         result []
         n (length content)]
     ;; prefixes while parsing
@@ -476,7 +488,7 @@
             prefix (if (not= extracted "") extracted last-prefix)]
         (when (not= extracted "")
           (set last-prefix extracted))
-        (table.insert parsed (wikitable.parse-table span.text page-bmap))
+        (table.insert parsed (wikitable.parse-table span.text page-bmap true))
         (table.insert table-prefixes prefix)
         (set cursor (+ span.stop 1))))
     (let [page-cache (tablecache.build-page-cache parsed
@@ -496,10 +508,18 @@
           ;; free text kept raw until finalize-output (needs ref counts)
           (when (not= pre "")
             (table.insert result pre))
-          (let [branch-map (config.build-branch-map vars prefix)
+          (let [cached-base (. base-cache prefix)
+                branch-map (if cached-base
+                               cached-base.branch-map
+                               (config.build-branch-map vars prefix))
+                base (or cached-base
+                         (make-eval-base vars prefix formula-env parse-cache
+                                         frame page-cache "" branch-map))
+                _ (set (. base-cache prefix) base)
                 processed (process-table span.text vars formula-env parse-cache
                                          rof-cols rof-offset branch-map frame
-                                         builder page-cache prefix)]
+                                         builder page-cache prefix base
+                                         rc-aliases)]
             (table.insert result processed))
           (set cursor (+ span.stop 1))))
       (when (<= cursor n)
