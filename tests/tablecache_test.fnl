@@ -134,6 +134,34 @@ $FNC-ROFBUG$ = Firerate
     (assert-eq (. (cache-get (. view-p "Sentry Stats") 0 "") "Damage") 8
                "scope PVP")
     (assert-eq view0 page "empty prefix is identity"))
+  (suite "untitled later tab inherits first tab title at the same slot")
+  (let [t-a (parse-table "{| \n! colspan=\"2\" |Warden Stats\n|-\n! Level !! Swingrate\n|-\n| 4 || 0.45\n|}"
+                         {})
+        t-b (parse-table "{| \n! Level !! Swingrate\n|-\n| 4 || 0.5\n|}" {})
+        page (build-page-cache [t-a t-b] {:table-prefixes ["Foo" "Bar"]})
+        view-a (scope-page-cache page "Foo")
+        view-b (scope-page-cache page "Bar")]
+    (assert-eq (. (cache-get (. view-a "Warden Stats") 4 "") "Swingrate") 0.45
+               "first tab keeps its own rows")
+    (assert-eq (. (cache-get (. view-b "Warden Stats") 4 "") "Swingrate") 0.5
+               "untitled later tab is still Warden Stats")
+    (assert-eq (. (cache-get (. page "Warden Stats|Bar") 4 "") "Swingrate") 0.5
+               "later tab keyed under inherited title"))
+  (suite "pre-tabber table does not steal first-tab titles")
+  (let [t-notes (parse-table "{| \n! colspan=\"2\" |Notes\n|-\n! Level !! Damage\n|-\n| 0 || 1\n|}"
+                             {})
+        t-reg (parse-table "{| \n! colspan=\"2\" |Warden Stats\n|-\n! Level !! Swingrate\n|-\n| 4 || 0.45\n|}"
+                           {})
+        t-pvp (parse-table "{| \n! Level !! Swingrate\n|-\n| 4 || 0.5\n|}" {})
+        page (build-page-cache [t-notes t-reg t-pvp]
+                               {:table-prefixes ["" "Regular" "PVP"]})
+        view-p (scope-page-cache page "PVP")]
+    (assert-eq (. (cache-get (. page "Notes") 0 "") "Damage") 1
+               "pre-tabber table keeps its own name")
+    (assert-eq (. (cache-get (. view-p "Warden Stats") 4 "") "Swingrate") 0.5
+               "untitled PVP still inherits Regular")
+    (assert-eq (. (cache-get (. page "Warden Stats|PVP") 4 "") "Swingrate") 0.5
+               "PVP keyed under Regular title, not Notes"))
   (suite "build-page-cache-from-text end-to-end")
   (let [page (build-page-cache-from-text harvester-page {} {})]
     (assert-eq (. (cache-get (. page "Harvester Stats") 1 "") "Firerate") 1.2

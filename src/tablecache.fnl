@@ -149,16 +149,30 @@
       (and fallback-index (.. "Table" (tostring fallback-index))) "Table"))
 
 (fn build-page-cache [tables opts]
+  ;; untitled later tab inherits first tab title at the same slot
   (let [opts (or opts {})
         page {}
         index-overrides opts.index-overrides
         default-prefix (or opts.prefix "")
-        table-prefixes (or opts.table-prefixes [])]
+        table-prefixes (or opts.table-prefixes [])
+        n-by-pfx {}
+        first-titles {}]
+    (var first-pfx nil)
     (each [i table-ast (ipairs (or tables []))]
-      (let [name (table-name-of table-ast i)
+      (let [pfx (or (. table-prefixes i) default-prefix "")
+            slot (+ (or (. n-by-pfx pfx) 0) 1)
+            t table-ast.title
+            name (or (and t (not= t "") t)
+                     (and first-pfx (not= pfx first-pfx) (. first-titles slot))
+                     (table-name-of table-ast i))
             idx (index-col table-ast index-overrides)
-            cache (build-table-cache table-ast idx opts)
-            pfx (or (. table-prefixes i) default-prefix "")]
+            cache (build-table-cache table-ast idx opts)]
+        (set (. n-by-pfx pfx) slot)
+        ;; "" is notes before the tabber and not a tab as "" is truthy
+        (when (and (not first-pfx) (not= pfx ""))
+          (set first-pfx pfx))
+        (when (= pfx first-pfx)
+          (set (. first-titles slot) name))
         (register-cache page name cache pfx)))
     page))
 

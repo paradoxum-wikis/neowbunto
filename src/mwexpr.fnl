@@ -130,13 +130,16 @@
       (let [t (peek)]
         (if (= t.type :num)
             (do
-              (advance) t.value)
+              (advance)
+              t.value)
             (and (= t.type :word) (= t.value "e"))
             (do
-              (advance) (math.exp 1))
+              (advance)
+              (math.exp 1))
             (and (= t.type :word) (= t.value "pi"))
             (do
-              (advance) math.pi)
+              (advance)
+              math.pi)
             (and (= t.type :word)
                  (or (= t.value "abs") (= t.value "floor") (= t.value "ceil")
                      (= t.value "trunc") (= t.value "round") (= t.value "sqrt")
@@ -181,9 +184,11 @@
 
     (fn parse-unary []
       (if (at :op "+") (do
-                         (advance) (parse-unary))
+                         (advance)
+                         (parse-unary))
           (at :op "-") (do
-                         (advance) (- (parse-unary)))
+                         (advance)
+                         (- (parse-unary)))
           (at :word "not") (do
                              (advance)
                              (bool01 (not (truthy (parse-unary)))))
@@ -194,7 +199,8 @@
       (let [base (parse-unary)]
         (if (at :op "^")
             (do
-              (advance) (^ base (parse-power)))
+              (advance)
+              (^ base (parse-power)))
             base)))
 
     (fn parse-product []
