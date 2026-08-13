@@ -130,7 +130,7 @@
       (when (and pending-cells (> (length pending-cells) 0))
         (let [raw-cells pending-cells]
           (if ?cache-only
-              ;; page cache only reads headers + raw cells
+              ;; page-cache path need not cleaned cells or by-header
               (table.insert rows {:raw-cells raw-cells})
               (let [cells (icollect [_ c (ipairs raw-cells)]
                             (strip-cell-refs c))
