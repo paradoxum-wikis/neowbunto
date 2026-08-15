@@ -185,6 +185,34 @@ $FNC-COST$ = 1
         out (render-page wiki nil {})]
     (assert-true (out:find "||World" 1 true) "cell alias -> World")
     (assert-no-leftover-vars out "table text alias"))
+  (suite "bare VAR in $DPS$ = 1 + VAR is not $VAR$")
+  (let [wiki "<var>
+$VAR$ = 1
+$DPS$ = 1 + VAR
+</var>
+$DPS$"
+        out (render-page wiki nil {})]
+    (assert-true (out:find "$DPS$" 1 true) "leftover $DPS$")
+    (assert-true (not (out:find "2" 1 true)) "not silently 2"))
+  (suite "$DPS$ = 1 + $VAR$ still expands")
+  (let [wiki "<var>
+$VAR$ = 1
+$DPS$ = 1 + $VAR$
+</var>
+$DPS$"
+        out (render-page wiki nil {})]
+    (assert-true (out:find "2" 1 true) "1 + $VAR$ -> 2")
+    (assert-no-leftover-vars out "dollar paste"))
+  (suite "lone VAR is display text, not $VAR$")
+  (let [wiki "<var>
+$VAR$ = 1
+$FOO$ = VAR
+</var>
+$FOO$"
+        out (render-page wiki nil {})]
+    (assert-true (out:find "VAR" 1 true) "soft-ident stays VAR")
+    (assert-true (not (out:match "^%s*1%s*$")) "not 1")
+    (assert-no-leftover-vars out "soft-ident VAR"))
   (suite "bare single-ident formula still resolves column first")
   (let [wiki "<var>
 $Alias$ = Damage
@@ -303,15 +331,15 @@ $FNC-COST$ = 1; 1
 <div class=\"mobile-tabber\"><tabber>
 |-|Regular =
 {| class=\"wikitable\"
-! colspan=\"5\" |Engineer Stats
+! colspan=\"6\" |Engineer Stats
 |-
-! Level !! Damage !! Firerate !! Max Units !! Combined DPS
+! Level !! Damage !! Firerate !! Max Units !! DPS !! Combined DPS
 |-
-| 0 || 4 || 1.4 || 1 || $CDPS$
+| 0 || 4 || 1.4 || 1 || $DPS$ || $CDPS$
 |-
-| 5 || 80 || 0.75 || 3 || $CDPS$
+| 5 || 80 || 0.75 || 3 || $DPS$ || $CDPS$
 |-
-| 6 || 90 || 0.6 || 4 || $CDPS$
+| 6 || 90 || 0.6 || 4 || $DPS$ || $CDPS$
 |}
 {| class=\"wikitable\"
 ! colspan=\"4\" |Sentry Stats
@@ -326,13 +354,13 @@ $FNC-COST$ = 1; 1
 |}
 |-|PVP =
 {| class=\"wikitable\"
-! colspan=\"5\" |Engineer Stats
+! colspan=\"6\" |Engineer Stats
 |-
-! Level !! Damage !! Firerate !! Max Units !! Combined DPS
+! Level !! Damage !! Firerate !! Max Units !! DPS !! Combined DPS
 |-
-| 5 || 30 || 0.75 || 3 || $CDPS$
+| 5 || 30 || 0.75 || 3 || $DPS$ || $CDPS$
 |-
-| 6 || 50 || 0.6 || 3 || $CDPS$
+| 6 || 50 || 0.6 || 3 || $DPS$ || $CDPS$
 |}
 {| class=\"wikitable\"
 ! colspan=\"4\" |Sentry Stats
@@ -353,6 +381,33 @@ $FNC-COST$ = 1; 1
     (assert-true (out:find "323.33" 1 true) "PVP L6 CDPS ~323.33")
     (assert-true (not (out:find "226.67" 1 true)) "not cross-tab 226.67")
     (assert-true (not (out:find "526" 1 true)) "not cross-tab 526"))
+  ;; $ACE$ = Total Price / Top Path Stats.DPS
+  ;; DPS cell is still $ADPS$ (ammo DPS), not $DPS$ (pump)
+  (suite "Enforcer ACE via Top Path Stats.DPS ($ADPS$)")
+  (let [wiki "<var>
+$DPS$ = Damage * Pellet Count / (Firerate + Pump Time)
+$ADPS$ = Damage * Pellet Count * Ammo / (Ammo * Firerate + Reload Time)
+$ACE$ = Total Price / Top Path Stats.DPS
+$TP$ = $FNC-TOTALPRICE$
+$FNC-SCHEMA$ = N; N; N; N; N; A; A; A; B; B; B
+$FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
+$FNC-COST$ = 3000; 750; 2650; 4600; 7250; 12000; 20000; 31500; 12000; 15000; 20000
+</var>
+{| class=\"wikitable\"
+! colspan=\"9\" |Top Path Stats
+|-
+! Level !! Total Price !! Damage !! Pellet Count !! Firerate !! Ammo !! Reload Time !! DPS !! ACE
+|-
+| 5 || {{Money|$TP$}} || 14 || 4 || 0.2 || 25 || 1.5 || $ADPS$ || $ACE$
+|-
+| 6 || {{Money|$TP$}} || 14 || 6 || 0.2 || 60 || 1.5 || $ADPS$ || $ACE$
+|}"
+        out (render-page wiki nil {:seed 1})]
+    (assert-true (or (out:find "215.38" 1 true) (out:find "215.4" 1 true))
+                 "L5 ADPS")
+    (assert-true (or (out:find "140.45" 1 true) (out:find "140.4" 1 true))
+                 "L5 ACE")
+    (assert-no-leftover-vars out "Enforcer ACE"))
   true)
 
 {:run run}

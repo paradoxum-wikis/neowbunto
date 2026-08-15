@@ -1,0 +1,135 @@
+<var>
+$DPS$ = Damage * Pellet Count / (Firerate + Pump Time)
+$ADPS$ = Damage * Pellet Count * Ammo / (Ammo * Firerate + Reload Time)
+$MDPS$ = ($DPS$) * Max Hits
+$GDPS$ = Damage / Firerate
+$CE$ = Total Price / DPS
+$MCE$ = Total Price / Max DPS
+$ACE$ = Total Price / Top Path Stats.DPS
+$TP$ = $FNC-TOTALPRICE$
+$TE$ = $FNC-TOTAL-EXP$
+$EXP$ = {{#expr:floor(75 * 1.075^(Level - 1) * (Level > 0))}}
+$FNC-SCHEMA$ = N; N; N; N; N; A; A; A; B; B; B
+$FNC-BRANCH$ = Top Path Stats; Bottom Path Stats
+$FNC-COST$ = 3000; 750; 2650; 4600; 7250; 12000; 20000; 31500; 12000; 15000; 20000
+$FSE-DETECTION$ = 2; 0; -1
+$FSE-UPGRADE$ = Elbow Grease; Flash Grenade; Urban Operations; Specialist; Good Comms; Full Arsenal; Punisher; SWAT Van; Full Suit; Peacekeeper
+$FSE-UPGRADEICON$ = 136369346813725; 107404064476607; 82782455075877; 76520357411079; 75300201894000; 90582348502485; 83679968823067; 93191574637363; 79398593824767; 79055341194840
+$FSE-META$ = Evolved; File:DefaultEnforcer0.png
+$DREF$ = <ref name=dps>DPS assumes all pellets hit a single enemy.</ref>
+$RC$ = $FNC-RECURSION$
+</var>
+<div class="mobile-tabber"><tabber>
+|-|Regular =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="17" |Neutral Stats
+|-
+! Level !! Total Price !! Damage !! Pellet Count !! Firerate !! Pump Time !! Range !! Max Hits !! Base Spread !! Random Spread !! Flashbang Stun Time !! Flashbang Radius !! Flashbang Charge Threshold !! DPS$DREF$ !! Max DPS !! Cost Efficiency !! Max Cost Efficiency
+|-
+| 0 || {{Money|$TP$}} || 10 || 6 || 1 || 1 || 10 || 2 || 3.5 || 2 || 0 || 0 || 0 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 1 || {{Money|$TP$}} || 10 || 6 || 0.85 || 0.85 || 12 || 2 || 3.5 || 2 || 0 || 0 || 0 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 2 || {{Money|$TP$}} || 12 || 8 || 0.85 || 0.85 || 12 || 2 || 3.5 || 2 || 0.5 || 4 || 640 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 3 || {{Money|$TP$}} || 20 || 8 || 0.85 || 0.85 || 12 || 2 || 3.5 || 2 || 0.5 || 5 || 1,000 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 4 || {{Money|$TP$}} || 33 || 8 || 0.85 || 0.85 || 12 || 2 || 3.5 || 2 || 0.75 || 5 || 1,500 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="16" |Top Path Stats
+|-
+! Level !! Total Price !! Damage !! Pellet Count !! Firerate !! Ammo !! Reload Time !! Range !! Max Hits !! Base Spread !! Random Spread !! Flashbang Stun Time !! Flashbang Radius !! Flashbang Charge Threshold !! DPS$DREF$ !! Cost Efficiency
+|-
+| 5 || {{Money|$TP$}} || 14 || 4 || 0.2 || 25 || 1.5 || 17 || 1 || 1.5 || 1 || 1.2 || 4.5 || 1,200 || $ADPS$ || {{Money|$ACE$}}
+|-
+| 6 || {{Money|$TP$}} || 14 || 6 || 0.2 || 60 || 1.5 || 19.5 || 1 || 1.5 || 1 || 1.2 || 4.5 || 1,800 || $ADPS$ || {{Money|$ACE$}}
+|-
+| 7 || {{Money|$TP$}} || 18 || 6 || 0.2 || 60 || 1 || 19.5 || 1 || 1.5 || 1 || 1.5 || 4.5 || 2,700 || $ADPS$ || {{Money|$ACE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="18" |Bottom Path Stats
+|-
+! Level !! Total Price !! Damage !! Pellet Count !! Firerate !! Pump Time !! Range !! Max Hits !! Base Spread !! Random Spread !! Flashbang Stun Time !! Flashbang Radius !! Flashbang Charge Threshold !! DPS$DREF$ !! Max DPS !! Cost Efficiency !! Max Cost Efficiency
+|-
+| 5 || {{Money|$TP$}} || 33 || 8 || 0.7 || 0.7 || 13 || 2 || 2.5 || 2 || 0.75 || 6.5 || 2,000 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 6 || {{Money|$TP$}} || 38 || 10 || 0.7 || 0.7 || 13 || 2 || 2.5 || 2 || 1 || 6.5 || 2,500 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|-
+| 7 || {{Money|$TP$}} || 45 || 10 || 0.7 || 0.7 || 14 || 2 || 2.5 || 2 || 1 || 6.5 || 3,000 || $DPS$ || $MDPS$ || {{Money|$CE$}} || {{Money|$MCE$}}
+|}
+</div>
+
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="14" |SWAT Van Stats
+|-
+! Level !! Unit !! Health !! Defense !! Speed !! Damage !! Firerate !! Range !! Explosion Damage !! Explosion Radius !! Spawn Time !! Vans Called !! Detections !! DPS
+|-
+| 5B || [[Swat Van]] || 750 || 10% || 7 || N/A || N/A || 5 || 350 || 6 || 1 || 1 || None || N/A
+|-
+| 6B || [[Swat Van]] || 1,200 || 15% || 7 || N/A || N/A || 5 || 450 || 6 || 1|| 1 || None || N/A 
+|-
+| 7B || [[Swat Van Gunner]] || 1,500 || 15% || 7 || 10 || 0.15 || 25 || 550 || 6 || 2 || 2 || Hidden || $GDPS$
+|}
+</div>
+<!-- @se-ignore -->
+|-|Levels =
+<div class="overflow-box">
+{| class="wikitable stats-table"
+! colspan="12" |Levels
+|-
+! Level !! Exp !! Total Exp
+|-
+| 0 || {{Exp|0}} || {{Exp|$TE$}}$RC$
+|-
+| 1 || {{Exp|$EXP$}}$RC$ || $RC$
+|-
+| 2 || $RC$ || $RC$
+|-
+| 3 || $RC$ || $RC$
+|-
+| 4 || $RC$ || $RC$
+|-
+| 5 || $RC$ || $RC$
+|-
+| 6 || $RC$ || $RC$
+|-
+| 7 || $RC$ || $RC$
+|-
+| 8 || $RC$ || $RC$
+|-
+| 9 || $RC$ || $RC$
+|-
+| 10 || $RC$ || $RC$
+|-
+| 11 || $RC$ || $RC$
+|-
+| 12 || $RC$ || $RC$
+|-
+| 13 || $RC$ || $RC$
+|-
+| 14 || $RC$ || $RC$
+|-
+| 15 || $RC$ || $RC$
+|-
+| 16 || $RC$ || $RC$
+|-
+| 17 || $RC$ || $RC$
+|-
+| 18 || $RC$ || $RC$
+|-
+| 19 || $RC$ || $RC$
+|-
+| 20 || $RC$ || $RC$
+|}
+</div>
+<!-- @/se-ignore -->
+</tabber></div>

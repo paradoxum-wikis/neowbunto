@@ -38,15 +38,33 @@
   (assert-eq (eval-node {:row {"Total Price" "{{Money|1,250}}"}}
                         [:ident "Total Price"]) 1250
              "Money scrape")
-  (suite "bare formula name when column missing (DPS2)")
-  (let [env {"DPS2" "Damage * 2"}
+  (suite "bare VAR is a column, not $VAR$")
+  (let [env {"VAR" "1" "DPS" "1 + VAR"}
         cache (parse-var-env env)
-        ctx {:row {"Damage" 5}
+        ctx {:row {}
              :formula-env env
              :parse-cache cache
              :formula-asts cache
-             :formula-name "CE2"}]
-    (assert-eq (eval-node ctx [:ident "DPS2"]) 10 "DPS2 formula fallback"))
+             :formula-name "DPS"}]
+    (assert-error #(eval-node ctx (. cache "DPS")) "unresolved identifier")
+    (assert-error #(eval-node ctx [:ident "VAR"]) "unresolved identifier"))
+  (suite "$VAR$ paste still works; column VAR still works")
+  (let [env {"VAR" "1" "DPS" "1 + $VAR$"}
+        cache (parse-var-env env)
+        ctx {:row {} :formula-env env :parse-cache cache :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "DPS")) 2 "1 + $VAR$")
+    (assert-eq (eval-node {:row {"VAR" 10}}
+                          [:binop "+" [:num 1] [:ident "VAR"]])
+               11 "column VAR"))
+  (suite "cell still holding $NAME$ is eval'd (Table.Col / cached row)")
+  ;; $DPS2$ would scrape the trailing 2 in extract-number
+  (let [env {"SDPS" "Damage * 2"}
+        cache (parse-var-env env)
+        ctx {:row {"Damage" 5 "X" "$SDPS$"}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx [:ident "X"]) 10 "cell $SDPS$"))
   (suite "unresolved identifier is a hard error")
   (assert-error #(eval-node {:row {} :formula-name "TCE"} [:ident "Thorns DPS"])
                 "unresolved identifier")
