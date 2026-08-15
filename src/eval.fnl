@@ -34,14 +34,14 @@
 
 (var eval-node nil)
 
-(fn formula-fallback [ctx name]
-  ;; bare DPS2 in CE2 = Total Price / DPS2 when no DPS2 column
+(fn eval-named-formula [ctx name]
+  ;; leftover $NAME$ in a cache cell, not a bare ident
   (let [env (or ctx.formula-env (and ctx.config ctx.config.formula-env))
         raw (and env (. env name))]
     (when (and raw (not= raw ""))
       (let [stack (or ctx.ident-stack {})]
         (when (. stack name)
-          (error (.. "eval: cyclic bare identifier '" name "'")))
+          (error (.. "eval: cyclic formula '" name "'")))
         (set (. stack name) true)
         (set ctx.ident-stack stack)
         ;; pcall so cycle flag clears even when eval errors
@@ -78,13 +78,13 @@
             n
             (let [fname (cell-formula-name v)]
               (if fname
-                  (with-row! ctx row formula-fallback ctx fname)
+                  (with-row! ctx row eval-named-formula ctx fname)
                   (as-number v label)))))))
 
 (fn row-lookup [ctx name]
   ;; exact key then stripped dual-write
-  ;; missing / still-$token$ may be a formula (i.e. DPS2, remote $SDPS$)
-  ;; Level -> ctx.level
+  ;; still-$token$ is eval'd
+  ;; missing is nil, not $VAR$
   (let [row (or ctx.row {})
         direct (. row name)
         v (if (not= direct nil)
@@ -93,8 +93,7 @@
                 (. row stripped)))]
     ;; nil = unresolvable as callers hard-error or soft-ident
     (if (not= v nil) (resolve-cell-value ctx row v name)
-        (= name "Level") ctx.level
-        (formula-fallback ctx name))))
+        (= name "Level") ctx.level)))
 
 (fn cache-get [cache level branch]
   (when cache
@@ -237,7 +236,7 @@
             ;; #expr then errors loud on the raw name
             (let [saved ctx.row]
               (set ctx.row row)
-              (let [(ok res) (pcall formula-fallback ctx fname)]
+              (let [(ok res) (pcall eval-named-formula ctx fname)]
                 (set ctx.row saved)
                 (and ok (= (type res) :number) res)))
             (extract-number v)))))
@@ -433,8 +432,8 @@
   (or (row-lookup ctx (. node 2)) (unresolved ctx (. node 2))))
 
 (fn node-handlers.soft-ident [ctx node]
-  ;; bare-ident formula has row / formula wining
-  ;; else the text only spot a missing ident does not hard error
+  ;; lone ident use column first
+  ;; else display text ($Hello$ = World)
   (or (row-lookup ctx (. node 2)) (. node 2)))
 
 (fn node-handlers.dotref [ctx node]
