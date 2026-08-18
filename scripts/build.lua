@@ -25,7 +25,7 @@ if not raw or raw == "" then
 	util.die("build FAIL: empty fennel output: " .. raw_path)
 end
 
-local minified, n_vararg = util.minify_source(raw, { strip_varargs = true })
+local minified, stats = util.minify_source(raw, { optimize = true })
 local header = "-- MIT License https://github.com/paradoxum-wikis/neowbunto\n"
 minified = header .. minified
 util.write(out_path, minified)
@@ -36,9 +36,10 @@ for _ in minified:gmatch("\n") do
 	lines = lines + 1
 end
 print(string.format(
-	"built %s (%d bytes, %d lines, minified, stripped %d preload vararg wrapper(s))",
+	"built %s (%d bytes, %d lines, minified+optimized, renamed %d local(s), removed %d node(s))",
 	out_path,
 	#minified,
 	lines,
-	n_vararg
+	stats.renameCount or 0,
+	stats.nodeRemoveCount or 0
 ))

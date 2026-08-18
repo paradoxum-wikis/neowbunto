@@ -5,7 +5,7 @@ local util = {}
 
 util.is_win = package.config:sub(1, 1) == "\\"
 util.fennel_bin = "vendor/fennel/fennel-1.6.1"
-util.minify_bin = "vendor/lua-minify/minify.lua"
+util.dumbparser_bin = "vendor/dumbluaparser/dumbParser.lua"
 
 function util.exec(cmd)
 	local ok = os.execute(cmd)
@@ -80,51 +80,27 @@ function util.mkdir_p(dir)
 	end
 end
 
--- stravant minify chokes on function(...)
--- ship preload never needs varargs
-function util.strip_preload_varargs(src)
-	local n = 0
-	local out = src:gsub("function%s*%(%s*%.%.%.%s*%)", function()
-		n = n + 1
-		return "function()"
-	end)
-	return out, n
+function util.ensure_dumbparser()
+	util.require_repo_root()
+	if not util.file_exists(util.dumbparser_bin) then
+		util.die("DumbLuaParser missing: " .. util.dumbparser_bin .. " (run: ./fnl setup)")
+	end
 end
 
 function util.minify_source(src, opts)
 	opts = opts or {}
-	util.mkdir_p("dist")
-	local prep = "dist/.minify.prep.lua"
-	local tmp = "dist/.minify.out.lua"
-	local body = src
-	local n_vararg = 0
-	if opts.strip_varargs then
-		body, n_vararg = util.strip_preload_varargs(body)
+	util.ensure_dumbparser()
+	local parser = dofile(util.dumbparser_bin)
+	local ast, err = parser.parse(src)
+	if not ast then
+		util.die("dumbParser parse failed: " .. tostring(err))
 	end
-	body = body:gsub("^%s*\n", "")
-	while body:match("^\n") do
-		body = body:sub(2)
-	end
-	util.write(prep, body)
-	local cmd = string.format(
-		'lua "./%s" minify %s > %s',
-		util.minify_bin,
-		prep,
-		tmp
-	)
-	if not util.exec(cmd) then
-		util.die("lua-minify failed (prep kept at " .. prep .. ")")
-	end
-	local minified = util.read(tmp)
-	os.remove(prep)
-	os.remove(tmp)
+	local stats = parser.minify(ast, opts.optimize or false)
+	local minified = parser.toLua(ast)
 	if not minified or minified == "" then
-		util.die("empty minify output")
+		util.die("dumbParser toLua failed")
 	end
-	if minified:find("Tokens%[", 1, true) then
-		util.die("minify wrote token dump instead of code")
-	end
-	return minified, n_vararg
+	return minified, stats
 end
 
 function util.shell_quote(s)

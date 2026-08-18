@@ -10,8 +10,8 @@ Usage: ./fnl <command> [args...]
 
 Commands:
 	help, -h             Show this help
-	setup                Download vendor deps (Fennel, lua-minify, ...)
-	build                Compile + minify src/init.fnl -> dist/neowbunto.lua
+	setup                Download vendor deps (Fennel, DumbLuaParser, ...)
+	build                Compile + minify+optimize src/init.fnl -> dist/neowbunto.lua
 	test                 Run check + corpus
 	check                Unit tests
 	corpus               Corpus tests

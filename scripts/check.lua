@@ -60,6 +60,9 @@ local preloads = {}
 for name in src:gmatch("package%.preload%[%s*[\"']([^\"']+)[\"']%s*%]") do
 	preloads[name] = true
 end
+for name in src:gmatch("package%.preload%.([%a_][%w_]*)%s*=") do
+	preloads[name] = true
+end
 
 local requires = {}
 for name in src:gmatch("require%(%s*[\"']([^\"']+)[\"']%s*%)") do
