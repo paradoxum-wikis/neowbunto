@@ -1,6 +1,7 @@
 ;; Expression parser
 
 (local {: lex} (require :lexer))
+(local config (require :config))
 
 (var parse-additive nil)
 
@@ -97,19 +98,25 @@
                                 (let [body (. var-env base)]
                                   (when (= body nil)
                                     (error (.. "undefined variable: $" base "$")))
-                                  (when (stack-has? stack base)
-                                    (error (cycle-message stack base)))
-                                  (stack-push stack base)
-                                  (let [out (expand-user-macros body var-env
-                                                                stack)]
-                                    (stack-pop stack)
-                                    out)))))))))
+                                  ;; ';' lists stay $name$ so expand-varref can make [:array]
+                                  (if (body:find ";" 1 true)
+                                      (.. "$" name "$")
+                                      (do
+                                        (when (stack-has? stack base)
+                                          (error (cycle-message stack base)))
+                                        (stack-push stack base)
+                                        (let [out (expand-user-macros body
+                                                                      var-env
+                                                                      stack)]
+                                          (stack-pop stack)
+                                          out)))))))))))
 
 (set parse-var (fn [name var-env parse-cache parsing-stack]
                  (case (. parse-cache name)
-                   nil (let [(base _ _) (parse-pin-parts name)]
-                         ;; $FNC-TOTALPRICE$ / $FNC-TOTAL-X$ are intrinsics (not formula-env entries)
-                         (if (or (= base "FNC-TOTALPRICE")
+                   nil (let [(base pin-lvl _) (parse-pin-parts name)]
+                         ;; $Name@N$ / FNC-TOTAL* are refs
+                         ;; var-env has the base only
+                         (if (or pin-lvl (= base "FNC-TOTALPRICE")
                                  (base:match "^FNC%-TOTAL%-(.+)$"))
                              (let [ast (expand-varref name var-env parse-cache
                                                       parsing-stack)]
@@ -121,19 +128,27 @@
                                (let [raw (. var-env name)]
                                  (when (= raw nil)
                                    (error (.. "undefined variable: $" name "$")))
-                                 (stack-push parsing-stack name)
-                                 (let [ast (parse-formula raw var-env
-                                                          parse-cache
-                                                          parsing-stack)]
-                                   (stack-pop parsing-stack)
-                                   (set (. parse-cache name) ast)
-                                   ast)))))
+                                 (if (raw:find ";" 1 true)
+                                     (let [ast (if (config.is-numeric-array-body raw)
+                                                   [:array raw]
+                                                   [:literal raw])]
+                                       (set (. parse-cache name) ast)
+                                       ast)
+                                     (do
+                                       (stack-push parsing-stack name)
+                                       (let [ast (parse-formula raw var-env
+                                                                parse-cache
+                                                                parsing-stack)]
+                                         (stack-pop parsing-stack)
+                                         (set (. parse-cache name) ast)
+                                         ast)))))))
                    ast ast)))
 
 (set expand-varref
      ;; after paste only pins / FNC-* / config keys still need this path
      (fn [name var-env parse-cache parsing-stack]
        (let [(base pin-lvl pin-br) (parse-pin-parts name)
+             raw (and var-env (. var-env base))
              inner (if (= base "FNC-TOTALPRICE")
                        [:intrinsic :totalprice]
                        (let [total (base:match "^FNC%-TOTAL%-(.+)$")]
@@ -141,6 +156,9 @@
                              [:intrinsic :total total]
                              (config-varref? base)
                              [:varref base]
+                             ;; pin on a ';' list always indexes even when mixed
+                             (and pin-lvl raw (raw:find ";" 1 true))
+                             [:array raw]
                              (parse-var base var-env parse-cache parsing-stack))))]
          (if pin-lvl
              [:pin pin-lvl pin-br inner]

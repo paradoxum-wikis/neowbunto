@@ -114,6 +114,30 @@
               nil
               (resolve-cell-value ctx row v (.. tname "." col)))))))
 
+(fn array-index [level branch schema]
+  ;; same (branch, level) -> flat walk as sum-series
+  (let [lvl (or (tonumber level) 0)]
+    (if (not schema)
+        (when (>= lvl 0) (+ lvl 1))
+        (let [trunk (or (. schema 1) "N")
+              target (if (and branch (not= branch "")) branch trunk)]
+          (var found nil)
+          (var trunk-lvl 0)
+          (local branch-lvls {})
+          (each [i letter (ipairs schema) &until found]
+            (if (= letter trunk)
+                (do
+                  (when (and (= target trunk) (= trunk-lvl lvl))
+                    (set found i))
+                  (set trunk-lvl (+ trunk-lvl 1)))
+                (do
+                  (when (not (. branch-lvls letter))
+                    (set (. branch-lvls letter) trunk-lvl))
+                  (when (and (= target letter) (= (. branch-lvls letter) lvl))
+                    (set found i))
+                  (set (. branch-lvls letter) (+ (. branch-lvls letter) 1)))))
+          found))))
+
 (fn sum-series [costs level branch schema]
   (let [lvl (or (tonumber level) 0)]
     (if (not schema)
@@ -461,6 +485,17 @@
     :total (sum-total ctx (. node 3))
     _ (error (.. "eval: unknown intrinsic " (tostring (. node 2))))))
 
+(fn node-handlers.array [ctx node]
+  (let [raw (. node 2)
+        parts (config.split-semi raw)
+        idx (array-index ctx.level (or ctx.branch "") (ctx-schema ctx))]
+    (when (or (not idx) (< idx 1) (> idx (length parts)))
+      (error (.. "eval: array index out of range at level "
+                 (tostring (or ctx.level 0)))))
+    (let [el (or (. parts idx) "")
+          n (tonumber (pick-values 1 (el:gsub "," "")))]
+      (if (not= n nil) n el))))
+
 (fn node-handlers.literal [_ctx node]
   (. node 2))
 
@@ -523,6 +558,7 @@
  :row-lookup row-lookup
  :table-lookup table-lookup
  :cache-get cache-get
+ :array-index array-index
  :sum-series sum-series
  :sum-cost sum-cost
  :sum-total sum-total

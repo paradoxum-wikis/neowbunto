@@ -381,6 +381,51 @@ $FNC-COST$ = 1; 1
     (assert-true (out:find "323.33" 1 true) "PVP L6 CDPS ~323.33")
     (assert-true (not (out:find "226.67" 1 true)) "not cross-tab 226.67")
     (assert-true (not (out:find "526" 1 true)) "not cross-tab 526"))
+  (suite "$COST$ / $PVP-COST$ explicit; TOTAL-COST follows the tab")
+  (let [wiki "<var>
+$TP$ = $FNC-TOTAL-COST$
+$COST$ = 100; 200; 300
+$PVP-COST$ = 10; 20; 30
+</var>
+<div class=\"mobile-tabber\"><tabber>
+|-|Regular =
+{| class=\"wikitable\"
+! Level !! Cost !! Total Cost
+|-
+| 0 || $COST$ || $TP$
+|-
+| 2 || $COST$ || $TP$
+|}
+|-|PVP =
+{| class=\"wikitable\"
+! Level !! Cost !! Total Cost
+|-
+| 0 || $PVP-COST$ || $TP$
+|-
+| 2 || $PVP-COST$ || $TP$
+|}
+</tabber></div>"
+        out (render-page wiki nil {})]
+    (assert-true (out:find "||100||" 1 true) "Regular L0 cost")
+    (assert-true (out:find "||300||600" 1 true) "Regular L2 cost+total")
+    (assert-true (out:find "||10||" 1 true) "PVP L0 cost")
+    (assert-true (out:find "||30||60" 1 true) "PVP L2 cost+total")
+    (assert-true (not (out:find "||400" 1 true)) "not mixed 100+200+10+...")
+    (assert-no-leftover-vars out "cost tabs"))
+  (suite "array pin in a cell")
+  (let [wiki "<var>
+$COST$ = 100; 200; 300
+$NOTE$ = 120; n/a; hey
+</var>
+{| class=\"wikitable\"
+! Level !! Cost !! Note
+|-
+| 0 || $COST@1$ || $NOTE@1$
+|}"
+        out (render-page wiki nil {})]
+    (assert-true (out:find "||200||" 1 true) "COST@1")
+    (assert-true (out:find "n/a" 1 true) "NOTE@1")
+    (assert-no-leftover-vars out "array pin cell"))
   ;; $ACE$ = Total Price / Top Path Stats.DPS
   ;; DPS cell is still $ADPS$ (ammo DPS), not $DPS$ (pump)
   (suite "Enforcer ACE via Top Path Stats.DPS ($ADPS$)")

@@ -223,6 +223,76 @@
              :formula-asts cache}]
     (assert-eq (eval-node ctx (. cache "PCDMG")) 320
                "PCDMG with local Damage=160 still uses remote Critical Damage"))
+  (suite "array var: numeric ; list is the element at level")
+  (let [env {"COST" "100; 200; 300"}
+        cache (parse-var-env env)
+        ctx {:level 0
+             :branch ""
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (. cache "COST") [:array "100; 200; 300"] "COST parses as array")
+    (assert-eq (eval-node ctx (. cache "COST")) 100 "L0")
+    (set ctx.level 1)
+    (assert-eq (eval-node ctx (. cache "COST")) 200 "L1")
+    (set ctx.level 2)
+    (assert-eq (eval-node ctx (. cache "COST")) 300 "L2"))
+  (suite "array var: $X@N$ pins; out of range is hard error")
+  (let [env {"COST" "100; 200; 300"}
+        ctx {:level 0 :branch ""}]
+    (assert-eq (eval-string "$COST@1$" ctx env) 200 "pin 1")
+    (assert-eq (eval-string "$COST@2$" ctx env) 300 "pin 2")
+    (assert-error #(eval-string "$COST@5$" ctx env) "out of range"))
+  (suite "array var: mixed list is whole text unless pinned")
+  (let [env {"NOTE" "120; n/a; hey; 400"}
+        cache (parse-var-env env)
+        ctx {:level 1
+             :branch ""
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "NOTE")) "120; n/a; hey; 400"
+               "bare mixed = whole text")
+    (assert-eq (eval-string "$NOTE@1$" ctx env) "n/a" "pin mixed string")
+    (assert-eq (eval-string "$NOTE@3$" ctx env) 400 "pin mixed number"))
+  (suite "array var: $COST$ inside a formula")
+  (let [env {"COST" "100; 200; 300" "DOUBLE" "$COST$ * 2"}
+        ctx {:level 1 :branch ""}]
+    (assert-eq (eval-string "$DOUBLE$" ctx env) 400 "$COST$ * 2 at L1"))
+  (suite "FNC-TOTAL-COST sums $COST$; FNC-TOTALPRICE still only FNC-COST")
+  (let [vars {"$COST$" "100; 200; 300"}
+        env {"COST" "100; 200; 300"}
+        cache (parse-var-env env)
+        ctx {:level 2
+             :branch ""
+             :vars vars
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx [:intrinsic :total "COST"]) 600 "TOTAL-COST")
+    (assert-error #(eval-node ctx [:intrinsic :totalprice]) "needs ctx.costs"))
+  (suite "array var: schema N;N;A;B;B")
+  (let [env {"COST" "10; 20; 30; 40; 50"}
+        cache (parse-var-env env)
+        schema ["N" "N" "A" "B" "B"]
+        ctx {:level 0
+             :branch ""
+             :schema schema
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "COST")) 10 "trunk L0")
+    (set ctx.level 1)
+    (assert-eq (eval-node ctx (. cache "COST")) 20 "trunk L1")
+    (set ctx.level 2)
+    (set ctx.branch "A")
+    (assert-eq (eval-node ctx (. cache "COST")) 30 "A L2")
+    (set ctx.branch "B")
+    (assert-eq (eval-node ctx (. cache "COST")) 40 "B L2")
+    (set ctx.level 3)
+    (assert-eq (eval-node ctx (. cache "COST")) 50 "B L3")
+    (assert-eq (eval-string "$COST@2@B$" {:level 0 :branch "" :schema schema}
+                            env) 40 "$COST@2@B$"))
   true)
 
 {:run run}

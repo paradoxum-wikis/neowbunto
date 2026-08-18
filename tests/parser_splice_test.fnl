@@ -124,6 +124,16 @@
                [:binop "/" [:ident "Total Price"] [:ident "Max DPS"]]
                "MCE cached as Max DPS column")
     (assert-eq (. cache "FNC-COST") nil "config key skipped"))
+  (suite "numeric ; list is [:array]; mixed is [:literal]; $COST$ * 2 keeps array leaf")
+  (let [env {"COST" "100; 200; 300" "NOTE" "120; n/a" "DOUBLE" "$COST$ * 2"}
+        cache (parse-var-env env)]
+    (assert-eq (. cache "COST") [:array "100; 200; 300"] "numeric array")
+    (assert-eq (. cache "NOTE") [:literal "120; n/a"] "mixed literal")
+    (assert-eq (. cache "DOUBLE") [:binop
+                                   "*"
+                                   [:array "100; 200; 300"]
+                                   [:num 2]]
+               "$COST$ * 2 does not paste the list"))
   (suite "repeated $X$ after paste is duplicated text (not shared AST)")
   (let [env {"X" "1 + 2" "Y" "$X$ * $X$"}
         cache (parse-var-env env)

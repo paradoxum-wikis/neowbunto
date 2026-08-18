@@ -113,6 +113,16 @@ $FSE-DETECTION$ = 3; ; 0
     (assert-eq (eval-node trunk [:intrinsic :totalprice]) 300 "trunk L1")
     (assert-eq (eval-node br-a [:intrinsic :totalprice]) (+ 100 200 50)
                "branch A L2"))
+  (suite "TOTAL-COST on PVP prefix sums $PVP-COST$ not $COST$")
+  (let [vars {"$COST$" "100; 200; 300" "$PVP-COST$" "10; 20; 30"}
+        cfg (build-config vars "PVP")
+        ctx (make-ctx {:config cfg :level 2 :vars vars :prefix "PVP"})]
+    (assert-eq (sum-total ctx "COST") 60 "PVP 10+20+30")
+    (assert-eq (sum-total (make-ctx {:config (build-config vars "")
+                                     :level 2
+                                     :vars vars
+                                     :prefix ""})
+                          "COST") 600 "Regular 100+200+300"))
   (suite "TOTAL-X numeric array series")
   (let [vars {"$EXP$" "10; 20; 30; 40"}
         cfg (build-config vars "")
