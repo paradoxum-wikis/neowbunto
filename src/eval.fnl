@@ -313,10 +313,35 @@
   ;; lua find "." is too eager
   (not= (expr:find "%a%.%a") nil))
 
+(fn eval-dollar-in-expr [name ctx]
+  (let [env (or ctx.formula-env (and ctx.config ctx.config.formula-env) {})
+        cache (or ctx.parse-cache {})
+        stack (or ctx.ident-stack {})]
+    (when (. stack name)
+      (error (.. "eval: cyclic formula '" name "'")))
+    (set (. stack name) true)
+    (set ctx.ident-stack stack)
+    (let [ast (parser.parse-var name env cache [])
+          (ok res) (pcall eval-node ctx ast)]
+      (set (. stack name) nil)
+      (if (not ok) (error res)
+          (not= (type res) :number) (error (.. "eval: $" name
+                                               "$ in #expr is not a number"))
+          res))))
+
+(fn materialize-dollars [source ctx]
+  (let [s (tostring (or source ""))]
+    (if (not (s:find "$" 1 true))
+        s
+        (pick-values 1
+                     (s:gsub "%$([^%$]+)%$"
+                             (fn [name]
+                               (tostring (eval-dollar-in-expr name ctx))))))))
+
 (fn materialize-expr-body [source ctx]
   ;; Table.Col first as ltr expand may already put things on the row
   ;; i.e. Damage=n
-  (let [src (tostring (or source ""))
+  (let [src (materialize-dollars (tostring (or source "")) ctx)
         expr0 (if (has-table-col? src)
                   (materialize-dotrefs src ctx)
                   src)]
@@ -326,7 +351,8 @@
   (pick-values 1
                (: (tostring (or text "")) :gsub "{{#expr:(.-)}}"
                   (fn [body]
-                    (let [expr (materialize-expr-body body ctx)
+                    (let [(ok expr) (pcall materialize-expr-body body ctx)
+                          expr (if ok expr body)
                           frame ctx.frame]
                       (if (and frame frame.callParserFunction)
                           (tostring (or (frame:callParserFunction {:name "#expr"

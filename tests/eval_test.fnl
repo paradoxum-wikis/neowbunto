@@ -261,6 +261,33 @@
              :formula-asts cache}]
     (assert-eq (. cache "BD" 1) :wikitext "wikitext node")
     (assert-eq (eval-node ctx (. cache "BD")) "{{Exp|4}}" "floor 4*1.1"))
+  (suite "#expr evals $VAR$ to a number and not paste")
+  (let [env {"DMG" "Damage" "BD" "{{#expr: floor($DMG$ * (1 + 0.4))}}"}
+        cache (parse-var-env env)
+        ctx {:level 0
+             :row {"Damage" 6}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "BD")) 8 "floor(6*1.4)"))
+  (suite "#expr $COST@N$ pin")
+  (let [env {"COST" "100; 200; 300" "X" "{{#expr: $COST@1$ * 2}}"}
+        cache (parse-var-env env)
+        ctx {:level 0
+             :branch ""
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (. cache "X")) 400 "pin 1 * 2"))
+  (suite "#expr missing $VAR$ is a hard error")
+  (let [env {"BD" "{{#expr: $NOPE$ * 2}}"}
+        cache (parse-var-env env)
+        ctx {:level 0
+             :row {}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-error #(eval-node ctx (. cache "BD")) "undefined variable"))
   (suite "array var: numeric ; list is the element at level")
   (let [env {"COST" "100; 200; 300"}
         cache (parse-var-env env)
