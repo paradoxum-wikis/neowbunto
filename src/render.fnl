@@ -166,18 +166,10 @@
             m (and (not n) (s:match "[%d,]+%.?%d*"))]
         (or n (and m (tonumber (pick-values 1 (m:gsub "," "")))) v))))
 
-(fn expand-inline-expr [text frame]
-  (pick-values 1 (: (tostring (or text "")) :gsub "{{#expr:(.-)}}"
-                    (fn [body]
-                      (tostring (or (frame:callParserFunction {:name "#expr"
-                                                               :args [body]})
-                                    ""))))))
-
-(fn preprocess-if-needed [s frame]
+(fn preprocess-if-needed [s ctx]
   (let [text (tostring (or s ""))]
-    (if (not (text:find "{{#expr:" 1 true)) text
-        (and frame frame.callParserFunction) (expand-inline-expr text frame)
-        (and frame frame.preprocess) (frame:preprocess text)
+    (if (text:find "{{#expr:" 1 true)
+        (eval.expand-inline-expr text ctx)
         text)))
 
 (fn detect-table-branch [tbl branch-map]
@@ -360,21 +352,19 @@
                         (set-row-field! row-rof "Level" "Level" level))))
                   (var v-norm cell)
                   (var v-rof cell)
+                  (eval.bind-ctx! ctx-n row-norm false level)
+                  (when has-rof (eval.bind-ctx! ctx-r row-rof true level))
                   (when (cell:match "%$[^%$]+%$")
                     ;; dual expand only with ROF as formulas may read things like Firerate_ROF
-                    (eval.bind-ctx! ctx-n row-norm false level)
                     (set v-norm
                          (expand-dollars cell ctx-n formula-env parse-cache))
                     (if has-rof
-                        (do
-                          (eval.bind-ctx! ctx-r row-rof true level)
-                          (set v-rof
-                               (expand-dollars cell ctx-r formula-env
-                                               parse-cache)))
+                        (set v-rof
+                             (expand-dollars cell ctx-r formula-env parse-cache))
                         (set v-rof v-norm)))
-                  (set v-norm (preprocess-if-needed v-norm frame))
+                  (set v-norm (preprocess-if-needed v-norm ctx-n))
                   (set v-rof (if has-rof
-                                 (preprocess-if-needed v-rof frame)
+                                 (preprocess-if-needed v-rof ctx-r)
                                  v-norm))
                   (when h
                     (set-row-field! row-norm h h-key (coerce-row-value v-norm))

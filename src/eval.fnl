@@ -313,14 +313,29 @@
   ;; lua find "." is too eager
   (not= (expr:find "%a%.%a") nil))
 
-(fn eval-mw-expr-node [source ctx]
+(fn materialize-expr-body [source ctx]
   ;; Table.Col first as ltr expand may already put things on the row
   ;; i.e. Damage=n
   (let [src (tostring (or source ""))
         expr0 (if (has-table-col? src)
                   (materialize-dotrefs src ctx)
-                  src)
-        expr (materialize-expr expr0 (expr-bindings ctx))
+                  src)]
+    (materialize-expr expr0 (expr-bindings ctx))))
+
+(fn expand-inline-expr [text ctx]
+  (pick-values 1
+               (: (tostring (or text "")) :gsub "{{#expr:(.-)}}"
+                  (fn [body]
+                    (let [expr (materialize-expr-body body ctx)
+                          frame ctx.frame]
+                      (if (and frame frame.callParserFunction)
+                          (tostring (or (frame:callParserFunction {:name "#expr"
+                                                                   :args [expr]})
+                                        ""))
+                          (tostring (or (mwexpr.eval expr {}) ""))))))))
+
+(fn eval-mw-expr-node [source ctx]
+  (let [expr (materialize-expr-body source ctx)
         frame ctx.frame]
     (if (and frame frame.callParserFunction)
         (let [n (call-parser-expr frame expr)]
@@ -351,7 +366,9 @@
 (fn eval-wikitext [raw ctx]
   ;; whole-string tonumber only
   ;; there shooould be no 1st digit scrape
-  (let [subbed (substitute-row-keys raw (or ctx.row {}) ctx.level)
+  ;; #expr first so local Damage cannot eat Table.Damage
+  (let [expanded (expand-inline-expr raw ctx)
+        subbed (substitute-row-keys expanded (or ctx.row {}) ctx.level)
         frame ctx.frame
         done (if (and frame frame.preprocess)
                  (frame:preprocess subbed)
@@ -566,5 +583,6 @@
  :resolve-branch resolve-branch
  :expr-bindings expr-bindings
  :materialize-expr materialize-expr
+ :expand-inline-expr expand-inline-expr
  :call-parser-expr call-parser-expr
  :substitute-row-keys substitute-row-keys}

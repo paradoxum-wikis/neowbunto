@@ -3,7 +3,9 @@
 (local {: suite : assert-eq : assert-near : assert-error : assert-true}
        (require :test_util))
 
-(local {: eval-node : eval-string : sum-series} (require :eval))
+(local {: eval-node : eval-string : sum-series : expand-inline-expr}
+       (require :eval))
+
 (local {: parse-with-env : parse-var-env} (require :parser))
 
 (fn run []
@@ -223,6 +225,42 @@
              :formula-asts cache}]
     (assert-eq (eval-node ctx (. cache "PCDMG")) 320
                "PCDMG with local Damage=160 still uses remote Critical Damage"))
+  (suite "dotref scrapes percent suffix")
+  (let [ctx {:level 0
+             :branch ""
+             :table-cache {"Operator Stats" {0 {"Coordination Damage Boost" "10%"}}}}]
+    (assert-eq (eval-node ctx
+                          [:dotref
+                           "Operator Stats"
+                           "Coordination Damage Boost"]) 10
+               "10%")
+    (assert-eq (eval-node ctx [:binop
+                               "*"
+                               [:dotref
+                                "Operator Stats"
+                                "Coordination Damage Boost"]
+                               [:num 4]]) 40 "10% * 4"))
+  (suite "expand-inline-expr materializes Table.Col")
+  (let [ctx {:level 2
+             :row {}
+             :table-cache {"Operator Stats" {2 {"Damage" 4
+                                                "Coordination Damage Boost" "10%"}}}}]
+    (assert-eq (expand-inline-expr "{{#expr: Operator Stats.Damage * 2}}" ctx)
+               "8" "2*4")
+    (assert-eq (expand-inline-expr "{{#expr:floor(Operator Stats.Damage * (1 + Operator Stats.Coordination Damage Boost * 0.01))}}"
+                                   ctx) "4" "floor 4.4"))
+  (suite "wikitext leftover #expr materializes Table.Col")
+  (let [env {"BD" "{{Exp|{{#expr:floor(Operator Stats.Damage * (1 + Operator Stats.Coordination Damage Boost * 0.01))}}}}"}
+        cache (parse-var-env env)
+        ctx {:level 2
+             :row {}
+             :table-cache {"Operator Stats" {2 {"Damage" 4
+                                                "Coordination Damage Boost" "10%"}}}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (. cache "BD" 1) :wikitext "wikitext node")
+    (assert-eq (eval-node ctx (. cache "BD")) "{{Exp|4}}" "floor 4*1.1"))
   (suite "array var: numeric ; list is the element at level")
   (let [env {"COST" "100; 200; 300"}
         cache (parse-var-env env)

@@ -129,6 +129,30 @@ $R$ = $FNC-RECURSION$
     (assert-true (out:find "{{Exp|104}}" 1 true) "L2 total")
     (assert-true (out:find "{{Exp|0}}" 1 true) "L0")
     (assert-true (out:find "{{Exp|227}}" 1 true) "L4 total"))
+  (suite "inline #expr in a cell materializes Table.Col")
+  (let [src "<var>
+$4BP$ = Operator Stats.Coordination Damage Boost * 4
+</var>
+{| class=\"wikitable\"
+! colspan=\"4\" | Operator Stats
+|-
+! Level !! Damage !! Coordination Damage Boost
+|-
+| 2 || 6 || 10%
+|}
+{| class=\"wikitable\"
+! colspan=\"3\" | Coordination Stats
+|-
+! Level !! Boost Pct !! Boost Damage
+|-
+| 2 || $4BP$ || {{#expr:floor(Operator Stats.Damage * (1 + Operator Stats.Coordination Damage Boost * 4 * 0.01))}}
+|}
+"
+        out (render-page src nil {:seed 1})]
+    (assert-true (not (out:find "Unrecognized" 1 true)) "no expr error")
+    (assert-true (not (out:find "{{#expr:" 1 true)) "expr expanded")
+    (assert-true (out:find "40" 1 true) "10% * 4")
+    (assert-true (out:find "8" 1 true) "floor(6*1.4)"))
   true)
 
 {:run run}
