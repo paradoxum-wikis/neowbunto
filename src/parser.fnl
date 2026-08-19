@@ -99,7 +99,9 @@
                                   (when (= body nil)
                                     (error (.. "undefined variable: $" base "$")))
                                   ;; ';' lists stay $name$ so expand-varref can make [:array]
-                                  (if (body:find ";" 1 true)
+                                  ;; #expr stays $name$ so native math gets a number
+                                  (if (or (body:find ";" 1 true)
+                                          (mw-expr-body? body))
                                       (.. "$" name "$")
                                       (do
                                         (when (stack-has? stack base)

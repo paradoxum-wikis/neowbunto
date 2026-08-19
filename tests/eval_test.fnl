@@ -6,7 +6,7 @@
 (local {: eval-node : eval-string : sum-series : expand-inline-expr}
        (require :eval))
 
-(local {: parse-with-env : parse-var-env} (require :parser))
+(local {: parse-with-env : parse-var-env : parse-var} (require :parser))
 
 (fn run []
   (suite "num / binop / pow / unop pure arithmetic")
@@ -288,6 +288,36 @@
              :parse-cache cache
              :formula-asts cache}]
     (assert-error #(eval-node ctx (. cache "BD")) "undefined variable"))
+  (suite "#expr $VAR$ in native math evals to a number (boost DPS fragment)")
+  (let [env {"1B" "4"
+             "1BP" "Operator Stats.Coordination Damage Boost * $1B$"
+             "1BD" "{{#expr:floor(Operator Stats.Damage * (1 + $1BP$ * 0.01))}}"
+             "BDPS" "* Operator Stats.Burst Count) / (Operator Stats.Burst Cooldown + (Operator Stats.Firerate * Operator Stats.Burst Count))"
+             "1BDPS1" "($1BD$ $BDPS$"
+             "1BDPS2" "$1BD$ / Operator Stats.Firerate"}
+        cache {}
+        tc {"Operator Stats" {2 {"Damage" 3
+                                 "Burst Count" 6
+                                 "Firerate" 0.12
+                                 "Burst Cooldown" 1
+                                 "Coordination Damage Boost" "10%"}
+                              5 {"Damage" 6
+                                 "Burst Count" 0
+                                 "Firerate" 0.16
+                                 "Burst Cooldown" 0
+                                 "Coordination Damage Boost" "10%"}}}
+        ctx {:level 2
+             :row {}
+             :table-cache tc
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (eval-node ctx (parse-var "1BD" env cache [])) 4 "floor(3*1.4)")
+    (assert-near (eval-node ctx (parse-var "1BDPS1" env cache [])) (/ 24 1.72)
+                 1e-9 "(4*6)/(1+0.12*6)")
+    (set ctx.level 5)
+    (assert-eq (eval-node ctx (parse-var "1BD" env cache [])) 8 "floor(6*1.4)")
+    (assert-eq (eval-node ctx (parse-var "1BDPS2" env cache [])) 50 "8/0.16"))
   (suite "array var: numeric ; list is the element at level")
   (let [env {"COST" "100; 200; 300"}
         cache (parse-var-env env)
