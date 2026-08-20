@@ -100,6 +100,51 @@
     (assert-eq (eval-node ctx [:pin 5 nil [:dotref "S" "V"]]) 50 "pin level")
     (assert-eq (eval-node ctx [:pin 5 "A" [:dotref "S" "V"]]) 77 "pin branch")
     (assert-eq (eval-node ctx [:dotref "S" "V"]) 1 "outer still L0"))
+  (suite "row-lookup prefers Header_ROF when ctx.rof?")
+  (let [row {"Firerate" 0.12 "Firerate_ROF" 0.15 "Damage" 8}]
+    (assert-eq (eval-node {:row row} [:ident "Firerate"]) 0.12 "plain")
+    (assert-eq (eval-node {:row row :rof? true} [:ident "Firerate"]) 0.15 "rof")
+    (assert-eq (eval-node {:row row :rof? true} [:ident "Firerate_ROF"]) 0.15
+               "explicit _ROF still hits"))
+  (suite "Table.Col formula re-eval uses remote Header_ROF")
+  ;; Sentry Stats.DPS is still $SDPS$
+  (let [env {"DPS" "Damage / Firerate"
+             "MDPS" "Splash Damage * Rocket Count / Rocket Firerate"
+             "SDPS" "$DPS$ + $MDPS$"
+             "CDPS" "DPS + Sentry Stats.DPS * Max Units"}
+        cache (parse-var-env env)
+        sentry {6 {"Damage" 8
+                   "Firerate" 0.12
+                   "Firerate_ROF" 0.15
+                   "DPS" "$SDPS$"
+                   "DPS_ROF" "$SDPS$"
+                   "Splash Damage" 35
+                   "Rocket Count" 2
+                   "Rocket Firerate" 4
+                   "Level" 6}}
+        ctx {:row {"Damage" 50
+                   "Firerate" 0.625
+                   "Max Units" 4
+                   "DPS" 80
+                   "Level" 6}
+             :level 6
+             :rof? true
+             :table-cache {"Sentry Stats" sentry}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-near (eval-node ctx (. cache "CDPS"))
+                 (+ 80 (* (+ (/ 8 0.15) (/ (* 35 2) 4)) 4)) 1e-9
+                 "ROF CDPS uses sentry Firerate_ROF")
+    (set ctx.rof? false)
+    (set ctx.row {"Damage" 50
+                  "Firerate" 0.6
+                  "Max Units" 4
+                  "DPS" (/ 50 0.6)
+                  "Level" 6})
+    (assert-near (eval-node ctx (. cache "CDPS"))
+                 (+ (/ 50 0.6) (* (+ (/ 8 0.12) (/ (* 35 2) 4)) 4)) 1e-9
+                 "no-ROF CDPS uses 0.12"))
   (suite "literal returns string; totalprice / total intrinsics")
   (assert-eq (eval-node {} [:literal "<ref>x</ref>"]) "<ref>x</ref>" "literal")
   (assert-eq (eval-node {:costs [375 200 700] :level 0}
@@ -249,6 +294,26 @@
                "8" "2*4")
     (assert-eq (expand-inline-expr "{{#expr:floor(Operator Stats.Damage * (1 + Operator Stats.Coordination Damage Boost * 0.01))}}"
                                    ctx) "4" "floor 4.4"))
+  (suite "expand-inline-expr Table.Col uses Header_ROF")
+  (let [env {"DPS" "Damage / Firerate"}
+        cache (parse-var-env env)
+        sentry {6 {"Damage" 8
+                   "Firerate" 0.12
+                   "Firerate_ROF" 0.15
+                   "DPS" "$DPS$"
+                   "DPS_ROF" "$DPS$"}}
+        ctx {:level 6
+             :rof? true
+             :row {}
+             :table-cache {"Sentry Stats" sentry}
+             :formula-env env
+             :parse-cache cache
+             :formula-asts cache}]
+    (assert-eq (expand-inline-expr "{{#expr: Sentry Stats.Firerate}}" ctx)
+               "0.15" "numeric Firerate_ROF")
+    (assert-near (tonumber (expand-inline-expr "{{#expr: Sentry Stats.DPS}}"
+                                               ctx))
+                 (/ 8 0.15) 1e-9 "formula DPS re-eval on ROF firerate"))
   (suite "wikitext leftover #expr materializes Table.Col")
   (let [env {"BD" "{{Exp|{{#expr:floor(Operator Stats.Damage * (1 + Operator Stats.Coordination Damage Boost * 0.01))}}}}"}
         cache (parse-var-env env)

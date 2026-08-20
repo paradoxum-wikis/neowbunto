@@ -381,6 +381,37 @@ $FNC-COST$ = 1; 1
     (assert-true (out:find "323.33" 1 true) "PVP L6 CDPS ~323.33")
     (assert-true (not (out:find "226.67" 1 true)) "not cross-tab 226.67")
     (assert-true (not (out:find "526" 1 true)) "not cross-tab 526"))
+  ;; Table.Col $SDPS$ must re-eval with remote Firerate_ROF
+  (suite "ROF Combined DPS uses Sentry Stats.DPS with ROF firerate")
+  (let [wiki "<var>
+$DPS$ = Damage / Firerate
+$MDPS$ = Splash Damage * Rocket Count / Rocket Firerate
+$SDPS$ = $DPS$ + $MDPS$
+$CDPS$ = DPS + Sentry Stats.DPS * Max Units
+$FNC-ROFBUG$ = Firerate
+</var>
+{| class=\"wikitable\"
+! colspan=\"6\" |Engineer Stats
+|-
+! Level !! Damage !! Firerate !! Max Units !! DPS !! Combined DPS
+|-
+| 6 || 50 || 0.6 || 4 || $DPS$ || $CDPS$
+|}
+{| class=\"wikitable\"
+! colspan=\"7\" |Sentry Stats
+|-
+! Level !! Damage !! Splash Damage !! Rocket Count !! Firerate !! Rocket Firerate !! DPS
+|-
+| 6 || 8 || 35 || 2 || 0.12 || 4 || $SDPS$
+|}"
+        out (render-page wiki nil {:seed 1})]
+    (assert-true (out:find "420" 1 true) "no-ROF CDPS 420")
+    (assert-true (out:find "363.33" 1 true) "ROF CDPS 363.33")
+    (assert-true (not (out:find "416.67" 1 true)) "not unbugged-sentry 416.67")
+    (assert-true (out:find "84.17" 1 true) "sentry DPS no-ROF")
+    (assert-true (out:find "70.83" 1 true) "sentry DPS ROF")
+    (assert-true (out:find "83.33" 1 true) "engineer DPS no-ROF")
+    (assert-true (out:find ">80<" 1 true) "engineer DPS ROF"))
   (suite "$COST$ / $PVP-COST$ explicit; TOTAL-COST follows the tab")
   (let [wiki "<var>
 $TP$ = $FNC-TOTAL-COST$

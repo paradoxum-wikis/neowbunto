@@ -81,16 +81,25 @@
                   (with-row! ctx row eval-named-formula ctx fname)
                   (as-number v label)))))))
 
+(fn row-field [row name rof?]
+  ;; cache rows keep Header_ROF
+  ;; live row-rof mutates in place
+  (if rof?
+      (let [rv (. row (.. name "_ROF"))]
+        (if (not= rv nil) rv (. row name)))
+      (. row name)))
+
 (fn row-lookup [ctx name]
   ;; exact key then stripped dual-write
   ;; still-$token$ is eval'd
   ;; missing is nil, not $VAR$
   (let [row (or ctx.row {})
-        direct (. row name)
+        rof? ctx.rof?
+        direct (row-field row name rof?)
         v (if (not= direct nil)
               direct
               (let [stripped (pick-values 1 (name:gsub "%s+" ""))]
-                (. row stripped)))]
+                (row-field row stripped rof?)))]
     ;; nil = unresolvable as callers hard-error or soft-ident
     (if (not= v nil) (resolve-cell-value ctx row v name)
         (= name "Level") ctx.level)))
@@ -107,12 +116,7 @@
         row (cache-get entry ctx.level ctx.branch)]
     (if (not row)
         nil
-        (let [v (if (and ctx.rof? (not= (. row (.. col "_ROF")) nil))
-                    (. row (.. col "_ROF"))
-                    (or (. row col) (. row (col:gsub "%s+" ""))))]
-          (if (= v nil)
-              nil
-              (resolve-cell-value ctx row v (.. tname "." col)))))))
+        (with-row! ctx row row-lookup ctx col))))
 
 (fn array-index [level branch schema]
   ;; same (branch, level) -> flat walk as sum-series
@@ -278,12 +282,13 @@
                    (not (tname:find "|" 1 true)) (s:find tname 1 true))
           (let [row (cache-get levels ctx.level ctx.branch)]
             (when row
-              (each [col v (pairs row)]
+              (each [col _ (pairs row)]
                 (when (and (= (type col) :string) (not (col:match "_ROF$")))
                   (let [key (.. tname "." col)]
                     (when (and (not (. seen key)) (s:find key 1 true))
                       (set (. seen key) true)
-                      (let [n (remote-cell-number ctx row v)]
+                      (let [n (remote-cell-number ctx row
+                                                  (row-field row col ctx.rof?))]
                         (when n
                           (table.insert entries [key n]))))))))))))
     (when (> (length entries) 0)
