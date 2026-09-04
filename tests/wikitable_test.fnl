@@ -63,6 +63,10 @@
   (assert-eq (clean-header-text "Thorns DPS$DREF$") "Thorns DPS" "multi-word")
   (assert-eq (clean-header-text "[[Splash Damage]]") "Splash Damage" "wikilink")
   (assert-eq (clean-header-text "Foo<ref>x</ref>") "Foo" "ref")
+  (assert-eq (clean-header-text "[[File:Range Buff.png|16px]]Beams") "Beams"
+             "file link is chrome")
+  (assert-eq (clean-header-text "[[Image:QuestsIcon.png|12px]] Name") "Name"
+             "image link is chrome")
   (suite "split-header-cells treats || as !!")
   (let [cells (split-header-cells "! Level !! Damage || Cost Efficiency")]
     (assert-eq cells ["Level" "Damage" "Cost Efficiency"]

@@ -47,12 +47,20 @@
         (add-part part)))
     keys))
 
+(fn unwrap-wikilink [inner]
+  (let [name (trim (or (inner:match "^([^|]+)") inner))
+        low (name:lower)]
+    ;; File:/Image: is icon chrome, not the column name
+    (if (or (low:match "^file:") (low:match "^image:"))
+        ""
+        name)))
+
 (fn clean-header-text [cell]
   (var h (trim cell))
   (set h (pick-values 1 (h:gsub "<ref[^>]*>.-</ref>" "")))
   (set h (pick-values 1 (h:gsub "<ref[^>]*/>" "")))
   (set h (pick-values 1 (h:gsub "<[^>]+>" "")))
-  (set h (pick-values 1 (h:gsub "%[%[([^|%]]+)|?[^%]]*%]%]" "%1")))
+  (set h (pick-values 1 (h:gsub "%[%[([^%]]+)%]%]" unwrap-wikilink)))
   (set h (pick-values 1 (h:gsub "%[%[" "")))
   (set h (pick-values 1 (h:gsub "%]%]" "")))
   (set h (pick-values 1 (h:gsub "%$[^%$]+%$" "")))
