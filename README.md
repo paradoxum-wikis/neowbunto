@@ -1,12 +1,12 @@
 # Neowbunto
 
-This repository contains the [Neowtext](https://tds.fandom.com/wiki/Help:Neowtext) engine ran on Scribunto, while the one that runs natively on JavaScript is integrated tightly inside the [Statistics Editor](https://github.com/paradoxum-wikis/Statistics-Editor).
+This repository contains the [Neowtext](https://tds.wiki/w/Help:Neowtext) engine ran on Scribunto, while the one that runs natively on JavaScript is integrated tightly inside the [Statistics Editor](https://github.com/paradoxum-wikis/Statistics-Editor).
 
-The final iteration of the old Neowbunto that was written entirely in Lua can be found [here](https://tds.fandom.com/wiki/Module:Neowbunto?oldid=572606).
+The final iteration of the old Neowbunto that was written entirely in Lua can be found [here](https://tds.wiki/w/Module:Neowbunto?oldid=604652).
 
 ## Build
 
-Make sure you have [Lua](https://www.lua.org/ftp) installed (any version above 5.1 is fine).
+Make sure you have [Lua](https://www.lua.org/ftp) installed (any version from or above 5.1 is fine).
 
 Bash:
 
