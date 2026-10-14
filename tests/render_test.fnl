@@ -67,7 +67,7 @@
     (assert-true (html:find "mw-customtoggle-" 1 true) "label toggles")
     (assert-true (html:find (.. "mw-customtoggle-" b.id "-c0-off") 1 true)
                  "cell toggle on button")
-    (assert-true (html:find ">| table |<" 1 true) "table body"))
+    (assert-true (html:find ">\n| table |\n<" 1 true) "table body"))
   (suite "wrap-rofbug with FSE adds .wds-button.open-se sibling")
   (let [b (new-toggle-builder 2)
         html (wrap-rofbug "X" b true)]

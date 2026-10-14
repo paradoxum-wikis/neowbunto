@@ -107,7 +107,7 @@
                   "<span class=\"mw-collapsible mw-collapsed\" id=\"mw-customcollapsible-"
                   label-id "-off\">Enable Rate of Fire Bug</span>" "</div>")
           editor (or (make-editor-btn-html is-fse) "")
-          body (.. "<div>" table-out "</div>")]
+          body (.. "<div>\n" table-out "\n</div>")]
       (.. "<div class=\"rofbug-wrapper\">" btn editor body "</div>"))))
 
 (fn formula-name-evaluable? [name formula-env]
