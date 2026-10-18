@@ -1,33 +1,51 @@
 ;; FNC/FSE page config
 
+(local {: byte : find : sub} string)
+
+(local ws {32 true 9 true 10 true 11 true 12 true 13 true})
+
+(fn trim-span [s from to]
+  (var i from)
+  (var j to)
+  (while (and (<= i j) (. ws (byte s i)))
+    (set i (+ i 1)))
+  (while (and (<= i j) (. ws (byte s j)))
+    (set j (- j 1)))
+  (sub s i j))
+
 (fn trim [s]
   (let [str (tostring (or s ""))]
-    (pick-values 1 (str:match "^%s*(.-)%s*$"))))
+    (if (or (. ws (byte str 1)) (. ws (byte str -1)))
+        (trim-span str 1 (length str))
+        str)))
 
 (fn split-lines [s]
   (let [out []
         text (tostring (or s ""))]
-    (var start 1)
-    (for [i 1 (length text)]
-      (when (= (text:sub i i) "\n")
-        (table.insert out (text:sub start (- i 1)))
-        (set start (+ i 1))))
-    (table.insert out (text:sub start))
+    (var pos 1)
+    (var nl (find text "\n" 1 true))
+    (while nl
+      (table.insert out (sub text pos (- nl 1)))
+      (set pos (+ nl 1))
+      (set nl (find text "\n" pos true)))
+    (table.insert out (sub text pos))
     out))
 
 (fn split-semi [raw]
   (let [out []
-        s (tostring (or raw ""))]
-    (if (= s "")
-        out
-        (do
-          (var start 1)
-          (for [i 1 (length s)]
-            (when (= (s:sub i i) ";")
-              (table.insert out (trim (s:sub start (- i 1))))
-              (set start (+ i 1))))
-          (table.insert out (trim (s:sub start)))
-          out))))
+        s (tostring (or raw ""))
+        n (length s)]
+    (when (not= s "")
+      (var pos 1)
+      (var done false)
+      (while (not done)
+        (let [semi (find s ";" pos true)
+              stop (if semi (- semi 1) n)]
+          (table.insert out (trim-span s pos stop))
+          (if semi
+              (set pos (+ semi 1))
+              (set done true)))))
+    out))
 
 (fn strip-var-key [k]
   (or (: (tostring k) :match "^%$(.*)%$$") (tostring k)))
@@ -99,8 +117,9 @@
 
 (fn strip-refs [raw]
   (var body (tostring (or raw "")))
-  (set body (pick-values 1 (body:gsub "<ref[^>]*>.-</ref>" "")))
-  (set body (pick-values 1 (body:gsub "<ref[^>]*/>" "")))
+  (when (find body "<" 1 true)
+    (set body (pick-values 1 (body:gsub "<ref[^>]*>.-</ref>" "")))
+    (set body (pick-values 1 (body:gsub "<ref[^>]*/>" ""))))
   (trim body))
 
 (fn is-numeric-array-body [raw]
@@ -116,34 +135,30 @@
         (do
           (var ok true)
           (each [_ part (ipairs (split-semi body)) &until (not ok)]
-            (let [t (trim part)]
-              (when (and (not= t "")
-                         (= (tonumber (pick-values 1 (t:gsub "," ""))) nil))
-                (set ok false))))
+            (when (and (not= part "")
+                       (= (tonumber (pick-values 1 (part:gsub "," ""))) nil))
+              (set ok false)))
           ok))))
 
 (fn parse-number-list [raw]
   ;; blank slots -> 0 are schema gaps
   ;; non-empty garbage errors (NS0 no silent 0)
   (icollect [_ part (ipairs (split-semi raw))]
-    (let [t (trim part)]
-      (if (= t "")
-          0
-          (let [(cleaned) (t:gsub "," "")
-                n (tonumber cleaned)]
-            (when (not n)
-              (error (.. "config: not a number in list: `" t "`")))
-            n)))))
+    (if (= part "")
+        0
+        (let [n (or (tonumber part)
+                    (tonumber (pick-values 1 (part:gsub "," ""))))]
+          (when (not n)
+            (error (.. "config: not a number in list: `" part "`")))
+          n))))
 
 (fn parse-string-list [raw]
   (icollect [_ part (ipairs (split-semi raw))]
-    (let [t (trim part)]
-      (when (not= t "") t))))
+    (when (not= part "") part)))
 
 (fn parse-schema [raw]
   (when (and raw (not= (trim raw) ""))
-    (icollect [_ part (ipairs (split-semi raw))]
-      (trim part))))
+    (split-semi raw)))
 
 (fn build-branch-map [vars prefix]
   (let [schema-str (. vars (get-var-key vars prefix "SCHEMA"))]

@@ -1,51 +1,54 @@
 ;; Structural {|...|} parse
 
+(local {: byte : find : lower : sub} string)
+
+(local ws {32 true 9 true 10 true 11 true 12 true 13 true})
+
+(fn trim-span [s from to]
+  (var i from)
+  (var j to)
+  (while (and (<= i j) (. ws (byte s i)))
+    (set i (+ i 1)))
+  (while (and (<= i j) (. ws (byte s j)))
+    (set j (- j 1)))
+  (sub s i j))
+
 (fn trim [s]
   (let [str (tostring (or s ""))]
-    (pick-values 1 (str:match "^%s*(.-)%s*$"))))
-
-(fn split-lines [s]
-  (let [out []
-        text (tostring (or s ""))]
-    (var start 1)
-    (for [i 1 (length text)]
-      (when (= (text:sub i i) "\n")
-        (table.insert out (text:sub start (- i 1)))
-        (set start (+ i 1))))
-    (table.insert out (text:sub start))
-    out))
+    (if (or (. ws (byte str 1)) (. ws (byte str -1)))
+        (trim-span str 1 (length str))
+        str)))
 
 (fn parse-level-keys [raw]
-  (let [raw-s (tostring (or raw ""))
-        (s) (raw-s:gsub "%s+" "")
-        keys []
-        seen {}]
-    (fn add [k]
-      (when (and (not= k nil) (not (. seen k)))
-        (set (. seen k) true)
-        (table.insert keys k)))
+  (let [s (: (tostring (or raw "")) :gsub "%s+" "")]
+    (if (find s "^%d+$")
+        [(tonumber s)]
+        (let [keys []
+              seen {}]
+          (fn add [k]
+            (when (not (. seen k))
+              (set (. seen k) true)
+              (table.insert keys k)))
 
-    (fn add-part [part]
-      (when (not= part "")
-        (let [(a la b lb) (part:match "^(%d+)(%a+)[^%d%a]+(%d+)(%a+)$")]
-          (if (and a (= (la:upper) (lb:upper)))
-              (let [L (la:upper)]
-                (for [n (tonumber a) (tonumber b)]
-                  (add (.. (tostring n) L))))
-              (let [(n L) (part:match "^(%d+)(%a+)$")]
-                (if n
-                    (add (.. n (L:upper)))
-                    (let [(lo hi) (part:match "^(%d+)[^%d]+(%d+)$")]
-                      (if lo
-                          (for [i (tonumber lo) (tonumber hi)]
-                            (add i))
-                          (let [num (tonumber part)]
-                            (when num (add num)))))))))))
+          (fn add-part [part]
+            (let [(a la b lb) (part:match "^(%d+)(%a+)[^%d%a]+(%d+)(%a+)$")]
+              (if (and a (= (la:upper) (lb:upper)))
+                  (let [L (la:upper)]
+                    (for [n (tonumber a) (tonumber b)]
+                      (add (.. (tostring n) L))))
+                  (let [(n L) (part:match "^(%d+)(%a+)$")]
+                    (if n
+                        (add (.. n (L:upper)))
+                        (let [(lo hi) (part:match "^(%d+)[^%d]+(%d+)$")]
+                          (if lo
+                              (for [i (tonumber lo) (tonumber hi)]
+                                (add i))
+                              (let [num (tonumber part)]
+                                (when num (add num))))))))))
 
-    (when (not= s "")
-      (each [part (s:gmatch "[^/]+")]
-        (add-part part)))
-    keys))
+          (each [part (s:gmatch "[^/]+")]
+            (add-part part))
+          keys))))
 
 (fn unwrap-wikilink [inner]
   (let [name (trim (or (inner:match "^([^|]+)") inner))
@@ -57,35 +60,32 @@
 
 (fn clean-header-text [cell]
   (var h (trim cell))
-  (set h (pick-values 1 (h:gsub "<ref[^>]*>.-</ref>" "")))
-  (set h (pick-values 1 (h:gsub "<ref[^>]*/>" "")))
-  (set h (pick-values 1 (h:gsub "<[^>]+>" "")))
-  (set h (pick-values 1 (h:gsub "%[%[([^%]]+)%]%]" unwrap-wikilink)))
-  (set h (pick-values 1 (h:gsub "%[%[" "")))
-  (set h (pick-values 1 (h:gsub "%]%]" "")))
-  (set h (pick-values 1 (h:gsub "%$[^%$]+%$" "")))
+  (when (find h "<" 1 true)
+    (set h (pick-values 1 (h:gsub "<ref[^>]*>.-</ref>" "")))
+    (set h (pick-values 1 (h:gsub "<ref[^>]*/>" "")))
+    (set h (pick-values 1 (h:gsub "<[^>]+>" ""))))
+  (when (find h "[[" 1 true)
+    (set h (pick-values 1 (h:gsub "%[%[([^%]]+)%]%]" unwrap-wikilink)))
+    (set h (pick-values 1 (h:gsub "%[%[" ""))))
+  (when (find h "]]" 1 true)
+    (set h (pick-values 1 (h:gsub "%]%]" ""))))
+  (when (find h "$" 1 true)
+    (set h (pick-values 1 (h:gsub "%$[^%$]+%$" ""))))
   (trim h))
 
 (fn strip-cell-refs [cell]
   (var c (trim cell))
-  (set c (pick-values 1 (c:gsub "<ref[^>]*>.-</ref>" "")))
-  (set c (pick-values 1 (c:gsub "<ref[^>]*/>" "")))
-  (trim c))
-
-(fn header-line? [t]
-  (and (t:match "^!") (not (: (t:lower) :match "colspan"))))
+  (when (find c "<" 1 true)
+    (set c (pick-values 1 (c:gsub "<ref[^>]*>.-</ref>" "")))
+    (set c (pick-values 1 (c:gsub "<ref[^>]*/>" "")))
+    (set c (trim c)))
+  c)
 
 (fn title-line? [t]
-  (and (t:match "^!") (: (t:lower) :match "colspan")))
+  (and (= (byte t 1) 33) (: (lower t) :find "colspan" 1 true)))
 
-(fn row-sep? [t]
-  (t:match "^|%-"))
-
-(fn table-end? [t]
-  (t:match "^|}"))
-
-(fn data-line? [t]
-  (and (t:match "^|") (not (t:match "^|}")) (not (t:match "^|%-"))))
+(fn header-line? [t]
+  (and (= (byte t 1) 33) (not (title-line? t))))
 
 (fn split-header-cells [line]
   ;; || -> !! in headers are undocumented on MediaWiki's docs
@@ -100,19 +100,17 @@
     cells))
 
 (fn split-row-cells [line]
-  (let [s (line:sub 2)
-        cells []]
-    (var pos 1)
+  (let [cells []
+        n (length line)]
+    (var pos 2)
     (var done false)
     (while (not done)
-      (let [nx (s:find "||" pos true)]
+      (let [nx (find line "||" pos true)
+            stop (if nx (- nx 1) n)]
+        (table.insert cells (trim-span line pos stop))
         (if nx
-            (do
-              (table.insert cells (trim (s:sub pos (- nx 1))))
-              (set pos (+ nx 2)))
-            (do
-              (table.insert cells (trim (s:sub pos)))
-              (set done true)))))
+            (set pos (+ nx 2))
+            (set done true))))
     cells))
 
 (fn extract-title [line]
@@ -156,27 +154,30 @@
                                :level-raw (and (> (length cells) 0) (. cells 1))})))
           (set pending-cells nil))))
 
-    (each [_ line (ipairs (split-lines tbl-text))]
-      (let [t (trim line)]
-        (if (title-line? t)
-            (do
-              (set title (extract-title t))
-              (set branch (detect-branch title branch-map)))
-            (header-line? t)
-            (each [_ h (ipairs (split-header-cells t))]
-              (table.insert headers h))
-            (row-sep? t)
-            (do
-              (flush-row)
-              (set pending-cells []))
-            (table-end? t)
-            (flush-row)
-            (data-line? t)
-            (do
-              (when (not pending-cells)
-                (set pending-cells []))
-              (each [_ c (ipairs (split-row-cells t))]
-                (table.insert pending-cells c))))))
+    ;; \n? yields a trailing "" line, a no-op
+    (each [line (tbl-text:gmatch "([^\n]*)\n?")]
+      (let [t (trim line)
+            b (byte t 1)]
+        (if (= b 33)
+            (if (title-line? t)
+                (do
+                  (set title (extract-title t))
+                  (set branch (detect-branch title branch-map)))
+                (each [_ h (ipairs (split-header-cells t))]
+                  (table.insert headers h)))
+            (= b 124)
+            (let [b2 (byte t 2)]
+              (if (= b2 45)
+                  (do
+                    (flush-row)
+                    (set pending-cells []))
+                  (= b2 125)
+                  (flush-row)
+                  (do
+                    (when (not pending-cells)
+                      (set pending-cells []))
+                    (each [_ cell (ipairs (split-row-cells t))]
+                      (table.insert pending-cells cell))))))))
     (flush-row)
     {:title title :branch branch :headers headers :rows rows :source tbl-text}))
 
