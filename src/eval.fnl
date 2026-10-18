@@ -58,7 +58,7 @@
                       (parser.parse-var name env (or ctx.parse-cache {}) []))
               (ok res) (pcall eval-node ctx ast)]
           (set (. stack name) nil)
-          (if ok res (error res)))))))
+          (if ok res (error res 0)))))))
 
 (fn cell-formula-name [v]
   ;; $NAME$ still sitting in a cached cell (maybe glued $DPS$$RREF$)
@@ -76,7 +76,7 @@
     (set ctx.row row)
     (let [(ok res) (pcall f a b c)]
       (set ctx.row saved)
-      (if ok res (error res)))))
+      (if ok res (error res 0)))))
 
 (fn resolve-cell-value [ctx row v label]
   ;; row-lookup already handled nil and numbers
@@ -377,7 +377,7 @@
     (let [ast (parser.parse-var name env cache [])
           (ok res) (pcall eval-node ctx ast)]
       (set (. stack name) nil)
-      (if (not ok) (error res)
+      (if (not ok) (error res 0)
           (not= (type res) :number) (error (.. "eval: $" name
                                                "$ in #expr is not a number"))
           res))))
@@ -483,7 +483,7 @@
     (let [(ok res) (pcall eval-node ctx ast)]
       (set ctx.level saved-level)
       (set row.Level saved-rl)
-      (if ok res (error res)))))
+      (if ok res (error res 0)))))
 
 (fn with-pin! [ctx lvl br f a b c]
   (let [saved-level ctx.level
@@ -493,7 +493,7 @@
     (let [(ok res) (pcall f a b c)]
       (set ctx.level saved-level)
       (set ctx.branch saved-branch)
-      (if ok res (error res)))))
+      (if ok res (error res 0)))))
 
 (fn sum-formula-series [ctx name]
   (let [ast (resolve-named-ast ctx name)]
