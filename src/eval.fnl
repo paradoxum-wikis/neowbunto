@@ -4,6 +4,14 @@
 (local mwexpr (require :mwexpr))
 (local parser (require :parser))
 
+;; ties by name so pairs order cannot change output
+(fn longer-first? [a b]
+  (let [la (length a)
+        lb (length b)]
+    (or (> la lb) (and (= la lb) (< a b)))))
+
+(local expr-memos (setmetatable {} {:__mode :k}))
+
 (fn extract-number [v]
   ;; numbers, "1,000", {{Money|7500}} scrape, N/A -> 0 (stats tables)
   (if (= (type v) :number)
@@ -54,10 +62,12 @@
 
 (fn cell-formula-name [v]
   ;; $NAME$ still sitting in a cached cell (maybe glued $DPS$$RREF$)
-  (when (= (type v) :string)
-    (let [s (pick-values 1 (v:gsub "<ref[^>]*>.-</ref>" ""))
-          s (pick-values 1 (s:gsub "<ref[^>]*/>" ""))]
-      (s:match "%$([A-Za-z][%w%-]*)%$"))))
+  (when (and (= (type v) :string) (v:find "$" 1 true))
+    (var s v)
+    (when (v:find "<ref" 1 true)
+      (set s (pick-values 1 (v:gsub "<ref[^>]*>.-</ref>" "")))
+      (set s (pick-values 1 (s:gsub "<ref[^>]*/>" ""))))
+    (s:match "%$([A-Za-z][%w%-]*)%$")))
 
 (fn with-row! [ctx row f a b c]
   ;; a b c optional
@@ -69,17 +79,14 @@
       (if ok res (error res)))))
 
 (fn resolve-cell-value [ctx row v label]
-  (if (= v nil)
-      nil
-      (= (type v) :number)
-      v
-      (let [n (extract-number v)]
-        (if (not= n nil)
-            n
-            (let [fname (cell-formula-name v)]
-              (if fname
-                  (with-row! ctx row eval-named-formula ctx fname)
-                  (as-number v label)))))))
+  ;; row-lookup already handled nil and numbers
+  (let [n (extract-number v)]
+    (if (not= n nil)
+        n
+        (let [fname (cell-formula-name v)]
+          (if fname
+              (with-row! ctx row eval-named-formula ctx fname)
+              (as-number v label))))))
 
 (fn row-field [row name rof?]
   ;; cache rows keep Header_ROF
@@ -98,11 +105,12 @@
         direct (row-field row name rof?)
         v (if (not= direct nil)
               direct
-              (let [stripped (pick-values 1 (name:gsub "%s+" ""))]
-                (row-field row stripped rof?)))]
+              (when (name:find "%s")
+                (row-field row (pick-values 1 (name:gsub "%s+" "")) rof?)))]
     ;; nil = unresolvable as callers hard-error or soft-ident
-    (if (not= v nil) (resolve-cell-value ctx row v name)
-        (= name "Level") ctx.level)))
+    (if (= v nil) (when (= name "Level") ctx.level)
+        (= (type v) :number) v
+        (resolve-cell-value ctx row v name))))
 
 (fn cache-get [cache level branch]
   (when cache
@@ -145,10 +153,13 @@
 (fn sum-series [costs level branch schema]
   (let [lvl (or (tonumber level) 0)]
     (if (not schema)
-        (accumulate [total 0 i c (ipairs (or costs []))]
-          (if (<= (- i 1) lvl)
-              (+ total (or c 0))
-              total))
+        (let [cs (or costs [])]
+          (var total 0)
+          (var i 1)
+          (while (and (not= (. cs i) nil) (<= (- i 1) lvl))
+            (set total (+ total (. cs i)))
+            (set i (+ i 1)))
+          total)
         (let [trunk (or (. schema 1) "N")
               target (if (and branch (not= branch "")) branch trunk)]
           (var total 0)
@@ -192,66 +203,78 @@
       (error "eval: $FNC-TOTALPRICE$ needs ctx.costs or ctx.config.costs"))
     (sum-series costs ctx.level (or ctx.branch "") (ctx-schema ctx))))
 
-(fn expr-bindings [ctx]
+(fn expr-bindings [ctx ?s]
   (let [b {}]
     (each [k v (pairs (or ctx.row {}))]
       (when (= (type v) :number)
-        (set (. b k) v)
-        (let [(stripped) (k:gsub "%s+" "")]
-          (set (. b stripped) v))))
+        (when (or (not ?s) (?s:find k 1 true))
+          (set (. b k) v))
+        (when (k:find "%s")
+          (let [(stripped) (k:gsub "%s+" "")]
+            (when (or (not ?s) (?s:find stripped 1 true))
+              (set (. b stripped) v))))))
     ;; pin/series ctx.level overrides row Level for #expr
-    (when (not= ctx.level nil)
+    (when (and (not= ctx.level nil) (or (not ?s) (?s:find "Level" 1 true)))
       (set b.Level ctx.level))
     b))
+
+(fn ident-byte? [c]
+  (and c (or (<= 48 c 57) (<= 65 c 90) (<= 97 c 122) (= c 95))))
 
 (fn mid-multiword? [s a]
   ;; Damage tail i.e. "Critical Damage"
   ;; not the bare name after " + "
   (var i (- a 1))
-  (while (and (> i 0) (= (s:sub i i) " "))
+  (while (and (> i 0) (= (s:byte i) 32))
     (set i (- i 1)))
-  (and (> i 0) (let [ch (s:sub i i)]
-                 (or (ch:match "[%w_]") (= ch "]")))))
+  (and (> i 0) (let [c (s:byte i)]
+                 (or (ident-byte? c) (= c 93)))))
+
+;; 0 and -0 share a key but print differently, NaN is no key
+(local num-strs {})
+(fn num-str [n]
+  (if (and (not= n 0) (= n n))
+      (or (. num-strs n) (let [str (tostring n)]
+                           (set (. num-strs n) str)
+                           str))
+      (tostring n)))
 
 (fn materialize-ident [s name val]
-  (var out "")
-  (var from 1)
-  (var done false)
-  (let [v (tostring val)]
-    (while (not done)
-      (let [(a b) (s:find name from true)]
-        (if (not a)
-            (do
-              (set out (.. out (s:sub from)))
-              (set done true))
-            (let [prev (if (= a 1) "" (s:sub (- a 1) (- a 1)))
-                  nxt (s:sub (+ b 1) (+ b 1))
-                  ok (and (not= prev ".")
-                          (or (= a 1) (not (prev:match "[%w_]")))
-                          (or (not= prev " ") (not (mid-multiword? s a)))
-                          (or (= nxt "") (not (nxt:match "[%w_]"))))]
-              (if ok
-                  (do
-                    (set out (.. out (s:sub from (- a 1)) v))
-                    (set from (+ b 1)))
-                  (do
-                    (set out (.. out (s:sub from b)))
-                    (set from (+ b 1))))))))
-    out))
+  ;; skipped hits are copied along with the next replaced one
+  (let [nl (length name)]
+    (var a (s:find name 1 true))
+    (if (not a)
+        s
+        (let [v (num-str val)]
+          (var out nil)
+          (var from 1)
+          (while a
+            (let [prev (s:byte (- a 1))
+                  nxt (s:byte (+ a nl))]
+              (when (and (not= prev 46) (not (ident-byte? prev))
+                         (or (not= prev 32) (not (mid-multiword? s a)))
+                         (not (ident-byte? nxt)))
+                (set out (.. (or out "") (s:sub from (- a 1)) v))
+                (set from (+ a nl))))
+            (set a (s:find name (+ a nl) true)))
+          (if out (.. out (s:sub from)) s)))))
 
 (fn materialize-expr [source bindings]
   ;; #expr has no variables
   ;; Scribunto does not preprocess PF args
-  (var s (tostring (or source "")))
-  (when (and bindings (next bindings))
-    (let [names []]
-      (each [k v (pairs bindings)]
-        (when (and (= (type v) :number) (s:find k 1 true))
-          (table.insert names k)))
-      (when (> (length names) 0)
-        (table.sort names (fn [a b] (> (length a) (length b))))
-        (each [_ name (ipairs names)]
-          (set s (materialize-ident s name (. bindings name)))))))
+  (var s (or source ""))
+  (when bindings
+    (let [(k v) (next bindings)]
+      (if (= (next bindings k) nil)
+          (when (= (type v) :number)
+            (set s (materialize-ident s k v)))
+          (let [names []]
+            (each [k v (pairs bindings)]
+              (when (and (= (type v) :number) (s:find k 1 true))
+                (table.insert names k)))
+            (table.sort names longer-first?)
+            (each [_ name (ipairs names)]
+              (set s (materialize-ident s name (. bindings name))))))))
   s)
 
 (fn remote-cell-number [ctx row v]
@@ -274,49 +297,74 @@
   ;; as page cache has every table
   (var s (tostring (or source "")))
   (let [tc ctx.table-cache
-        entries []
-        seen {}]
+        keys []
+        vals {}]
     (when tc
       (each [tname levels (pairs tc)]
         (when (and (= (type tname) :string) (= (type levels) :table)
-                   (not (tname:find "|" 1 true)) (s:find tname 1 true))
+                   (not (tname:find "|" 1 true)) (s:find tname 1 true)
+                   (s:find (.. tname ".") 1 true))
           (let [row (cache-get levels ctx.level ctx.branch)]
             (when row
               (each [col _ (pairs row)]
-                (when (and (= (type col) :string) (not (col:match "_ROF$")))
+                (when (and (= (type col) :string) (s:find col 1 true)
+                           (not (col:match "_ROF$")))
                   (let [key (.. tname "." col)]
-                    (when (and (not (. seen key)) (s:find key 1 true))
-                      (set (. seen key) true)
+                    (when (and (= (. vals key) nil) (s:find key 1 true))
                       (let [n (remote-cell-number ctx row
                                                   (row-field row col ctx.rof?))]
+                        ;; false = miss, not looked up again
+                        (set (. vals key) (or n false))
                         (when n
-                          (table.insert entries [key n]))))))))))))
-    (when (> (length entries) 0)
-      (table.sort entries
-                  (fn [a b]
-                    (> (length (. a 1)) (length (. b 1)))))
-      (each [_ pair (ipairs entries)]
-        (let [key (. pair 1)
-              vs (tostring (. pair 2))
-              vlen (length vs)]
-          (var from 1)
-          (var done false)
-          (while (not done)
-            (let [(a b) (s:find key from true)]
-              (if a
-                  (do
-                    (set s (.. (s:sub 1 (- a 1)) vs (s:sub (+ b 1))))
-                    (set from (+ a vlen)))
-                  (set done true))))))))
+                          (table.insert keys key))))))))))))
+    (table.sort keys longer-first?)
+    (each [_ key (ipairs keys)]
+      (let [vs (tostring (. vals key))
+            vlen (length vs)]
+        (var from 1)
+        (var done false)
+        (while (not done)
+          (let [(a b) (s:find key from true)]
+            (if a
+                (do
+                  (set s (.. (s:sub 1 (- a 1)) vs (s:sub (+ b 1))))
+                  (set from (+ a vlen)))
+                (set done true)))))))
   s)
 
+;; #expr is pure, $FNC-TOTAL-X$ repeats it per level per row
+;; number kept too, tonumber per hit is slow
+(fn parser-expr [frame expr]
+  (let [memo (or (. expr-memos frame)
+                 (let [m {}]
+                   (set (. expr-memos frame) m)
+                   m))
+        hit (. memo expr)]
+    (if (not= hit nil)
+        hit
+        (let [out (tostring (or (frame:callParserFunction {:name "#expr"
+                                                           :args [expr]})
+                                ""))
+              res [out (tonumber out)]]
+          (set (. memo expr) res)
+          res))))
+
 (fn call-parser-expr [frame expr]
-  (let [out (frame:callParserFunction {:name "#expr" :args [expr]})]
-    (tonumber (tostring out))))
+  (. (parser-expr frame expr) 2))
+
+(fn alpha-byte? [c]
+  (and c (or (<= 65 c 90) (<= 97 c 122))))
 
 (fn has-table-col? [expr]
   ;; lua find "." is too eager
-  (not= (expr:find "%a%.%a") nil))
+  ;; %a%.%a tries every position
+  (var a (expr:find "." 1 true))
+  (var found false)
+  (while (and a (not found))
+    (set found (and (alpha-byte? (expr:byte (- a 1)))
+                    (alpha-byte? (expr:byte (+ a 1)))))
+    (set a (expr:find "." (+ a 1) true)))
+  found)
 
 (fn eval-dollar-in-expr [name ctx]
   (let [env (or ctx.formula-env (and ctx.config ctx.config.formula-env) {})
@@ -335,13 +383,12 @@
           res))))
 
 (fn materialize-dollars [source ctx]
-  (let [s (tostring (or source ""))]
-    (if (not (s:find "$" 1 true))
-        s
-        (pick-values 1
-                     (s:gsub "%$([^%$]+)%$"
-                             (fn [name]
-                               (tostring (eval-dollar-in-expr name ctx))))))))
+  (if (not (source:find "$" 1 true))
+      source
+      (pick-values 1
+                   (source:gsub "%$([^%$]+)%$"
+                                (fn [name]
+                                  (tostring (eval-dollar-in-expr name ctx)))))))
 
 (fn materialize-expr-body [source ctx]
   ;; Table.Col first as ltr expand may already put things on the row
@@ -349,8 +396,9 @@
   (let [src (materialize-dollars (tostring (or source "")) ctx)
         expr0 (if (has-table-col? src)
                   (materialize-dotrefs src ctx)
-                  src)]
-    (materialize-expr expr0 (expr-bindings ctx))))
+                  src)
+        b (expr-bindings ctx expr0)]
+    (materialize-expr expr0 b)))
 
 (fn expand-inline-expr [text ctx]
   (pick-values 1
@@ -360,9 +408,7 @@
                           expr (if ok expr body)
                           frame ctx.frame]
                       (if (and frame frame.callParserFunction)
-                          (tostring (or (frame:callParserFunction {:name "#expr"
-                                                                   :args [expr]})
-                                        ""))
+                          (. (parser-expr frame expr) 1)
                           (tostring (or (mwexpr.eval expr {}) ""))))))))
 
 (fn eval-mw-expr-node [source ctx]
@@ -378,16 +424,16 @@
 (fn substitute-row-keys [text row level]
   (var s (tostring (or text "")))
   (let [keys []]
-    (each [k _ (pairs (or row {}))]
-      (table.insert keys k))
-    (table.sort keys (fn [a b] (> (length a) (length b))))
+    (each [k v (pairs (or row {}))]
+      (when (= (type v) :number)
+        (table.insert keys k)))
+    (table.sort keys longer-first?)
     (when (and level (= (. row "Level") nil))
       (set s (pick-values 1 (s:gsub "Level" (tostring level)))))
     (each [_ k (ipairs keys)]
-      (let [v (. row k)]
-        (when (= (type v) :number)
-          (let [pat (k:gsub "([^%w])" "%%%1")]
-            (set s (pick-values 1 (s:gsub pat (tostring v))))))))
+      (when (s:find k 1 true)
+        (let [pat (k:gsub "([^%w])" "%%%1")]
+          (set s (pick-values 1 (s:gsub pat (tostring (. row k))))))))
     (when (and level (s:find "Level" 1 true))
       (set s
            (pick-values 1
