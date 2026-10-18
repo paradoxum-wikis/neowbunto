@@ -25,27 +25,37 @@
       (.. "parser: unexpected token type=" (tostring tok.type)
           (if tok.value (.. " value=" (tostring tok.value)) ""))))
 
+(local byte string.byte)
+(local ws-byte {32 true 9 true 10 true 11 true 12 true 13 true})
+
+(fn trim [s]
+  (let [str (tostring (or s ""))]
+    (if (or (. ws-byte (byte str 1)) (. ws-byte (byte str -1)))
+        (pick-values 1 (str:match "^%s*(.-)%s*$"))
+        str)))
+
 (fn literal-raw? [raw]
   ;; pure <ref>... or pure [[...]]
   ;; not formulas that embed them
-  (let [s (pick-values 1 (: (tostring (or raw "")) :match "^%s*(.-)%s*$"))]
-    (or (s:match "^<ref[%s/>]") (s:match "^%[%[[^%[%]]+%]%]$"))))
-
-(fn mw-expr-body? [raw]
-  (let [str (tostring (or raw ""))
-        s (pick-values 1 (str:match "^%s*(.-)%s*$"))]
-    (not= (s:match "^{{#expr:(.*)}}%s*$") nil)))
+  (let [s (trim raw)
+        b (byte s 1)]
+    (when (or (= b 60) (= b 91))
+      (or (s:match "^<ref[%s/>]") (s:match "^%[%[[^%[%]]+%]%]$")))))
 
 (fn extract-mw-expr [raw]
-  (let [str (tostring (or raw ""))
-        s (pick-values 1 (str:match "^%s*(.-)%s*$"))]
-    (s:match "^{{#expr:(.*)}}%s*$")))
+  (let [s (trim raw)]
+    (when (= (byte s 1) 123)
+      (s:match "^{{#expr:(.*)}}%s*$"))))
+
+(fn mw-expr-body? [raw]
+  (not= (extract-mw-expr raw) nil))
 
 (fn wikitext-body? [raw]
   (and (raw:find "{{" 1 true) (not (mw-expr-body? raw))))
 
 (fn config-varref? [name]
-  (or (name:match "^FNC%-") (name:match "^FSE%-")))
+  (when (= (byte name 1) 70)
+    (or (name:match "^FNC%-") (name:match "^FSE%-"))))
 
 (fn cycle-message [stack name]
   (let [parts []]
@@ -71,24 +81,29 @@
   found)
 
 (fn parse-pin-parts [name]
-  (let [(base lvl br) (name:match "^(.-)@(%d+)@(.+)$")]
-    (if base
-        (values base (tonumber lvl) br)
-        (let [(base2 lvl2) (name:match "^(.-)@(%d+)$")]
-          (if base2
-              (values base2 (tonumber lvl2) nil)
-              (values name nil nil))))))
+  (if (not (name:find "@" 1 true))
+      (values name nil nil)
+      (let [(base lvl br) (name:match "^(.-)@(%d+)@(.+)$")]
+        (if base
+            (values base (tonumber lvl) br)
+            (let [(base2 lvl2) (name:match "^(.-)@(%d+)$")]
+              (if base2
+                  (values base2 (tonumber lvl2) nil)
+                  (values name nil nil)))))))
+
+(fn total-ref [base]
+  (when (= (byte base 1) 70)
+    (base:match "^FNC%-TOTAL%-(.+)$")))
 
 (var expand-varref nil)
 (var parse-formula nil)
 (var parse-var nil)
 
 (fn special-varref? [base pin-lvl]
-  (or pin-lvl (= base "FNC-TOTALPRICE") (base:match "^FNC%-TOTAL%-(.+)$")
-      (config-varref? base)))
+  (or pin-lvl (= base "FNC-TOTALPRICE") (total-ref base) (config-varref? base)))
 
 (fn expand-user-macros [raw var-env stack]
-  (if (not var-env)
+  (if (or (not var-env) (not (: (tostring (or raw "")) :find "$" 1 true)))
       (tostring (or raw ""))
       (pick-values 1 (: (tostring (or raw "")) :gsub "%$([^%$]+)%$"
                         (fn [name]
@@ -119,7 +134,7 @@
                          ;; $Name@N$ / FNC-TOTAL* are refs
                          ;; var-env has the base only
                          (if (or pin-lvl (= base "FNC-TOTALPRICE")
-                                 (base:match "^FNC%-TOTAL%-(.+)$"))
+                                 (total-ref base))
                              (let [ast (expand-varref name var-env parse-cache
                                                       parsing-stack)]
                                (set (. parse-cache name) ast)
@@ -153,7 +168,7 @@
              raw (and var-env (. var-env base))
              inner (if (= base "FNC-TOTALPRICE")
                        [:intrinsic :totalprice]
-                       (let [total (base:match "^FNC%-TOTAL%-(.+)$")]
+                       (let [total (total-ref base)]
                          (if total
                              [:intrinsic :total total]
                              (config-varref? base)
