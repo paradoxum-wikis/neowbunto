@@ -18,9 +18,10 @@
   ;; &amp last parity with the current Neowbunto written in Lua
   ;; may change later, hopefully I do not forget
   (var t (tostring (or s "")))
-  (set t (pick-values 1 (t:gsub "&lt;" "<")))
-  (set t (pick-values 1 (t:gsub "&gt;" ">")))
-  (set t (pick-values 1 (t:gsub "&amp;" "&")))
+  (when (t:find "&" 1 true)
+    (set t (pick-values 1 (t:gsub "&lt;" "<")))
+    (set t (pick-values 1 (t:gsub "&gt;" ">")))
+    (set t (pick-values 1 (t:gsub "&amp;" "&"))))
   t)
 
 (fn prepare-content [raw]
