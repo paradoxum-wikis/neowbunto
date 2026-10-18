@@ -1,7 +1,10 @@
 ;; Level -> row table cache
 
-(local {: parse-level-keys : strip-cell-refs : index-col : parse-all-tables}
-       (require :wikitable))
+(local {: parse-level-keys
+        : strip-cell-refs
+        : trim
+        : index-col
+        : parse-all-tables} (require :wikitable))
 
 (fn cache-get [cache level branch]
   ;; Table.Col lookups hit here by level
@@ -25,30 +28,30 @@
                        (+ (math.ceil raw) 1))]
         (/ (math.floor (+ (* (/ frames 60) 1000) 0.5)) 1000))))
 
-(fn coerce-cell [raw]
-  (let [n (tonumber raw)]
-    (if (not= n nil)
-        n
-        (let [clean (strip-cell-refs raw)
-              clean-n (tonumber clean)]
-          (if (not= clean-n nil) clean-n clean)))))
-
 (fn strip-html [s]
   (var t (tostring (or s "")))
-  (set t (pick-values 1 (t:gsub "<ref[^>]*>.-</ref>" "")))
-  (set t (pick-values 1 (t:gsub "<ref[^>]*/>" "")))
-  (set t (pick-values 1 (t:gsub "<[^>]+>" "")))
-  (pick-values 1 (t:match "^%s*(.-)%s*$")))
+  (when (t:find "<" 1 true)
+    (set t (pick-values 1 (t:gsub "<ref[^>]*>.-</ref>" "")))
+    (set t (pick-values 1 (t:gsub "<ref[^>]*/>" "")))
+    (set t (pick-values 1 (t:gsub "<[^>]+>" ""))))
+  (trim t))
+
+(fn coerce-cell [raw]
+  (let [n (tonumber raw)]
+    (if n
+        n
+        (if (raw:find "<" 1 true)
+            (let [clean (strip-cell-refs raw)
+                  cleaned (if (clean:find "<" 1 true) (strip-html clean) clean)]
+              (or (tonumber cleaned) cleaned))
+            (trim raw)))))
 
 (fn apply-resolve [resolve-cell raw header row-so-far rof?]
-  (let [v (if resolve-cell
-              (resolve-cell raw header row-so-far rof?)
-              (coerce-cell raw))]
+  (let [v (resolve-cell raw header row-so-far rof?)]
     (if (= (type v) :number)
         v
-        (let [cleaned (strip-html (tostring v))
-              n (tonumber cleaned)]
-          (if (not= n nil) n cleaned)))))
+        (let [cleaned (strip-html (tostring v))]
+          (or (tonumber cleaned) cleaned)))))
 
 (fn set-row-field [row header stripped value]
   (set (. row header) value)
@@ -66,6 +69,12 @@
                   m (s:match "%-?%d+%.?%d*")]
               (and m (tonumber m)))))))
 
+(fn level-keys [v]
+  ;; 1e14 prints as 1e+14, which parse-level-keys reads as 1..14
+  (if (and (= (type v) :number) (>= v 0) (< v 1e14) (= v (math.floor v)))
+      [v]
+      (parse-level-keys v)))
+
 (fn build-table-cache [table-ast index-col opts]
   ;; ROF values live as Header_ROF on the same entry
   (let [opts (or opts {})
@@ -74,6 +83,7 @@
         rof-offset opts.rof-offset
         rof-fn (or opts.rof-bug rof-bug)
         headers (or table-ast.headers [])
+        n-headers (length headers)
         header-keys (icollect [_ header (ipairs headers)]
                       (pick-values 1 (header:gsub "%s+" "")))
         idx (or index-col (. headers 1))
@@ -84,25 +94,29 @@
       (let [row-norm {}
             row-rof (and has-rof {})
             raw-cells (or row.raw-cells [])]
-        (each [i header (ipairs headers)]
-          (when (<= i (length raw-cells))
-            (let [raw (. raw-cells i)
-                  header-key (. header-keys i)
-                  res-norm (apply-resolve resolve-cell raw header row-norm
-                                          false)]
-              (set-row-field row-norm header header-key res-norm)
-              (when has-rof
-                (var rof-val (apply-resolve resolve-cell raw header row-rof
-                                            true))
-                (when (. rof-cols header)
-                  (let [n (extract-number res-norm)]
-                    (when n
-                      (set rof-val (rof-fn n rof-offset)))))
-                (set-row-field row-rof header header-key rof-val)))))
+        (for [i 1 (math.min n-headers (length raw-cells))]
+          (let [raw (. raw-cells i)
+                header (. headers i)
+                header-key (. header-keys i)
+                res-norm (if resolve-cell
+                             (apply-resolve resolve-cell raw header row-norm
+                                            false)
+                             (coerce-cell raw))]
+            (set-row-field row-norm header header-key res-norm)
+            (when has-rof
+              (var rof-val (if resolve-cell
+                               (apply-resolve resolve-cell raw header row-rof
+                                              true)
+                               res-norm))
+              (when (. rof-cols header)
+                (let [n (extract-number res-norm)]
+                  (when n
+                    (set rof-val (rof-fn n rof-offset)))))
+              (set-row-field row-rof header header-key rof-val))))
         (let [index-val (when idx
                           (or (. row-norm idx) (. row-norm idx-key)))]
           (when (not= index-val nil)
-            (let [keys (parse-level-keys index-val)
+            (let [keys (level-keys index-val)
                   entry row-norm]
               (when has-rof
                 (each [k v (pairs row-rof)]
