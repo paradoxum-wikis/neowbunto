@@ -6,13 +6,34 @@
 (local wikitable (require :wikitable))
 (local tablecache (require :tablecache))
 
+(local byte string.byte)
+
+(local ws-byte {32 true 9 true 10 true 11 true 12 true 13 true})
+
 (fn trim [s]
   (let [str (tostring (or s ""))]
-    (pick-values 1 (str:match "^%s*(.-)%s*$"))))
+    (if (or (. ws-byte (byte str 1)) (. ws-byte (byte str -1)))
+        (let [a (or (str:find "%S") (+ (length str) 1))]
+          (var b (length str))
+          (while (and (>= b a) (str:find "^%s" b))
+            (set b (- b 1)))
+          (str:sub a b))
+        str)))
+
+(fn each-line [text]
+  (var pos 1)
+  (fn []
+    (when pos
+      (let [nl (text:find "\n" pos true)
+            line (text:sub pos (- (or nl (+ (length text) 1)) 1))]
+        (set pos (and nl (+ nl 1)))
+        line))))
 
 ;; formatNum is a PHP bridge
 ;; warm once per page
 (var cached-format-num false)
+(var format-memo {})
+(local format-strs {2 "%.2f" 3 "%.3f"})
 
 (fn warm-format-num! []
   (when (= cached-format-num false)
@@ -22,6 +43,11 @@
                                  nil))))
   cached-format-num)
 
+(fn strip-zeros [raw]
+  (if (= (byte raw -1) 48)
+      (pick-values 1 (raw:gsub "%.?0+$" ""))
+      raw))
+
 (fn fmt [n dec]
   (if (not= (type n) :number)
       (tostring n)
@@ -29,24 +55,25 @@
         (when (= cached-format-num false)
           (warm-format-num!))
         (let [d (or dec 2)
-              raw (: (.. "%." d "f") :format n)
-              (s) (raw:gsub "%.?0+$" "")
-              num (tonumber s)]
+              raw (: (or (. format-strs d) (.. "%." d "f")) :format n)]
           (if cached-format-num
-              (cached-format-num num)
-              (tostring num))))))
+              (or (. format-memo raw)
+                  (let [out (cached-format-num (tonumber (strip-zeros raw)))]
+                    (set (. format-memo raw) out)
+                    out))
+              (tostring (tonumber (strip-zeros raw))))))))
 
 (fn extract-prefix [pre-text]
   (var last "")
-  (each [name (: (tostring (or pre-text "")) :gmatch "|%s*([^|\n]+)%s*")]
+  (local text (tostring (or pre-text "")))
+  (each [name (text:gmatch "|%s*([^|\n]+)%s*")]
     (let [raw (trim name)]
       (when (and (not (raw:match "^%-*$")) (not (raw:match "=%s*$")))
         (let [(n) (raw:gsub "[^%a%d]+" "")]
           (when (and (not= n "") (not= (n:lower) "tabber"))
             (set last n))))))
-  (when (= last "")
-    (each [name (: (tostring (or pre-text "")) :gmatch
-                   "%-?%-%s*|?%s*([^|\n<>={}\t/]+)%s*=%s*")]
+  (when (and (= last "") (text:find "-" 1 true) (text:find "=" 1 true))
+    (each [name (text:gmatch "%-?%-%s*|?%s*([^|\n<>={}\t/]+)%s*=%s*")]
       (let [(n) (: (trim name) :gsub "[^%a%d]+" "")]
         (when (not= n "")
           (set last n)))))
@@ -132,59 +159,74 @@
   ;; unknown -> nil (leave token)
   ;; known still pcall so one bad cell
   ;; (N/A, wikilinks) does not abort the whole page
-  (if (not (formula-name-evaluable? name formula-env))
-      nil
-      (let [(ok result) (pcall eval-known-var name ctx formula-env parse-cache)]
-        (if ok result nil))))
+  (let [ast (and (. formula-env name) (. parse-cache name))]
+    (if ast
+        (let [(ok result) (pcall eval.eval-node ctx ast)]
+          (if ok result nil))
+        (if (not (formula-name-evaluable? name formula-env))
+            nil
+            (let [(ok result) (pcall eval-known-var name ctx formula-env
+                                     parse-cache)]
+              (if ok result nil))))))
+
+;; module-level so gsub gets one shared callback
+;; only safe while eval never calls back into render
+(var xd-ctx nil)
+(var xd-env nil)
+(var xd-cache nil)
+(var xd-depth 0)
+(var xd-expand nil)
+
+(fn expand-token [name]
+  (let [r (eval-var-name name xd-ctx xd-env xd-cache)]
+    (if (= r nil)
+        (.. "$" name "$")
+        (= (type r) :number)
+        (fmt r)
+        (let [str (tostring r)]
+          ;; "$", not pattern "%$"
+          (if (str:find "$" 1 true)
+              (xd-expand str)
+              str)))))
+
+(set xd-expand (fn [s]
+                 (set xd-depth (+ xd-depth 1))
+                 (when (> xd-depth 12)
+                   (error "expand-dollars: nesting too deep"))
+                 (let [out (pick-values 1
+                                        (: (tostring (or s "")) :gsub
+                                           "%$([^%$]+)%$" expand-token))]
+                   (set xd-depth (- xd-depth 1))
+                   out)))
 
 (fn expand-dollars [text ctx formula-env parse-cache]
   ;; recurse into string results so gsub does not rescan replacements
-
-  (fn expand [s depth]
-    (when (> depth 12)
-      (error "expand-dollars: nesting too deep"))
-    (pick-values 1 (: (tostring (or s "")) :gsub "%$([^%$]+)%$"
-                      (fn [name]
-                        (let [r (eval-var-name name ctx formula-env parse-cache)]
-                          (if (= r nil)
-                              (.. "$" name "$")
-                              (= (type r) :number)
-                              (fmt r)
-                              (let [str (tostring r)]
-                                ;; "$", not pattern "%$"
-                                (if (str:find "$" 1 true)
-                                    (expand str (+ depth 1))
-                                    str))))))))
-
-  (expand text 0))
+  (set xd-ctx ctx)
+  (set xd-env formula-env)
+  (set xd-cache parse-cache)
+  (set xd-depth -1)
+  (xd-expand text))
 
 (fn coerce-row-value [v]
-  (if (= (type v) :number)
-      v
-      (let [s (tostring (or v ""))
-            n (tonumber s)
-            m (and (not n) (s:match "[%d,]+%.?%d*"))]
-        (or n (and m (tonumber (pick-values 1 (m:gsub "," "")))) v))))
-
-(fn preprocess-if-needed [s ctx]
-  (let [text (tostring (or s ""))]
-    (if (text:find "{{#expr:" 1 true)
-        (eval.expand-inline-expr text ctx)
-        text)))
+  (or (tonumber v)
+      (let [m (and (= (type v) :string) (v:match "[%d,]+%.?%d*"))]
+        (or (and m (tonumber (pick-values 1 (m:gsub "," "")))) v))))
 
 (fn detect-table-branch [tbl branch-map]
   (var branch "")
   (var done false)
-  (each [line (: (.. tbl "\n") :gmatch "([^\n]*)\n") &until done]
-    (let [t (trim line)]
-      (when (and (t:match "^!") (: (t:lower) :match "colspan"))
-        (let [name (t:match "%|(.+)$")]
-          (when name
-            (let [bn (trim name)]
-              (set branch (or (and branch-map (. branch-map bn))
-                              (and branch-map (. branch-map (bn:gsub "%s+" "")))
-                              "")))))
-        (set done true))))
+  (when (: (tbl:lower) :find "colspan" 1 true)
+    (each [line (each-line tbl) &until done]
+      (let [t (trim line)]
+        (when (and (= (byte t 1) 33) (: (t:lower) :find "colspan" 1 true))
+          (let [name (t:match "%|(.+)$")]
+            (when name
+              (let [bn (trim name)]
+                (set branch (or (and branch-map (. branch-map bn))
+                                (and branch-map
+                                     (. branch-map (bn:gsub "%s+" "")))
+                                "")))))
+          (set done true)))))
   branch)
 
 (fn make-eval-base [vars
@@ -248,6 +290,12 @@
     (set (. row stripped) value))
   value)
 
+;; reused, a fresh {} rehashes as keys go in
+(fn clear-row! [row]
+  (each [k _ (pairs row)]
+    (set (. row k) nil))
+  row)
+
 (fn process-table [tbl
                    vars
                    formula-env
@@ -260,11 +308,16 @@
                    table-cache
                    prefix
                    ?cached-base
-                   ?cached-rc-aliases]
+                   ?cached-rc-aliases
+                   ?parsed]
   (let [headers []
         header-keys []
         out []
         recursion {}
+        line-cells (. (or ?parsed (wikitable.parse-table tbl {} true))
+                      :line-cells)
+        ;; shared with the page cache rows, never write into it
+        outc []
         rof-cols (or rof-cols {})
         has-rof (next rof-cols)
         branch (detect-table-branch tbl branch-map)
@@ -281,8 +334,12 @@
         has-rc (next rc-aliases)]
     (var level -1)
     (var col-idx 1)
+    ;; lines must be classified exactly like parse-table or li drifts
+    (var li 0)
     (var row-norm {})
-    (var row-rof (and has-rof {}))
+    (var spare-norm {})
+    (var bound-norm nil)
+    (local row-rof (and has-rof {}))
 
     (fn expand-rc [s]
       (pick-values 1 (s:gsub "%$([^%$]+)%$"
@@ -291,36 +348,59 @@
                                    "$FNC-RECURSION$"
                                    (.. "$" name "$"))))))
 
-    (each [line (: (.. tbl "\n") :gmatch "([^\n]*)\n")]
-      (let [t (trim line)]
-        (if (t:match "^|%-")
+    (fn bind-row! []
+      (set bound-norm row-norm)
+      (eval.bind-ctx! ctx-n row-norm false level)
+      (when has-rof
+        (eval.bind-ctx! ctx-r row-rof true level)))
+
+    (each [line (each-line tbl)]
+      ;; split-row-cells trims the cells
+      (let [t (if (. ws-byte (byte line 1)) (trim line) line)
+            b (byte t 1)]
+        (if (and (= b 124) (= (byte t 2) 45))
             (do
               (set col-idx 1)
-              (set row-norm {})
-              (set row-rof (and has-rof {}))
+              ;; a header line after |- still evals against the bound row,
+              ;; so swap in the spare instead of clearing it
+              (if (= bound-norm row-norm)
+                  (let [old row-norm]
+                    (set row-norm (clear-row! spare-norm))
+                    (set spare-norm old))
+                  (clear-row! row-norm))
+              (when has-rof
+                (clear-row! row-rof))
               (when (>= level 0)
                 (set-row-field! row-norm "Level" "Level" level)
                 (when has-rof
                   (set-row-field! row-rof "Level" "Level" level)))
               (table.insert out line))
-            (and (t:match "^!") (not (: (t:lower) :match "colspan")))
+            (and (= b 33) (not (: (t:lower) :find "colspan" 1 true)))
             (do
-              (let [body (t:sub 2)
-                    (norm) (body:gsub "%|%|" "!!")]
-                (each [cell (: (.. norm "!!") :gmatch "([^!]*)!!")]
-                  (let [hc (trim cell)]
-                    (when (not= hc "")
-                      (let [temp (expand-dollars hc ctx-n formula-env
-                                                 parse-cache)
-                            clean (wikitable.clean-header-text temp)]
-                        (when (not= clean "")
-                          (table.insert headers clean)
-                          (table.insert header-keys
-                                        (pick-values 1 (clean:gsub "%s+" "")))))))))
+              (set li (+ li 1))
+              (if (t:find "$" 1 true)
+                  (let [body (t:sub 2)
+                        (norm) (body:gsub "%|%|" "!!")]
+                    (each [cell (: (.. norm "!!") :gmatch "([^!]*)!!")]
+                      (let [hc (trim cell)]
+                        (when (not= hc "")
+                          (let [temp (expand-dollars hc ctx-n formula-env
+                                                     parse-cache)
+                                clean (wikitable.clean-header-text temp)]
+                            (when (not= clean "")
+                              (table.insert headers clean)
+                              (table.insert header-keys
+                                            (pick-values 1
+                                                         (clean:gsub "%s+" "")))))))))
+                  (each [_ h (ipairs (. line-cells li))]
+                    (table.insert headers h)
+                    (table.insert header-keys (pick-values 1 (h:gsub "%s+" "")))))
               (table.insert out line))
-            (and (t:match "^|") (not (t:match "^|}")))
+            (and (= b 124) (not= (byte t 2) 125))
             (do
-              (local cells (wikitable.split-row-cells t))
+              (set li (+ li 1))
+              (local cells (. line-cells li))
+              (bind-row!)
               (each [ci cell0 (ipairs cells)]
                 (var cell cell0)
                 (when has-rc
@@ -346,26 +426,24 @@
                                  (or (and (= (type k0) :number) k0)
                                      (and from-str (tonumber from-str))
                                      (+ level 1))))
-                          (set level (or (tonumber cell) (+ level 1))))
-                      (set-row-field! row-norm "Level" "Level" level)
-                      (when has-rof
-                        (set-row-field! row-rof "Level" "Level" level))))
+                          (set level (or (tonumber cell) (+ level 1)))))
+                    (set-row-field! row-norm "Level" "Level" level)
+                    (when has-rof
+                      (set-row-field! row-rof "Level" "Level" level))
+                    (bind-row!))
                   (var v-norm cell)
                   (var v-rof cell)
-                  (eval.bind-ctx! ctx-n row-norm false level)
-                  (when has-rof (eval.bind-ctx! ctx-r row-rof true level))
-                  (when (cell:match "%$[^%$]+%$")
-                    ;; dual expand only with ROF as formulas may read things like Firerate_ROF
+                  ;; dual expand only with ROF as formulas may read things like Firerate_ROF
+                  (when (cell:find "$" 1 true)
                     (set v-norm
                          (expand-dollars cell ctx-n formula-env parse-cache))
-                    (if has-rof
-                        (set v-rof
-                             (expand-dollars cell ctx-r formula-env parse-cache))
-                        (set v-rof v-norm)))
-                  (set v-norm (preprocess-if-needed v-norm ctx-n))
-                  (set v-rof (if has-rof
-                                 (preprocess-if-needed v-rof ctx-r)
-                                 v-norm))
+                    (when has-rof
+                      (set v-rof
+                           (expand-dollars cell ctx-r formula-env parse-cache))))
+                  (when (v-norm:find "{{#expr:" 1 true)
+                    (set v-norm (eval.expand-inline-expr v-norm ctx-n)))
+                  (when (and has-rof (v-rof:find "{{#expr:" 1 true))
+                    (set v-rof (eval.expand-inline-expr v-rof ctx-r)))
                   (when h
                     (set-row-field! row-norm h h-key (coerce-row-value v-norm))
                     (when has-rof
@@ -379,12 +457,13 @@
                           (set v-rof (fmt rv 3))))))
                   (if (and has-rof (not= (tostring v-norm) (tostring v-rof)))
                       (let [cell-id (next-cell-toggle! builder)]
-                        (set (. cells ci)
+                        (set (. outc ci)
                              (rof-cell-html cell-id (tostring v-norm)
                                             (tostring v-rof))))
-                      (set (. cells ci) (tostring v-norm)))
+                      (set (. outc ci) v-norm))
                   (set col-idx (+ col-idx 1))))
-              (table.insert out (.. "|" (table.concat cells "||"))))
+              (table.insert out
+                            (.. "|" (table.concat outc "||" 1 (length cells)))))
             (table.insert out line))))
     (table.concat out "\n")))
 
@@ -403,52 +482,61 @@
                              opts.frame (or opts.table-cache {}) ""
                              (or opts.branch-map {}))
         ctx (build-eval-ctx base {} false 0)]
-    (each [name (o:gmatch "%$([^%$]+)%$")]
-      (let [tok (.. "$" name "$")]
-        (set (. token-count tok) (+ (or (. token-count tok) 0) 1))))
-    (pick-values 1 (o:gsub "%$([^%$]+)%$"
-                           (fn [name]
-                             (let [tok (.. "$" name "$")
-                                   r (eval-var-name name ctx formula-env
-                                                    parse-cache)]
-                               (if (= r nil)
-                                   ;; unevaluable FNC-* config keys are not display text
-                                   (if (name:match "^FNC%-") "" tok)
-                                   (= (type r) :number)
-                                   (fmt r)
-                                   (do
-                                     (local str (tostring r))
-                                     (let [(ref-attrs ref-content) (str:match "^%s*<ref%s*([^>]*)>(.-)</ref>%s*$")]
-                                       (if (and ref-attrs
-                                                (> (or (. token-count tok) 0) 1))
-                                           (let [bare (pick-values 1
-                                                                   (name:gsub "[^%a%d]"
-                                                                              ""))
-                                                 ref-name (or (get-attr ref-attrs
-                                                                        "name")
-                                                              (bare:lower))
-                                                 ref-group (get-attr ref-attrs
-                                                                     "group")
-                                                 group-attr (if ref-group
-                                                                (.. " group=\""
-                                                                    ref-group
-                                                                    "\"")
-                                                                "")
-                                                 count (+ (or (. ref-seen tok)
-                                                              0)
-                                                          1)]
-                                             (set (. ref-seen tok) count)
-                                             (if (= count 1)
-                                                 (.. "<ref" group-attr
-                                                     " name=\"" ref-name "\">"
-                                                     ref-content "</ref>")
-                                                 (.. "<ref" group-attr
-                                                     " name=\"" ref-name "\"/>")))
-                                           (if (str:find "$" 1 true)
-                                               (expand-dollars str ctx
-                                                               formula-env
-                                                               parse-cache)
-                                               str)))))))))))
+    (if (not (o:find "$" 1 true))
+        o
+        (do
+          (each [name (o:gmatch "%$([^%$]+)%$")]
+            (let [tok (.. "$" name "$")]
+              (set (. token-count tok) (+ (or (. token-count tok) 0) 1))))
+          (pick-values 1
+                       (o:gsub "%$([^%$]+)%$"
+                               (fn [name]
+                                 (let [tok (.. "$" name "$")
+                                       r (eval-var-name name ctx formula-env
+                                                        parse-cache)]
+                                   (if (= r nil)
+                                       ;; unevaluable FNC-* config keys are not display text
+                                       (if (name:match "^FNC%-") "" tok)
+                                       (= (type r) :number)
+                                       (fmt r)
+                                       (do
+                                         (local str (tostring r))
+                                         (let [(ref-attrs ref-content) (str:match "^%s*<ref%s*([^>]*)>(.-)</ref>%s*$")]
+                                           (if (and ref-attrs
+                                                    (> (or (. token-count tok)
+                                                           0)
+                                                       1))
+                                               (let [bare (pick-values 1
+                                                                       (name:gsub "[^%a%d]"
+                                                                                  ""))
+                                                     ref-name (or (get-attr ref-attrs
+                                                                            "name")
+                                                                  (bare:lower))
+                                                     ref-group (get-attr ref-attrs
+                                                                         "group")
+                                                     group-attr (if ref-group
+                                                                    (.. " group=\""
+                                                                        ref-group
+                                                                        "\"")
+                                                                    "")
+                                                     count (+ (or (. ref-seen
+                                                                     tok)
+                                                                  0)
+                                                              1)]
+                                                 (set (. ref-seen tok) count)
+                                                 (if (= count 1)
+                                                     (.. "<ref" group-attr
+                                                         " name=\"" ref-name
+                                                         "\">" ref-content
+                                                         "</ref>")
+                                                     (.. "<ref" group-attr
+                                                         " name=\"" ref-name
+                                                         "\"/>")))
+                                               (if (str:find "$" 1 true)
+                                                   (expand-dollars str ctx
+                                                                   formula-env
+                                                                   parse-cache)
+                                                   str)))))))))))))
 
 (fn build-out [content vars cfg frame builder]
   (let [formula-env (or (and cfg cfg.formula-env) (config.formula-env vars))
@@ -460,6 +548,7 @@
         spans (wikitable.find-table-spans content)
         parsed []
         table-prefixes []
+        pres []
         base-cache {}
         rc-aliases (collect [k v (pairs vars)]
                      (when (= (trim v) "$FNC-RECURSION$")
@@ -478,6 +567,7 @@
             prefix (if (not= extracted "") extracted last-prefix)]
         (when (not= extracted "")
           (set last-prefix extracted))
+        (table.insert pres pre)
         (table.insert parsed (wikitable.parse-table span.text page-bmap true))
         (table.insert table-prefixes prefix)
         (set cursor (+ span.stop 1))))
@@ -489,11 +579,8 @@
                                                                         [])
                                                    :rof-cols rof-cols
                                                    :rof-offset rof-offset})]
-      (set cursor 1)
       (each [i span (ipairs spans)]
-        (let [pre (if (< cursor span.start)
-                      (content:sub cursor (- span.start 1))
-                      "")
+        (let [pre (. pres i)
               prefix (. table-prefixes i)]
           ;; free text kept raw until finalize-output (needs ref counts)
           (when (not= pre "")
@@ -509,9 +596,8 @@
                 processed (process-table span.text vars formula-env parse-cache
                                          rof-cols rof-offset branch-map frame
                                          builder page-cache prefix base
-                                         rc-aliases)]
-            (table.insert result processed))
-          (set cursor (+ span.stop 1))))
+                                         rc-aliases (. parsed i))]
+            (table.insert result processed))))
       (when (<= cursor n)
         (table.insert result (content:sub cursor)))
       (trim (finalize-output (table.concat result) vars formula-env parse-cache
@@ -520,14 +606,41 @@
                               :prefix prefix0
                               :branch-map page-bmap})))))
 
+(fn blank-byte? [b]
+  (or (= b 32) (= b 9)))
+
 (fn strip-var-blocks [content]
-  (pick-values 1 (: (tostring (or content "")) :gsub
-                    "[ \t]*<var>.-</var>[ \t]*\n?" "")))
+  ;; gsub "[ \t]*<var>.-</var>[ \t]*\n?" by hand, the pattern tries every char
+  (let [c (tostring (or content ""))
+        out []]
+    (var cursor 1)
+    (var pos 1)
+    (var more true)
+    (while more
+      (let [p (c:find "<var>" pos true)
+            q (and p (c:find "</var>" (+ p 5) true))]
+        (if (not q)
+            (set more false)
+            (do
+              (var s p)
+              (while (and (> s cursor) (blank-byte? (byte c (- s 1))))
+                (set s (- s 1)))
+              (var e (+ q 6))
+              (while (blank-byte? (byte c e))
+                (set e (+ e 1)))
+              (when (= (byte c e) 10)
+                (set e (+ e 1)))
+              (table.insert out (c:sub cursor (- s 1)))
+              (set cursor e)
+              (set pos e)))))
+    (table.insert out (c:sub cursor))
+    (table.concat out)))
 
 (fn render-page [content frame ?opts]
   (let [opts (or ?opts {})
         _ (do
             (set cached-format-num false)
+            (set format-memo {})
             (warm-format-num!))
         (cfg is-fse) (config.parse-page-config content (or opts.prefix ""))
         vars cfg.vars

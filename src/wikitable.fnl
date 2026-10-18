@@ -125,15 +125,18 @@
 
 (fn parse-table [tbl-text branch-map ?cache-only]
   ;; structure without $VAR$ eval
+  ;; rows share arrays with line-cells (process-table reuses them)
+  ;; so never write into either
   (let [branch-map (or branch-map {})
         headers []
-        rows []]
+        rows []
+        line-cells []]
     (var title nil)
     (var branch "")
     (var pending-cells nil)
 
     (fn flush-row []
-      (when (and pending-cells (> (length pending-cells) 0))
+      (when pending-cells
         (let [raw-cells pending-cells]
           (if ?cache-only
               ;; page-cache path need not cleaned cells or by-header
@@ -156,30 +159,41 @@
 
     ;; \n? yields a trailing "" line, a no-op
     (each [line (tbl-text:gmatch "([^\n]*)\n?")]
-      (let [t (trim line)
+      ;; cells trim themselves
+      (let [t (if (. ws (byte line 1)) (trim line) line)
             b (byte t 1)]
         (if (= b 33)
             (if (title-line? t)
                 (do
                   (set title (extract-title t))
                   (set branch (detect-branch title branch-map)))
-                (each [_ h (ipairs (split-header-cells t))]
-                  (table.insert headers h)))
+                (let [hs (split-header-cells t)]
+                  (table.insert line-cells hs)
+                  (each [_ h (ipairs hs)]
+                    (table.insert headers h))))
             (= b 124)
             (let [b2 (byte t 2)]
               (if (= b2 45)
-                  (do
-                    (flush-row)
-                    (set pending-cells []))
+                  (flush-row)
                   (= b2 125)
                   (flush-row)
-                  (do
-                    (when (not pending-cells)
-                      (set pending-cells []))
-                    (each [_ cell (ipairs (split-row-cells t))]
-                      (table.insert pending-cells cell))))))))
+                  (let [cells (split-row-cells t)]
+                    (table.insert line-cells cells)
+                    (if pending-cells
+                        (let [merged []]
+                          (each [_ c (ipairs pending-cells)]
+                            (table.insert merged c))
+                          (each [_ c (ipairs cells)]
+                            (table.insert merged c))
+                          (set pending-cells merged))
+                        (set pending-cells cells))))))))
     (flush-row)
-    {:title title :branch branch :headers headers :rows rows :source tbl-text}))
+    {:title title
+     :branch branch
+     :headers headers
+     :rows rows
+     :source tbl-text
+     :line-cells line-cells}))
 
 (fn find-table-spans [content]
   (let [out []
