@@ -484,6 +484,29 @@ $FNC-COST$ = 3000; 750; 2650; 4600; 7250; 12000; 20000; 31500; 12000; 15000; 200
     (assert-true (or (out:find "140.45" 1 true) (out:find "140.4" 1 true))
                  "L5 ACE")
     (assert-no-leftover-vars out "Enforcer ACE"))
+  (suite "Table.Col into a $DPS2$ cell re-evals the formula")
+  (let [wiki "<var>
+$DPS2$ = Damage * 3
+$X$ = Gun Stats.DPS2 + 0
+</var>
+{| class=\"wikitable\"
+! colspan=\"2\" | Gun Stats
+|-
+! Level !! Damage !! DPS2
+|-
+| 0 || 10 || $DPS2$
+|}
+{| class=\"wikitable\"
+! colspan=\"2\" | Other
+|-
+! Level !! Via
+|-
+| 0 || $X$
+|}"
+        out (render-page wiki nil {:seed 1})]
+    (assert-true (out:find "|0||30
+" 1 true) "Gun Stats.DPS2 = 30")
+    (assert-no-leftover-vars out "DPS2 Table.Col"))
   true)
 
 {:run run}

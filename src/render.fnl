@@ -208,8 +208,13 @@
   (xd-expand text))
 
 (fn coerce-row-value [v]
+  ;; a failed $DPS2$ stays text, it is not 2
   (or (tonumber v)
-      (let [m (and (= (type v) :string) (v:match "[%d,]+%.?%d*"))]
+      (let [s (and (= (type v) :string)
+                   (if (v:find "$" 1 true)
+                       (pick-values 1 (v:gsub "%$%a[^%$]*%$" ""))
+                       v))
+            m (and s (s:match "[%d,]+%.?%d*"))]
         (or (and m (tonumber (pick-values 1 (m:gsub "," "")))) v))))
 
 (fn detect-table-branch [tbl branch-map]

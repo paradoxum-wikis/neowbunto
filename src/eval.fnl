@@ -24,7 +24,12 @@
                   n (tonumber cleaned)]
               (if (not= n nil)
                   n
-                  (let [m (cleaned:match "%-?%d+%.?%d*")]
+                  ;; $DPS2$ is a formula, not 2
+                  (let [body (if (cleaned:find "$" 1 true)
+                                 (pick-values 1
+                                              (cleaned:gsub "%$%a[^%$]*%$" ""))
+                                 cleaned)
+                        m (body:match "%-?%d+%.?%d*")]
                     (and m (tonumber m)))))))))
 
 (fn as-number [v label]

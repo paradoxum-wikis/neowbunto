@@ -59,14 +59,20 @@
                           [:binop "+" [:num 1] [:ident "VAR"]])
                11 "column VAR"))
   (suite "cell still holding $NAME$ is eval'd (Table.Col / cached row)")
-  ;; $DPS2$ would scrape the trailing 2 in extract-number
-  (let [env {"SDPS" "Damage * 2"}
+  (let [env {"SDPS" "Damage * 2" "DPS2" "Damage * 3"}
         cache (parse-var-env env)
-        ctx {:row {"Damage" 5 "X" "$SDPS$"}
+        ctx {:row {"Damage" 5
+                   "X" "$SDPS$"
+                   "Y" "$DPS2$"
+                   "Z" "20$DREF2$"
+                   "M" "$Missing2$"}
              :formula-env env
              :parse-cache cache
              :formula-asts cache}]
-    (assert-eq (eval-node ctx [:ident "X"]) 10 "cell $SDPS$"))
+    (assert-eq (eval-node ctx [:ident "X"]) 10 "cell $SDPS$")
+    (assert-eq (eval-node ctx [:ident "Y"]) 15 "$DPS2$ is the formula, not 2")
+    (assert-eq (eval-node ctx [:ident "Z"]) 20 "number + footnote token")
+    (assert-error #(eval-node ctx [:ident "M"]) "unresolved identifier"))
   (suite "unresolved identifier is a hard error")
   (assert-error #(eval-node {:row {} :formula-name "TCE"} [:ident "Thorns DPS"])
                 "unresolved identifier")

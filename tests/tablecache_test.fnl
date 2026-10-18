@@ -87,6 +87,16 @@ $FNC-ROFBUG$ = Firerate
     (assert-eq (. (cache-get cache 0 "") "Firerate") 0.75 "norm firerate")
     (assert-near (. (cache-get cache 0 "") "Firerate_ROF") 0.80 1e-9
                  "rof = +0.05"))
+  (suite "ROF col holding a $Name2$ formula is not rof-bug(2)")
+  (let [ast (parse-table "{|
+! Level !! Firerate
+|-
+| 0 || $Firerate2$
+|}" {})
+        cache (build-table-cache ast "Level"
+                                 {:rof-cols {"Firerate" true} :rof-offset 0.05})]
+    (assert-eq (. (cache-get cache 0 "") "Firerate_ROF") "$Firerate2$"
+               "left for the remote re-eval"))
   (suite "custom resolve-cell evaluates simple formulas from row")
   (let [ast (parse-table "{|\n! Level !! Damage !! Firerate !! DPS\n|-\n| 0 || 20 || 1.4 || $DPS$\n|}"
                          {})

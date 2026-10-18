@@ -65,7 +65,9 @@
       (let [n (tonumber v)]
         (if (not= n nil)
             n
-            (let [s (tostring (or v ""))
+            ;; $Firerate2$ is a formula, not 2
+            (let [s (pick-values 1 (: (tostring (or v "")) :gsub "%$%a[^%$]*%$"
+                                      ""))
                   m (s:match "%-?%d+%.?%d*")]
               (and m (tonumber m)))))))
 
